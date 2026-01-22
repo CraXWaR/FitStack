@@ -1,0 +1,10 @@
+model Set {
+  id     String @id @default(uuid())
+  reps   Int
+  weight Float
+
+  workoutExerciseId String          @map("workout_exercise_id")
+  workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id], onDelete: Cascade)
+
+  @@map("sets")
+}

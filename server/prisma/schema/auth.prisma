@@ -1,0 +1,26 @@
+model User {
+  id        String       @id @default(uuid())
+  email     String       @unique
+  password  String
+  firstName String       @map("first_name")
+  lastName  String?      @map("last_name")
+  profile   UserProfile?
+  workouts  Workout[]
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model UserProfile {
+  id     String  @id @default(uuid())
+  weight Float?
+  height Float?
+  age    Int?
+  goal   String?
+
+  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}

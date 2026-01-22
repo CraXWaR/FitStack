@@ -1,0 +1,8 @@
+model Exercise {
+  id       String            @id @default(uuid())
+  name     String
+  category String?
+  workouts WorkoutExercise[]
+
+  @@map("exercises")
+}
