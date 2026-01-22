@@ -2,8 +2,13 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-     "rootDir": "./src",
-     "outDir": "./dist",
+    "rootDir": "./",
+    "outDir": "./dist",
+
+    "baseUrl": ".",
+    "paths": {
+      "@prisma/*": ["prisma/generated/prisma/*"]
+    },
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
