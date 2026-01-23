@@ -1,6 +1,8 @@
 import {UserService} from "../services/user.service.js";
 import type {Request, Response, NextFunction} from 'express';
-import bcrypt from "bcrypt";
+import {LoginValidateSchema, RegisterValidateSchema} from "../validators/user.validator.js";
+import jwt from 'jsonwebtoken';
+import "dotenv/config";
 
 export class UserController {
     private userService: UserService;
@@ -9,35 +11,67 @@ export class UserController {
         this.userService = new UserService();
     }
 
-    public register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-        //TODO check if existing user
-
+    public register = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
         try {
-            const { firstName, lastName, email, password, confirmPassword } = req.body;
-            const hashedPassword = await bcrypt.hash(password, 12);
+            const validateUserInput = RegisterValidateSchema.safeParse(req.body);
+            if (!validateUserInput.success) {
+                const formattedErrors = validateUserInput.error.issues.map(issue => ({
+                    field: issue.path[0],
+                    message: issue.message
+                }));
 
-            const user = await this.userService.register({
-                email,
-                password: hashedPassword,
-                firstName,
-                lastName,
-                confirmPassword
-            });
+                return res.status(400).json({errors: formattedErrors});
+            }
 
-            res.status(201).json({
+            const validatedData = validateUserInput.data;
+            const user = await this.userService.register(validatedData);
+            const {password, ...safeUser} = user;
+
+            return res.status(201).json({
                 message: "User registered successfully",
-                user: {
-                    id: user.id,
-                    email: user.email,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                },
+                user: safeUser,
             })
 
-        } catch (error) {
-            console.log(error);
-            throw error;
+        } catch (error: any) {
+            return res.status(400).json({
+                errors: [{field: "general", message: error.message}]
+            });
         }
 
+    }
+
+    public login = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+        try {
+            const validateUserInput = LoginValidateSchema.safeParse(req.body);
+            if (!validateUserInput.success) {
+                const formattedErrors = validateUserInput.error.issues.map(issue => ({
+                    field: issue.path[0],
+                    message: issue.message
+                }));
+
+                return res.status(400).json({errors: formattedErrors});
+            }
+
+            const user = await this.userService.login(req.body);
+            const payload = {id: user.id, email: user.email, firstName: user.firstName};
+
+            if (!process.env.SECRET_KEY) {
+                throw new Error("JWT secret key not set in environment");
+            }
+
+            const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: '1h'});
+            const {password, ...safeUser} = user;
+
+            return res.status(201).json({
+                message: "User logged in successfully",
+                firstName: safeUser.firstName,
+                token
+            })
+
+        } catch (error: any) {
+            return res.status(400).json({
+                errors: [{field: "general", message: error.message}]
+            });
+        }
     }
 }
