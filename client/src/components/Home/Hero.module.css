@@ -1,0 +1,133 @@
+.hero {
+    display: flex;
+    align-items: center;
+
+    min-height: 100svh;
+    padding: 3.5rem 0;
+
+    background:
+            radial-gradient(
+                    480px circle at 30% 35%,
+                    rgba(61, 220, 151, 0.08),
+                    transparent 60%
+            );
+}
+
+@media (min-width: 640px) {
+    .hero {
+        min-height: 80vh;
+        padding: 4.5rem 0;
+
+        background:
+                radial-gradient(
+                        520px circle at 30% 40%,
+                        rgba(61, 220, 151, 0.07),
+                        transparent 65%
+                );
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero {
+        min-height: auto;
+        padding: 7rem 0 6rem;
+
+        background:
+                radial-gradient(
+                        420px circle at 25% 35%,
+                        rgba(61, 220, 151, 0.06),
+                        transparent 70%
+                );
+    }
+}
+
+
+.inner {
+    max-width: 900px;
+    padding: 0 2rem;
+    margin: 0 auto;
+}
+
+.kicker {
+    display: inline-block;
+    margin-bottom: 1.25rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent-main);
+}
+
+.title {
+    font-size: clamp(2.8rem, 6vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.05;
+}
+
+.subtitle {
+    margin-top: 1.75rem;
+    max-width: 620px;
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+}
+
+.actions {
+    margin-top: 2.75rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.primary {
+    background: var(--accent-main);
+    color: #0e0f12;
+    padding: 0.9rem 1.8rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.primary:focus {
+    outline: 2px solid var(--accent-main);
+    outline-offset: 2px;
+}
+
+.primary:active {
+    transform: translateY(0);
+    filter: brightness(0.95);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.secondary {
+    background: transparent;
+    color: var(--text-primary);
+    padding: 0.9rem 1.8rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-main);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent-main);
+    transform: translateY(-1px);
+}
+
+.secondary:focus {
+    outline: 2px solid var(--accent-main);
+    outline-offset: 2px;
+}
+
+.secondary:active {
+    transform: translateY(0);
+    background: rgba(255, 255, 255, 0.1);
+}

@@ -1,0 +1,24 @@
+.section {
+    max-width: 1000px;
+    margin: 6rem auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.card p {
+    color: var(--text-secondary);
+}

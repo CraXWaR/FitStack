@@ -12,9 +12,11 @@
   --border-subtle: #1A1D23;
 }
 
-@layer base {
-  html, body {
-    @apply min-h-screen m-0 p-0 bg-[var(--bg-main)] text-[var(--text-primary)];
-    font-family: sans-serif;
-  }
+html, body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: sans-serif;
 }

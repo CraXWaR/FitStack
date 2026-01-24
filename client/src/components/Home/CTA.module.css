@@ -1,0 +1,37 @@
+.cta {
+    margin: 8rem 0;
+    text-align: center;
+}
+
+.cta h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.primaryButton {
+    background: var(--accent-main);
+    color: #0e0f12;
+    padding: 0.9rem 1.8rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.primaryButton:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.primaryButton:focus {
+    outline: 2px solid var(--accent-main);
+    outline-offset: 2px;
+}
+
+.primaryButton:active {
+    transform: translateY(0);
+    filter: brightness(0.95);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
