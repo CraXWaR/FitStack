@@ -1,0 +1,16 @@
+.footer {
+    border-top: 1px solid var(--border-main);
+    background: var(--bg-main);
+}
+
+.brand {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--text-primary);
+}
+
+.copy {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
