@@ -1,5 +1,6 @@
 import React from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {AuthProvider} from "./context/AuthContext.tsx";
 
 import './App.css'
 
@@ -30,9 +31,11 @@ const RootLayout: React.FC = () => {
 
 function App() {
     return (
-        <BrowserRouter>
-            <RootLayout/>
-        </BrowserRouter>
+        <AuthProvider>
+            <BrowserRouter>
+                <RootLayout/>
+            </BrowserRouter>
+        </AuthProvider>
     );
 }
 

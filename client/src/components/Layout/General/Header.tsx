@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import { FiMenu, FiX } from "react-icons/fi";
+import {FiMenu, FiX} from "react-icons/fi";
 import styles from "./Header.module.css"
+import {useAuthContext} from "../../../context/AuthContext.tsx";
 
 const Header: React.FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isClosing, setIsClosing] = useState<boolean>(false);
     const [isVisible, setIsVisible] = useState<boolean>(false);
+    const {isLoggedIn, firstName, logout} = useAuthContext();
 
     const openMenu = () => {
         setIsOpen(true);
     };
-
     const closeMenu = () => {
         setIsClosing(true);
         setTimeout(() => {
@@ -20,7 +21,6 @@ const Header: React.FC = () => {
             setIsVisible(false);
         }, 250);
     };
-
     useEffect(() => {
         if (isOpen) {
             setIsVisible(false);
@@ -29,7 +29,6 @@ const Header: React.FC = () => {
             });
         }
     }, [isOpen]);
-
 
     return (
         <header className={styles.header}>
@@ -41,12 +40,25 @@ const Header: React.FC = () => {
 
                 {/* Desktop nav */}
                 <nav className="hidden md:flex items-center gap-6">
-                    <Link to="/login" className={styles.link}>
-                        Log in
-                    </Link>
-                    <Link to="/register" className={styles.primary}>
-                        Get started
-                    </Link>
+                    {!isLoggedIn && (
+                        <>
+                            <Link to="/login" className={styles.link}>
+                                Log in
+                            </Link>
+                            <Link to="/register" className={styles.primary}>
+                                Get started
+                            </Link>
+                        </>
+                    )}
+
+                    {isLoggedIn && (
+                        <>
+                            <span>Hello, {firstName}</span>
+                            <button onClick={logout} className={styles.primary}>
+                                Logout
+                            </button>
+                        </>
+                    )}
                 </nav>
 
                 {/* Mobile toggle */}
@@ -54,7 +66,7 @@ const Header: React.FC = () => {
                     className="md:hidden text-(--text-primary)"
                     onClick={openMenu}
                     aria-label="Open menu">
-                    <FiMenu size={22} />
+                    <FiMenu size={22}/>
                 </button>
             </div>
 
@@ -69,7 +81,7 @@ const Header: React.FC = () => {
                         }`}
                         onClick={(e) => e.stopPropagation()}>
                         <button className={styles.close} onClick={closeMenu}>
-                            <FiX size={22} />
+                            <FiX size={22}/>
                         </button>
 
                         <nav className="flex flex-col gap-4 mt-8 flex-1">

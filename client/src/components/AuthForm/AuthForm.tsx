@@ -14,7 +14,7 @@ interface AuthFormProps<FormData> {
     onSubmit: (data: FormData) => void;
 }
 
-const AuthForm = <FormData,>({ title, fields, submitText, onSubmit }: AuthFormProps<FormData>) => {
+const AuthForm = <FormData, >({title, fields, submitText, onSubmit}: AuthFormProps<FormData>) => {
     const [formState, setFormState] = useState<FormData>(() => {
         const initial: any = {};
         fields.forEach((field) => (initial[field.name] = ""));

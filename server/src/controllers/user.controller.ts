@@ -66,7 +66,7 @@ export class UserController {
                 message: "User logged in successfully",
                 firstName: safeUser.firstName,
                 token
-            })
+            });
 
         } catch (error: any) {
             return res.status(400).json({
