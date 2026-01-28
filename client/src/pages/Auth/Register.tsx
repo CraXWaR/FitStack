@@ -1,12 +1,20 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import AuthForm from "../../components/AuthForm/AuthForm.tsx";
 import type {IRegisterUser} from "../../types/auth.tsx";
 import {useAuth} from "../../hooks/useAuth.ts";
 import {useNavigate} from "react-router";
+import Loading from "../../components/Layout/General/Loading/Loading.tsx";
+import Error from "../../components/Layout/General/Error/Error.tsx";
 
 const RegisterPage: React.FC = () => {
+    const [showError, setShowError] = useState(true);
+
     const {register, loading, error} = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (error) setShowError(true);
+    }, [error]);
 
     const handleRegister = async (data: IRegisterUser) => {
         await register(data);
@@ -20,18 +28,10 @@ const RegisterPage: React.FC = () => {
         {name: "confirmPassword", label: "Confirm Password", type: "password"},
     ];
 
-    return (
-        <>
-            <AuthForm<IRegisterUser>
-                title="Create Account"
-                fields={fields} submitText="Register"
-                onSubmit={handleRegister}/>
+    if (loading) return <Loading />;
+    if (error && showError) return <Error messages={error} actionText="Try again" onAction={() => setShowError(false)} />;
 
-            {loading && <p>Loading...</p>}
-            {error && <p>{error}</p>}
-        </>
-
-    );
+    return (<AuthForm<IRegisterUser> title="Create Account" fields={fields} submitText="Register" onSubmit={handleRegister}/>);
 };
 
 export default RegisterPage;

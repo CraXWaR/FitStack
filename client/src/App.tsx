@@ -5,8 +5,8 @@ import {AuthProvider} from "./context/AuthContext.tsx";
 import './App.css'
 
 import Home from "./pages/Home/Home.tsx";
-import Header from "./components/Layout/General/Header.tsx";
-import Footer from "./components/Layout/General/Footer.tsx";
+import Header from "./components/Layout/General/Header/Header.tsx";
+import Footer from "./components/Layout/General/Footer/Footer.tsx";
 import Login from "./pages/Auth/Login.tsx";
 import Register from "./pages/Auth/Register.tsx";
 

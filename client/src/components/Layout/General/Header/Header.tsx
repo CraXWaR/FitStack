@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {FiMenu, FiX} from "react-icons/fi";
 import styles from "./Header.module.css"
-import {useAuthContext} from "../../../context/AuthContext.tsx";
+import {useAuthContext} from "../../../../context/AuthContext.tsx";
 
 const Header: React.FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);

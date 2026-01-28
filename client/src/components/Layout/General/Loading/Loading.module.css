@@ -1,0 +1,24 @@
+.track {
+    width: 180px;
+    height: 4px;
+    background: var(--border-main);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+    width: 40%;
+    background: var(--accent-main);
+    border-radius: 999px;
+    animation: slide 1.5s linear infinite;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(-120%);
+    }
+    100% {
+        transform: translateX(250%);
+    }
+}
