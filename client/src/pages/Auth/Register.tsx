@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import AuthForm from "../../components/AuthForm/AuthForm.tsx";
-import type {IRegisterUser} from "../../types/auth.tsx";
+import type {IRegisterUser} from "../../types/auth.ts";
 import {useAuth} from "../../hooks/useAuth.ts";
 import {useNavigate} from "react-router";
 import Loading from "../../components/Layout/General/Loading/Loading.tsx";

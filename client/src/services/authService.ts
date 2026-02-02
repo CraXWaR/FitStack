@@ -1,4 +1,4 @@
-import type {IAuthResponse, ILoginUser, IRegisterUser} from "../types/auth.tsx";
+import type {IAuthResponse, ILoginUser, IRegisterUser} from "../types/auth.ts";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 

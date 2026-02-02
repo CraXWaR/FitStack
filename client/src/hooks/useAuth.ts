@@ -1,10 +1,12 @@
 import {useState} from "react";
-import type {IAuthResponse, ILoginUser, IRegisterUser} from "../types/auth.tsx";
+import type {IAuthResponse, ILoginUser, IRegisterUser} from "../types/auth.ts";
 import {authService} from "../services/authService.ts";
+import {useAuthContext} from "../context/AuthContext.tsx";
 
 export const useAuth = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string[] | null>(null);
+    const { setAuthUser } = useAuthContext();
 
     const authenticate = async <Payload>(authCall: (data: Payload) => Promise<IAuthResponse>, data: Payload) => {
         try {
@@ -15,8 +17,7 @@ export const useAuth = () => {
             await new Promise(timeout => setTimeout(timeout, 1500));
             const result = await authCall(data);
 
-            sessionStorage.setItem("token", result.token);
-            sessionStorage.setItem("firstName", result.firstName);
+            setAuthUser({ token: result.token, firstName: result.firstName });
 
             return result;
         } catch (err: any) {

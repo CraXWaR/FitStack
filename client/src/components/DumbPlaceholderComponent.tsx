@@ -1,168 +1,156 @@
 import React, {useState} from "react";
+import {workoutService} from "../services/workoutService.ts";
+import {useAuthContext} from "../context/AuthContext.tsx";
 
 const DumbPlaceholderComponent: React.FC = () => {
-    const [isRegister, setIsRegister] = useState({})
+    const { token } = useAuthContext();
+    const [name, setName] = useState("");
+    const [date, setDate] = useState("");
+    const [exerciseId, setExerciseId] = useState("");
+    const [sets, setSets] = useState([{ reps: 10, weight: 0 }]);
+    const [result, setResult] = useState<any>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
-    interface RegisterFormData {
-        firstName: string;
-        email: string;
-        password: string;
-        confirmPassword: string;
-    }
-    interface LoginFormData {
-        email: string;
-        password: string;
-    }
-
-    const [registerData, setRegisterData] = useState<RegisterFormData>({
-        firstName: "",
-        email: "",
-        password: "",
-        confirmPassword: ""
-    });
-    const [loginData, setLoginData] = useState<LoginFormData>({email: "", password: ""});
-
-    const handleRegisterChange = (e: React.ChangeEvent<HTMLInputElement>) => setRegisterData({
-        ...registerData,
-        [e.target.name]: e.target.value
-    });
-    const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => setLoginData({
-        ...loginData,
-        [e.target.name]: e.target.value
-    });
-
-    const handleRegisterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            const response = await fetch("http://localhost:5000/auth/register", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(registerData)
-            });
-            if (!response.ok) {
-                const errorData = await response.json();
-
-                errorData.errors.forEach((err: {
-                    field: string;
-                    message: string
-                }) => console.error(`${err.field}: ${err.message}`));
-                alert("Регистрацията се провали. Виж конзолата!");
-                return;
-            }
-            const data = await response.json();
-
-            alert(`Успех! регистарция ${data.message}`);
-        } catch (error: any) {
-            alert(error.message);
-        }
+    const handleSetChange = (index: number, field: "reps" | "weight", value: number) => {
+        const newSets = [...sets];
+        newSets[index][field] = value;
+        setSets(newSets);
     };
-    const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+    const addSet = () => setSets([...sets, { reps: 0, weight: 0 }]);
+    const removeSet = (index: number) => setSets(sets.filter((_, i) => i !== index));
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!token) return alert("You must be logged in");
+
+        setLoading(true);
+        setError(null);
+
         try {
-            const response = await fetch("http://localhost:5000/auth/login", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(loginData)
+            const workout = await workoutService.createWorkout(token, {
+                name,
+                date,
+                exercises: [
+                    {
+                        exerciseId,
+                        sets,
+                    },
+                ],
             });
-            if (!response.ok) {
-                const errorData = await response.json();
-                if (errorData.errors) errorData.errors.forEach((err: {
-                    field: string;
-                    message: string
-                }) => console.error(`${err.field}: ${err.message}`));
-                alert("Входът се провали. Виж конзолата!");
-                return;
-            }
-            const data = await response.json();
-            localStorage.setItem("token", data.token);
-            alert(`Успех! Добре дошъл, ${data.firstName}`);
-        } catch (error) {
-            console.error(error);
+
+            setResult(workout);
+            setName("");
+            setDate("");
+            setExerciseId("");
+            setSets([{ reps: 10, weight: 0 }]);
+        } catch (err: any) {
+            setError(err.message || "Failed to create workout");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="container">
-            <button
-                onClick={() => setIsRegister(!isRegister)}
-                style={{ marginBottom: "20px" }}
-            >
-                {isRegister ? "Вече имате акаунт? Влез" : "Нямате акаунт? Регистрирай се"}
-            </button>
+        <div className="min-h-screen flex flex-col items-center justify-start p-8 bg-gray-900 text-white">
+            <h2 className="text-2xl font-bold mb-6">Log Workout</h2>
 
-            {!isRegister ? (
-                <>
-                    <h1>FitStack Регистрация</h1>
-                    <form
-                        onSubmit={handleRegisterSubmit}
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "10px",
-                            maxWidth: "300px",
-                            margin: "0 auto"
-                        }}
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-md">
+                <div>
+                    <label className="block text-gray-300 mb-1">Workout Name</label>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="p-2 rounded bg-gray-800 w-full"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-gray-300 mb-1">Date & Time</label>
+                    <input
+                        type="datetime-local"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        className="p-2 rounded bg-gray-800 w-full"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-gray-300 mb-1">Exercise ID</label>
+                    <input
+                        type="text"
+                        value={exerciseId}
+                        onChange={(e) => setExerciseId(e.target.value)}
+                        className="p-2 rounded bg-gray-800 w-full"
+                        required
+                    />
+                </div>
+
+                <div className="mt-4">
+                    <h3 className="text-gray-200 mb-2 font-semibold">Sets</h3>
+                    {sets.map((s, i) => (
+                        <div key={i} className="flex gap-2 items-center mb-2">
+                            <div>
+                                <label className="block text-gray-400 text-sm">Reps</label>
+                                <input
+                                    type="number"
+                                    value={s.reps}
+                                    onChange={(e) => handleSetChange(i, "reps", Number(e.target.value))}
+                                    className="p-2 rounded bg-gray-700 w-20"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-gray-400 text-sm">Weight (kg)</label>
+                                <input
+                                    type="number"
+                                    value={s.weight}
+                                    onChange={(e) => handleSetChange(i, "weight", Number(e.target.value))}
+                                    className="p-2 rounded bg-gray-700 w-20"
+                                    required
+                                />
+                            </div>
+
+                            <button
+                                type="button"
+                                onClick={() => removeSet(i)}
+                                className="bg-red-600 px-2 py-1 rounded text-white mt-5"
+                            >
+                                X
+                            </button>
+                        </div>
+                    ))}
+
+                    <button
+                        type="button"
+                        onClick={addSet}
+                        className="bg-green-600 px-4 py-2 rounded text-white mt-2"
                     >
-                        <input
-                            name="firstName"
-                            placeholder="Име"
-                            value={registerData.firstName}
-                            onChange={handleRegisterChange}
-                        />
-                        <input
-                            name="email"
-                            type="email"
-                            placeholder="Имейл"
-                            value={registerData.email}
-                            onChange={handleRegisterChange}
-                        />
-                        <input
-                            name="password"
-                            type="password"
-                            placeholder="Парола"
-                            value={registerData.password}
-                            onChange={handleRegisterChange}
-                        />
-                        <input
-                            name="confirmPassword"
-                            type="password"
-                            placeholder="Повтори парола"
-                            value={registerData.confirmPassword}
-                            onChange={handleRegisterChange}
-                        />
-                        <button type="submit">Регистрирай ме</button>
-                    </form>
-                </>
-            ) : (
-                <>
-                    <h1>FitStack Вход</h1>
-                    <form
-                        onSubmit={handleLoginSubmit}
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "10px",
-                            maxWidth: "300px",
-                            margin: "0 auto"
-                        }}
-                    >
-                        <input
-                            name="email"
-                            type="email"
-                            placeholder="Имейл"
-                            value={loginData.email}
-                            onChange={handleLoginChange}
-                        />
-                        <input
-                            name="password"
-                            type="password"
-                            placeholder="Парола"
-                            value={loginData.password}
-                            onChange={handleLoginChange}
-                        />
-                        <button type="submit">Влез</button>
-                    </form>
-                </>
+                        Add Set
+                    </button>
+                </div>
+
+                <button
+                    type="submit"
+                    className="bg-blue-600 p-2 rounded mt-6 hover:bg-blue-700 disabled:opacity-50"
+                    disabled={loading}
+                >
+                    {loading ? "Logging..." : "Log Workout"}
+                </button>
+            </form>
+
+            {error && <p className="text-red-500 mt-4">{error}</p>}
+
+            {result && (
+                <div className="bg-gray-800 p-4 rounded mt-6 w-full max-w-md overflow-auto">
+                    <h3 className="font-semibold mb-2">Workout Logged:</h3>
+                    <pre className="text-sm">{JSON.stringify(result, null, 2)}</pre>
+                </div>
             )}
         </div>
     );

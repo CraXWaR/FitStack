@@ -9,6 +9,7 @@ import Header from "./components/Layout/General/Header/Header.tsx";
 import Footer from "./components/Layout/General/Footer/Footer.tsx";
 import Login from "./pages/Auth/Login.tsx";
 import Register from "./pages/Auth/Register.tsx";
+import DumbPlaceholderComponent from "./components/DumbPlaceholderComponent.tsx";
 
 const RootLayout: React.FC = () => {
     return (
@@ -21,6 +22,9 @@ const RootLayout: React.FC = () => {
 
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
+
+                    {/*test route*/}
+                    <Route path="/testDumb" element={<DumbPlaceholderComponent/>} />
                 </Routes>
             </main>
 

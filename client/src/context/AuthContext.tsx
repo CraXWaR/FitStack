@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useEffect, useState} from "react";
-import type {IAuthContext} from "../types/auth.tsx";
+import type {IAuthContext} from "../types/auth.ts";
 
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
 

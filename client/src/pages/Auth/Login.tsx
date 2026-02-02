@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import AuthForm from "../../components/AuthForm/AuthForm.tsx";
-import type {ILoginUser} from "../../types/auth.tsx";
+import type {ILoginUser} from "../../types/auth.ts";
 import {useAuth} from "../../hooks/useAuth.ts";
 import {useNavigate} from "react-router";
 import {useAuthContext} from "../../context/AuthContext.tsx";
