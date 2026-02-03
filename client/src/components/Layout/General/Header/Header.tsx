@@ -54,6 +54,9 @@ const Header: React.FC = () => {
                     {isLoggedIn && (
                         <>
                             <span>Hello, {firstName}</span>
+                            <Link to="/log-workout" className={styles.primary}>
+                                Log
+                            </Link>
                             <button onClick={logout} className={styles.primary}>
                                 Logout
                             </button>
