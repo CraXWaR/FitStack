@@ -13,7 +13,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
     if (!token) {
         return res.status(401).json({message: "Authorization token missing"});
     }
-    console.log(token)
+
     try {
         const decoded = jwt.verify(token, process.env.SECRET_KEY!) as unknown;
         req.user = decoded as IJwtPayload;

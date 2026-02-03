@@ -10,7 +10,6 @@ export class WorkoutController {
     }
 
     create = async (req: Request, res: Response) => {
-        console.log(req.user)
         try {
             const userId = req.user!.id;
             const data: ICreateWorkout = req.body
