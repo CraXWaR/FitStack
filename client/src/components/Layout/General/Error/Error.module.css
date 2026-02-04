@@ -1,38 +1,14 @@
-.card {
-    max-width: 360px;
-    padding: 2rem;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-main);
-    border-radius: 0.9rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    text-align: center;
-}
-
-.icon {
-    color: #EF4444;
+.alert {
+    background-color: #fde2e2;
+    color: #b91c1c;
+    border: 1px solid #f5c2c2;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
 }
 
 .message {
-    font-size: 0.95rem;
-    color: var(--text-primary);
-    line-height: 1.5;
-}
-
-.action {
-    margin-top: 0.5rem;
-    padding: 0.6rem 1.4rem;
-    background: transparent;
-    border: 1px solid var(--border-main);
-    border-radius: 0.6rem;
-    color: var(--text-primary);
-    font-weight: 500;
-    transition: border-color 0.15s ease, background 0.15s ease;
-}
-
-.action:hover {
-    background: var(--bg-elevated);
-    border-color: var(--accent-main);
+    margin: 0;
+    line-height: 1.4;
 }

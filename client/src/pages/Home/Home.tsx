@@ -7,7 +7,7 @@ import CTA from "../../components/Home/CTA.tsx";
 
 const Home: React.FC = () => {
     return (
-        <div className="bg-background-main text-text-primary">
+        <div className="bg-background-main text-text-primary w-full">
             <Hero />
             <Features />
             <Workflow />

@@ -1,25 +1,31 @@
-import React, {useEffect, useState} from "react";
-import AuthForm from "../../components/AuthForm/AuthForm.tsx";
-import type {IRegisterUser} from "../../types/auth.ts";
-import {useAuth} from "../../hooks/useAuth.ts";
+import React, {useState} from "react";
+import AuthForm from "../../components/AuthForm/AuthForm";
+import type {IRegisterUser} from "../../types/auth";
+import {useAuth} from "../../hooks/useAuth";
 import {useNavigate} from "react-router";
-import Loading from "../../components/Layout/General/Loading/Loading.tsx";
-import Error from "../../components/Layout/General/Error/Error.tsx";
+import Loading from "../../components/Layout/General/Loading/Loading";
+import styles from "./Register.module.css";
 
 const RegisterPage: React.FC = () => {
-    const [showError, setShowError] = useState(true);
-
-    const {register, loading, error} = useAuth();
+    const {register, loading} = useAuth();
+    const [formError, setFormError] = useState<string | null>(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (error) setShowError(true);
-    }, [error]);
-
     const handleRegister = async (data: IRegisterUser) => {
-        await register(data);
-        navigate("/login");
+        try {
+            setFormError(null);
+            await register(data);
+            navigate("/");
+        } catch (err: any) {
+            if (Array.isArray(err)) {
+                setFormError(err.join("\n"));
+            } else {
+                setFormError(err || "Registration failed");
+            }
+        }
     };
+
+    if (loading) return <Loading/>;
 
     const fields = [
         {name: "firstName", label: "First Name", type: "text"},
@@ -28,10 +34,20 @@ const RegisterPage: React.FC = () => {
         {name: "confirmPassword", label: "Confirm Password", type: "password"},
     ];
 
-    if (loading) return <Loading />;
-    if (error && showError) return <Error messages={error} actionText="Try again" onAction={() => setShowError(false)} />;
-
-    return (<AuthForm<IRegisterUser> title="Create Account" fields={fields} submitText="Register" onSubmit={handleRegister}/>);
+    return (
+        <div className={styles.pageWrapper}>
+            <AuthForm<IRegisterUser>
+                title="Create Account"
+                submitText="Register"
+                onSubmit={handleRegister}
+                fields={fields}
+                formError={formError}
+            />
+            <p className={styles.switchPage}>
+                Already have an account? <span onClick={() => navigate("/login")}>Login</span>
+            </p>
+        </div>
+    );
 };
 
 export default RegisterPage;

@@ -71,3 +71,8 @@
 .saveButton:hover {
     background-color: #2FC18A;
 }
+
+.saveButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

@@ -4,6 +4,4 @@ export interface ILoading {
 
 export interface IError {
     messages?: string[];
-    actionText?: string;
-    onAction?: () => void;
 }

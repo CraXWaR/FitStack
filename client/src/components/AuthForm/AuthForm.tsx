@@ -1,56 +1,70 @@
-import React, {useState} from "react";
+import React from "react";
+import {FaEye, FaEyeSlash} from "react-icons/fa";
 import styles from "./AuthForm.module.css";
 
-interface AuthFormField {
+interface Field {
     name: string;
     label: string;
     type: string;
 }
 
-interface AuthFormProps<FormData> {
+interface AuthFormProps<T> {
     title: string;
-    fields: AuthFormField[];
     submitText: string;
-    onSubmit: (data: FormData) => void;
+    fields: Field[];
+    onSubmit: (data: T) => void;
+    formError?: string | null;
 }
 
-const AuthForm = <FormData, >({title, fields, submitText, onSubmit}: AuthFormProps<FormData>) => {
-    const [formState, setFormState] = useState<FormData>(() => {
-        const initial: any = {};
-        fields.forEach((field) => (initial[field.name] = ""));
-        return initial;
-    });
+function AuthForm<T>({title, submitText, fields, onSubmit, formError}: AuthFormProps<T>) {
+    const [showPassword, setShowPassword] = React.useState(false);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormState({...formState, [e.target.name]: e.target.value});
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        onSubmit(formState);
+        const formData = Object.fromEntries(new FormData(e.currentTarget)) as unknown as T;
+        onSubmit(formData);
     };
 
     return (
-        <div className={styles.container}>
-            <h2 className={styles.title}>{title}</h2>
-            <form onSubmit={handleSubmit} className={styles.form}>
-                {fields.map((field) => (
-                    <input
-                        key={field.name}
-                        name={field.name}
-                        type={field.type}
-                        placeholder={field.label}
-                        onChange={handleChange}
-                        className={styles.input}
-                        required
-                    />
-                ))}
-                <button type="submit" className={styles.submit}>
-                    {submitText}
-                </button>
+        <div className={styles.authCard}>
+            <h1 className={styles.authTitle}>{title}</h1>
+
+            {formError && (
+                <div className={styles.formError}>{formError}</div>
+            )}
+
+            <form onSubmit={handleSubmit}>
+                {fields.map((field) => {
+                    const isPassword = field.type === "password";
+                    return (
+                        <div key={field.name} className={styles.wrapper}>
+                            <label htmlFor={field.name} className={styles.label}>{field.label}</label>
+                            <div className={styles.inputWrapper}>
+                                <input
+                                    id={field.name}
+                                    name={field.name}
+                                    type={isPassword ? (showPassword ? "text" : "password") : field.type}
+                                    placeholder={`Enter your ${field.label.toLowerCase()}`}
+                                    className={styles.input}
+                                    required
+                                />
+                                {isPassword && (
+                                    <span
+                                        className={styles.icon}
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                    {showPassword ? <FaEyeSlash/> : <FaEye/>}
+                                  </span>
+                                )}
+                            </div>
+                        </div>
+                    );
+                })}
+                <button type="submit" className={styles.submit}>{submitText}</button>
             </form>
         </div>
     );
-};
+}
+
 
 export default AuthForm;

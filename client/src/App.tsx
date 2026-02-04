@@ -17,8 +17,7 @@ const RootLayout: React.FC = () => {
         <div className="min-h-screen flex flex-col">
             <Header/>
 
-            <main className="flex min-h-screen flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
-                <div className="w-full max-w-3xl bg-bg-surface rounded-2xl p-8 shadow-lg flex flex-col gap-6">
+            <main className="flex-1 flex">
                 <Routes>
                     <Route path="/" element={<Home/>}/>
 
@@ -27,9 +26,8 @@ const RootLayout: React.FC = () => {
                     <Route path="/log-workout" element={<LogWorkoutPage/>}/>
 
                     {/*test route*/}
-                    <Route path="/testDumb" element={<DumbPlaceholderComponent/>} />
+                    <Route path="/testDumb" element={<DumbPlaceholderComponent/>}/>
                 </Routes>
-                </div>
             </main>
 
             <Footer/>

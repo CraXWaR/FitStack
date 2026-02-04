@@ -4,7 +4,7 @@ import styles from "./Loading.module.css";
 
 const Loading: React.FC<ILoading> = ({text = "Please wait..."}) => {
     return (
-        <div className="flex items-center justify-center bg-(--bg-main)">
+        <div className="w-full flex items-center justify-center bg-(--bg-main)">
             <div className="flex flex-col items-center gap-4">
                 <div className={styles.track}>
                     <div className={styles.bar} />
