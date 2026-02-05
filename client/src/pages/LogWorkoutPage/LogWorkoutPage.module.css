@@ -1,5 +1,5 @@
 .formContainer {
-    background-color: #181B20; /* bg-surface */
+    background-color: #181B20;
     padding: 2rem;
     border-radius: 1rem;
     width: 100%;
@@ -24,16 +24,17 @@
 
 .label {
     font-weight: 500;
-    color: #9AA0A6; /* text-secondary */
+    color: #9AA0A6;
     margin-bottom: 0.25rem;
 }
 
 .select {
+    width: 100%;
     padding: 0.75rem;
     border-radius: 0.5rem;
-    background-color: #1E2228; /* bg-elevated */
-    border: 1px solid #242830; /* border-main */
-    color: #E6E8EB; /* text-primary */
+    background-color: #1E2228;
+    border: 1px solid #242830;
+    color: #E6E8EB;
 }
 
 .helper {
@@ -43,7 +44,7 @@
 }
 
 .addButton {
-    background-color: #3DDC97; /* accent-main */
+    background-color: #3DDC97;
     color: #000;
     font-weight: 600;
     padding: 0.5rem 1rem;
@@ -55,7 +56,7 @@
 }
 
 .addButton:hover {
-    background-color: #2FC18A; /* accent-hover */
+    background-color: #2FC18A;
 }
 
 .saveButton {

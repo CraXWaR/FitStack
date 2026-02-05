@@ -1,118 +1,128 @@
-import React, {useState} from "react";
+import React, {type FormEvent} from "react";
 import styles from "./LogWorkoutPage.module.css";
 import InputField from "../../components/Workout/InputField.tsx";
 import SetInput from "../../components/Workout/SetInput.tsx";
 import {useExercises} from "../../hooks/useExercises.ts";
 import Loading from "../../components/Layout/General/Loading/Loading.tsx";
 import Error from "../../components/Layout/General/Error/Error.tsx";
+import {useWorkoutSubmit} from "../../hooks/workout/useWorkoutSubmit.ts";
+import {useWorkoutForm} from "../../hooks/workout/useWorkoutForm.ts";
 
 const LogWorkoutPage: React.FC = () => {
-    const {exercises, loading, error} = useExercises();
+    const {exercises: availableExercises, loading, error: fetchError} = useExercises();
+    const {submit, submitting, error: submitError, success} = useWorkoutSubmit();
+    const form = useWorkoutForm(availableExercises);
 
-    const [name, setName] = useState("");
-    const [date, setDate] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("");
-    const [selectedExercise, setSelectedExercise] = useState("");
-    const [sets, setSets] = useState([{reps: "", weight: ""}]);
+    const onFormSubmit = (e: FormEvent) => {
+        e.preventDefault();
 
-    const categories = Array.from(new Set(exercises.map(e => e.category)));
+        const mappedExercises = form.exercises
+            .map((ex) => {
+                const fullEx = availableExercises.find((e) => e.id === ex.exerciseId);
+                if (!fullEx) return null;
 
-    const filteredExercises = selectedCategory
-        ? exercises.filter(e => e.category === selectedCategory)
-        : [];
+                const validSets = ex.sets.filter((s) => s.reps > 0 && s.weight > 0);
+                if (validSets.length === 0) return null;
 
-    const handleSetChange = (index: number, field: "reps" | "weight", value: string) => {
-        const newSets = [...sets];
+                return {
+                    id: fullEx.id,
+                    name: fullEx.name,
+                    category: fullEx.category,
+                    sets: validSets,
+                };
+            })
+            .filter((ex) => ex !== null);
 
-        if (value === "") {
-            newSets[index][field] = "";
-        } else {
-            let num = Number(value);
-            if (num < 0) num = 0;
-            if (num === 0) {
-                newSets[index][field] = "";
-            } else {
-                newSets[index][field] = String(num);
-            }
+        if (mappedExercises.length === 0) {
+            alert("Add at least one exercise with valid sets");
+            return;
         }
 
-        setSets(newSets);
+        submit({name: form.name, date: form.date, exercises: mappedExercises, resetForm: form.resetForm});
     };
-
-    const addSet = () => setSets([...sets, {reps: "", weight: ""}]);
-    const removeSet = (index: number) => setSets(sets.filter((_, i) => i !== index));
 
     if (loading) return <Loading text="Loading exercises..."/>;
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-bg-main text-text-primary w-full">
-            <div className={styles.formContainer}>
+            <form onSubmit={onFormSubmit} className={styles.formContainer}>
                 <h2 className={styles.title}>Log Your Workout</h2>
 
-                <InputField label="Workout Name" value={name} onChange={setName}/>
+                {success && <div className={styles.successMessage}>{success}</div>}
+                {submitError && <Error messages={[submitError]}/>}
+                {fetchError && <Error messages={Array.isArray(fetchError) ? fetchError : [fetchError]}/>}
 
-                <InputField label="Date & Time" value={date} onChange={setDate} type="datetime-local"/>
+                <InputField label="Workout Name" value={form.name} onChange={form.setName}/>
+                <InputField label="Date & Time" value={form.date} onChange={form.setDate} type="datetime-local"/>
 
-                {/* error */}
-                {error && (
-                    <Error
-                        messages={Array.isArray(error) ? error : [error]}
-                    />
-                )}
-
-                {/* show category/exercise if no error */}
-                {!error && (
-                    <>
-                        <div className={styles.wrapper}>
-                            <label className={styles.label}>Category</label>
-                            <select
-                                value={selectedCategory}
-                                onChange={(e) => {
-                                    setSelectedCategory(e.target.value);
-                                    setSelectedExercise("");
-                                }}
-                                className={styles.select}>
-                                <option value="">Select category</option>
-                                {categories.map((cat) => (
-                                    <option key={cat} value={cat}>{cat}</option>
-                                ))}
-                            </select>
+                {form.exercises.map((ex, exIndex) => (
+                    <div key={exIndex} className="border-b border-gray-700 py-4">
+                        <div className="flex justify-between items-center">
+                            <h4 className="font-semibold">Exercise {exIndex + 1}</h4>
+                            {form.exercises.length > 1 && (
+                                <button type="button" className="text-red-500"
+                                        onClick={() => form.removeExercise(exIndex)}>
+                                    Remove
+                                </button>
+                            )}
                         </div>
 
-                        <div className={styles.wrapper}>
-                            <label className={styles.label}>Exercise</label>
-                            <select
-                                value={selectedExercise}
-                                onChange={(e) => setSelectedExercise(e.target.value)}
-                                className={styles.select}
-                                disabled={!selectedCategory}>
-                                <option value="">Select exercise</option>
-                                {filteredExercises.map((ex) => (
-                                    <option key={ex.id} value={ex.name}>{ex.name}</option>
-                                ))}
-                            </select>
+                        <div className="flex gap-2 mt-2">
+                            <div className="flex-1">
+                                <label className="block text-gray-400 text-sm">Category</label>
+                                <select
+                                    value={ex.category}
+                                    onChange={(e) => form.updateCategory(exIndex, e.target.value)}
+                                    className={styles.select}>
+                                    <option value="">Select category</option>
+                                    {form.categories.map((cat) => (
+                                        <option key={cat} value={cat}>{cat}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="flex-1">
+                                <label className="block text-gray-400 text-sm">Exercise</label>
+                                <select
+                                    value={ex.exerciseId}
+                                    onChange={(e) => form.updateExercise(exIndex, e.target.value)}
+                                    className={styles.select}
+                                    disabled={!ex.category}>
+                                    <option value="">Select exercise</option>
+                                    {form.filterExercisesByCategory(ex.category).map((e) => (
+                                        <option key={e.id} value={e.id}>{e.name}</option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
-                    </>
-                )}
 
-                <div className="flex flex-col gap-3 mt-4">
-                    {sets.map((set, i) => (
-                        <SetInput
-                            key={i}
-                            index={i}
-                            reps={set.reps}
-                            weight={set.weight}
-                            onChange={handleSetChange}
-                            onRemove={removeSet}
-                        />
-                    ))}
-                    <button type="button" onClick={addSet} className={styles.addButton}>
-                        Add Set
-                    </button>
-                </div>
+                        <div className="flex flex-col gap-2 mt-2">
+                            {ex.sets.map((s) => (
+                                <SetInput
+                                    key={s.id}
+                                    id={s.id}
+                                    reps={s.reps}
+                                    weight={s.weight}
+                                    onChange={(_, field, value) => form.updateSet(exIndex, s.id, field, value)}
+                                    onRemove={() => form.removeSet(exIndex, s.id)}
+                                />
+                            ))}
 
-                <button className={styles.saveButton} disabled={!!error}>Save Workout</button>
-            </div>
+                            <button type="button" className={styles.addButton} onClick={() => form.addSet(exIndex)}>
+                                Add Set
+                            </button>
+                        </div>
+                    </div>
+                ))}
+
+                <button type="button" className={styles.addButton} onClick={form.addExercise}>
+                    Add Exercise
+                </button>
+
+                <button type="submit" className={styles.saveButton} disabled={submitting || !!fetchError}>
+                    {submitting ? "Saving..." : "Save Workout"}
+                </button>
+            </form>
         </div>
     );
 };
