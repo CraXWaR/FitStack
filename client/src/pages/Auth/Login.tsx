@@ -1,14 +1,18 @@
 import React, {useState} from "react";
-import AuthForm from "../../components/AuthForm/AuthForm";
 import type {ILoginUser} from "../../types/auth";
 import {useAuth} from "../../hooks/useAuth";
 import {useNavigate} from "react-router";
 import Loading from "../../components/Layout/General/Loading/Loading";
-import styles from "./Login.module.css";
+import styles from "./AuthPages.module.css";
+import Form from "../../components/Layout/UI/Form/Form.tsx";
+import InputField from "../../components/Layout/UI/InputField/InputField.tsx";
 
 const LoginPage: React.FC = () => {
     const {login, loading} = useAuth();
     const [formError, setFormError] = useState<string | null>(null);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("")
+
     const navigate = useNavigate();
 
     const handleLogin = async (data: ILoginUser) => {
@@ -25,20 +29,30 @@ const LoginPage: React.FC = () => {
         }
     };
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData: ILoginUser = {email, password};
+        handleLogin(formData);
+    };
+
     if (loading) return <Loading/>;
 
     return (
         <div className={styles.pageWrapper}>
-            <AuthForm<ILoginUser>
-                title="Welcome Back"
-                submitText="Login"
-                onSubmit={handleLogin}
-                fields={[
-                    {name: "email", label: "Email", type: "email"},
-                    {name: "password", label: "Password", type: "password"},
-                ]}
-                formError={formError}
-            />
+            <Form title="Welcome Back" submitText="Login" onSubmit={handleSubmit} error={formError}>
+                <InputField label="Email"
+                            type="email"
+                            value={email}
+                            onChange={setEmail}
+                            required/>
+
+                <InputField label="Password"
+                            type="password"
+                            value={password}
+                            onChange={setPassword}
+                            required/>
+            </Form>
+
             <p className={styles.switchPage}>
                 Don't have an account? <span onClick={() => navigate("/register")}>Register</span>
             </p>

@@ -14,7 +14,7 @@ export const useWorkoutForm = (availableExercises: IExercise[]) => {
     }
 
     function createEmptySet(): ISets {
-        return {id: generateId(), reps: 0, weight: 0};
+        return {id: generateId(), reps: null, weight: null};
     }
 
     function createEmptyExercise(): IWorkoutExerciseForm {
@@ -66,7 +66,7 @@ export const useWorkoutForm = (availableExercises: IExercise[]) => {
         exerciseIndex: number,
         setId: string,
         field: "reps" | "weight",
-        value: number
+        value: number | null
     ) =>
         setExercises((prev) =>
             prev.map((exercise, currentIndex) =>

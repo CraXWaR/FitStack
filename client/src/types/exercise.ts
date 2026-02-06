@@ -7,8 +7,8 @@ export interface IExercise {
 
 export interface ISets {
     id: string;
-    reps: number;
-    weight: number;
+    reps: number | null;
+    weight: number | null;
 }
 
 export interface IWorkoutExerciseForm {
@@ -16,12 +16,4 @@ export interface IWorkoutExerciseForm {
     exerciseId: string;
     category: string;
     sets: ISets[];
-}
-
-export interface IWorkoutExerciseSetProps {
-    id: string;
-    reps: number;
-    weight: number;
-    onChange: (index: string, field: "reps" | "weight", value: number) => void;
-    onRemove: () => void;
 }

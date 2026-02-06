@@ -1,15 +1,21 @@
 import React, {useState} from "react";
-import AuthForm from "../../components/AuthForm/AuthForm";
 import type {IRegisterUser} from "../../types/auth";
 import {useAuth} from "../../hooks/useAuth";
 import {useNavigate} from "react-router";
 import Loading from "../../components/Layout/General/Loading/Loading";
-import styles from "./Register.module.css";
+import styles from "./AuthPages.module.css";
+import Form from "../../components/Layout/UI/Form/Form.tsx";
+import InputField from "../../components/Layout/UI/InputField/InputField.tsx";
 
 const RegisterPage: React.FC = () => {
     const {register, loading} = useAuth();
-    const [formError, setFormError] = useState<string | null>(null);
     const navigate = useNavigate();
+
+    const [formError, setFormError] = useState<string | null>(null);
+    const [firstName, setFirstName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     const handleRegister = async (data: IRegisterUser) => {
         try {
@@ -25,26 +31,35 @@ const RegisterPage: React.FC = () => {
         }
     };
 
-    if (loading) return <Loading/>;
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData: IRegisterUser = {
+            firstName,
+            email,
+            password,
+            confirmPassword,
+        };
+        handleRegister(formData);
+    };
 
-    const fields = [
-        {name: "firstName", label: "First Name", type: "text"},
-        {name: "email", label: "Email", type: "email"},
-        {name: "password", label: "Password", type: "password"},
-        {name: "confirmPassword", label: "Confirm Password", type: "password"},
-    ];
+    if (loading) return <Loading/>;
 
     return (
         <div className={styles.pageWrapper}>
-            <AuthForm<IRegisterUser>
-                title="Create Account"
-                submitText="Register"
-                onSubmit={handleRegister}
-                fields={fields}
-                formError={formError}
-            />
+            <Form title="Create Account" submitText="Register" onSubmit={handleSubmit} error={formError}>
+                <InputField label="First Name" type="text" value={firstName} onChange={setFirstName} required/>
+
+                <InputField label="Email" type="email" value={email} onChange={setEmail} required/>
+
+                <InputField label="Password" type="password" value={password} onChange={setPassword} required/>
+
+                <InputField label="Confirm Password" type="password" value={confirmPassword}
+                            onChange={setConfirmPassword} required/>
+            </Form>
+
             <p className={styles.switchPage}>
-                Already have an account? <span onClick={() => navigate("/login")}>Login</span>
+                Already have an account?{" "}
+                <span onClick={() => navigate("/login")}>Login</span>
             </p>
         </div>
     );
