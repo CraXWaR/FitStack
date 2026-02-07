@@ -10,6 +10,7 @@ import Error from "../../components/Layout/General/Error/Error.tsx";
 import SelectField from "../../components/Layout/UI/Select/SelectField.tsx";
 import Button from "../../components/Layout/UI/Button/Button.tsx";
 import {FaPlus, FaTrash} from "react-icons/fa6";
+import DateInputField from "../../components/Layout/UI/DateInputField/DateInputField.tsx";
 
 const LogWorkoutPage: React.FC = () => {
     const {exercises: availableExercises, loading, error: fetchError} = useExercises();
@@ -59,8 +60,7 @@ const LogWorkoutPage: React.FC = () => {
                   onSubmit={onFormSubmit} error={submitError} success={success}>
                 <InputField label="Workout Name" value={form.name} onChange={form.setName} required/>
 
-                <InputField label="Date & Time" type="datetime-local" value={form.date} onChange={form.setDate}
-                            required/>
+                <DateInputField form={form}/>
 
                 {form.exercises.map((exercise, exerciseIndex) => (
                     <div key={exerciseIndex} className="border-b border-gray-700 py-4">

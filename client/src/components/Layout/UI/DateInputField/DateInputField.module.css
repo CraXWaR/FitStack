@@ -1,0 +1,108 @@
+.wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.label {
+    position: absolute;
+    left: 1rem;
+    top: 0.85rem;
+    color: #9AA0A6;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.2s ease, color 0.2s ease;
+    z-index: 10;
+}
+
+.floating {
+    top: -0.5rem;
+    font-size: 0.75rem;
+    color: #3DDC97;
+    background-color: #181B20;
+    padding: 0 0.25rem;
+    border-radius: 0.75rem;
+}
+
+.calendar {
+    width: 100%;
+    position: relative;
+}
+
+.calendar :global(.p-inputtext) {
+    all: unset;
+    width: 100%;
+    padding: 1rem 3rem 0.5rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #1A1D23;
+    background-color: #1E2228;
+    color: #E6E8EB;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.calendar :global(.p-inputtext:focus) {
+    border-color: #3DDC97;
+    box-shadow: 0 0 8px rgba(61, 220, 151, 0.5);
+    background-color: #181B20;
+    outline: none;
+}
+
+.calendar :global(.p-datepicker-trigger) {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.calendar :global(.p-datepicker-trigger .pi) {
+    color: #9AA0A6;
+    font-size: 1.1rem;
+    transition: color 0.2s ease;
+}
+
+.calendar :global(.p-datepicker-trigger:hover .pi) {
+    color: #3DDC97;
+}
+
+.p-datepicker {
+    background: #1E2228;
+    border: 1px solid #242830;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.p-datepicker-header {
+    background: #181B20;
+    border-bottom: 1px solid #242830;
+}
+
+.p-datepicker table td span {
+    color: #E6E8EB;
+    border-radius: 0.5rem;
+}
+
+.p-datepicker table td span:hover {
+    background: #242830;
+}
+
+.p-datepicker table td.p-highlight span {
+    background: #3DDC97;
+    color: #000;
+}
+
+.p-datepicker table td.p-datepicker-today span {
+    border: 1px solid #3DDC97;
+}
+
+.p-timepicker {
+    border-top: 1px solid #242830;
+}
+
+.p-timepicker span {
+    color: #E6E8EB;
+}
