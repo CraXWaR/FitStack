@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {FiMenu, FiX} from "react-icons/fi";
 import styles from "./Header.module.css"
 import {useAuthContext} from "../../../../context/AuthContext.tsx";
@@ -40,35 +40,38 @@ const Header: React.FC = () => {
 
                 {/* Desktop nav */}
                 <nav className="hidden md:flex items-center gap-6">
-                    {!isLoggedIn && (
+                    {!isLoggedIn ? (
                         <>
-                            <Link to="/login" className={styles.link}>
+                            <NavLink to="/login"
+                                     className={({isActive}) => `${styles.navLink} ${isActive ? styles.activeLink : ""}`}>
                                 Log in
-                            </Link>
+                            </NavLink>
                             <Link to="/register" className={styles.primary}>
-                                Get started
+                                Get Started
                             </Link>
                         </>
-                    )}
+                    ) : (
+                        <div className={styles.authContainer}>
+                            <NavLink to="/log-workout"
+                                     className={({isActive}) => `${styles.navLink} ${isActive ? styles.activeLink : ""}`}>
+                                Log Workout
+                            </NavLink>
 
-                    {isLoggedIn && (
-                        <>
-                            <span>Hello, {firstName}</span>
-                            <Link to="/log-workout" className={styles.primary}>
-                                Log
-                            </Link>
-                            <button onClick={logout} className={styles.primary}>
-                                Logout
-                            </button>
-                        </>
+                            <div className={styles.divider}/>
+
+                            <div className={styles.userSection}>
+                                <span className={styles.greeting}>Hello, {firstName}</span>
+                                <button onClick={logout} className={styles.primary}>
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
                     )}
                 </nav>
 
+
                 {/* Mobile toggle */}
-                <button
-                    className="md:hidden text-(--text-primary)"
-                    onClick={openMenu}
-                    aria-label="Open menu">
+                <button className="md:hidden text-(--text-primary)" onClick={openMenu} aria-label="Open menu">
                     <FiMenu size={22}/>
                 </button>
             </div>
@@ -77,28 +80,42 @@ const Header: React.FC = () => {
             {isOpen && (
                 <div className={styles.mobileOverlay} onClick={closeMenu}>
                     <div
-                        className={`${styles.mobileMenu} ${
-                            isVisible && !isClosing
-                                ? styles.mobileMenuOpen
-                                : styles.mobileMenuClose
-                        }`}
+                        className={`${styles.mobileMenu} ${isVisible && !isClosing ? styles.mobileMenuOpen : styles.mobileMenuClose}`}
                         onClick={(e) => e.stopPropagation()}>
                         <button className={styles.close} onClick={closeMenu}>
                             <FiX size={22}/>
                         </button>
 
-                        <nav className="flex flex-col gap-4 mt-8 flex-1">
-                            <Link to="/login" className={styles.mobileLink} onClick={closeMenu}>
-                                Log in
-                            </Link>
-                            <Link to="#" className={styles.mobilePrimary} onClick={closeMenu}>
-                                Get started
-                            </Link>
-                        </nav>
+                        <div className="flex flex-col flex-1 mt-8 gap-4">
+                            {!isLoggedIn && (
+                                <>
+                                    <NavLink to="/login"
+                                             className={({isActive}) => `${styles.navLink} ${isActive ? styles.activeLink : ""}`}
+                                             onClick={closeMenu}>
+                                        Log in
+                                    </NavLink>
+                                    <Link to="/register" className={styles.mobilePrimary} onClick={closeMenu}>Get
+                                        Started</Link>
+                                </>
+                            )}
+
+                            {isLoggedIn && (
+                                <>
+                                    <NavLink to="/log-workout"
+                                             className={({isActive}) => `${styles.navLink} ${isActive ? styles.activeLink : ""}`}
+                                             onClick={closeMenu}>
+                                        Log Workout
+                                    </NavLink>
+
+                                    <button onClick={logout} className={styles.mobilePrimary}>
+                                        Logout
+                                    </button>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
-
         </header>
     );
 }
