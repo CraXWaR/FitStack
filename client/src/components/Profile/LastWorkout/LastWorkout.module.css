@@ -1,0 +1,12 @@
+.workoutCard {
+    background: linear-gradient(135deg, #1E2228, #23272e);
+    border-radius: 2rem;
+    padding: 2rem;
+    border: 1px solid #242830;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.workoutCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.45);
+}

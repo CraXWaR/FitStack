@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import styles from "./Button.module.css";
 
 interface ButtonProps {
@@ -6,8 +7,9 @@ interface ButtonProps {
     onClick?: () => void;
     type?: "button" | "submit";
     disabled?: boolean;
-    variant?: "primary" | "outline" | "remove";
     className?: string;
+    variant?: "primary" | "outline" | "remove";
+    to?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -15,15 +17,32 @@ const Button: React.FC<ButtonProps> = ({
                                            onClick,
                                            type = "button",
                                            disabled = false,
+                                           className,
                                            variant = "primary",
-                                           className = "",
+                                           to,
                                        }) => {
+    const commonClasses = `${styles.button} ${styles[variant]} ${className} ${disabled ? styles.disabled : ""}`;
+
+    // Link
+    if (to) {
+        return (
+            <Link
+                to={to}
+                className={commonClasses}
+                onClick={disabled ? (e) => e.preventDefault() : onClick}
+            >
+                {children}
+            </Link>
+        );
+    }
+
+    // Normal button
     return (
         <button
             type={type}
             onClick={onClick}
             disabled={disabled}
-            className={`${styles.button} ${styles[variant]} ${className}`}>
+            className={commonClasses}>
             {children}
         </button>
     );

@@ -1,0 +1,21 @@
+.workoutExerciseButton {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-weight: 500;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
+}
+
+.workoutExerciseButton:hover {
+    color: #3DDC97;
+}
+
+.setList {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+    list-style: disc;
+    color: #9AA0A6;
+}

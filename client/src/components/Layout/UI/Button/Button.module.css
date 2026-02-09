@@ -6,10 +6,8 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    width: fit-content;
     border-radius: 0.75rem;
     padding: .75rem;
-    margin-bottom: 1rem;
     font-weight: 600;
 }
 

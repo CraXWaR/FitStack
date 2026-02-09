@@ -26,8 +26,8 @@ const Form = ({title, onSubmit, submitText, error, success, footer, children, su
 
                 <div className={"border-t border-gray-700 pt-4 justify-center flex"}>
                     <Button
-                        className={"w-full"}
                         type="submit"
+                        className={"w-full"}
                         variant="primary"
                         disabled={submitting}>
                         {submitting ? "Submitting..." : submitText}

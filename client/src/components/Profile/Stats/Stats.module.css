@@ -1,0 +1,14 @@
+.statCard {
+    background: linear-gradient(145deg, #1E2228, #23272e);
+    border-radius: 1.5rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border: 1px solid #1A1D23;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+}
+
+.statCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+    background-color: #181B20;
+}

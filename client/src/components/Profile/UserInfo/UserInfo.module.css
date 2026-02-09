@@ -1,0 +1,28 @@
+.profileCard {
+    background: linear-gradient(145deg, #181B20, #20242b);
+    border-radius: 2rem;
+    padding: 2.5rem;
+    border: 1px solid #242830;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profileCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+.goalBadge {
+    display: inline-block;
+    background-color: #3DDC97;
+    color: #0E0F12;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    transition: background-color 0.3s ease;
+}
+
+.goalBadge:hover {
+    background-color: #2FC18A;
+}

@@ -52,6 +52,11 @@ const Header: React.FC = () => {
                         </>
                     ) : (
                         <div className={styles.authContainer}>
+                            <NavLink to="/profile"
+                                     className={({isActive}) => `${styles.navLink} ${isActive ? styles.activeLink : ""}`}>
+                                Profile
+                            </NavLink>
+
                             <NavLink to="/log-workout"
                                      className={({isActive}) => `${styles.navLink} ${isActive ? styles.activeLink : ""}`}>
                                 Log Workout
@@ -101,6 +106,12 @@ const Header: React.FC = () => {
 
                             {isLoggedIn && (
                                 <>
+                                    <NavLink to="/profile"
+                                             className={({isActive}) => `${styles.navLink} ${isActive ? styles.activeLink : ""}`}
+                                             onClick={closeMenu}>
+                                        Profile
+                                    </NavLink>
+
                                     <NavLink to="/log-workout"
                                              className={({isActive}) => `${styles.navLink} ${isActive ? styles.activeLink : ""}`}
                                              onClick={closeMenu}>
