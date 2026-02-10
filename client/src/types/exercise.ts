@@ -8,7 +8,6 @@ export interface IExercise {
     id: string;
     name: string;
     category: string;
-    sets: ISets[];
 }
 
 export interface IWorkoutExercise {

@@ -9,9 +9,9 @@ interface StatsProps {
 
 const Stats: React.FC<StatsProps> = ({workouts}) => {
     const totalWorkouts = workouts.length;
-    const totalSets = workouts.flatMap(w => w.workoutExercises.flatMap(e => e.sets)).length;
+    const totalSets = workouts.flatMap(workout => workout.workoutExercises.flatMap(workoutExercise => workoutExercise.sets)).length;
     const totalWeight = workouts
-        .flatMap(w => w.workoutExercises.flatMap(e => e.sets.map(s => (s.reps || 0) * (s.weight || 0))))
+        .flatMap(workout => workout.workoutExercises.flatMap(workoutExercise => workoutExercise.sets.map(set => (set.reps || 0) * (set.weight || 0))))
         .reduce((a, b) => a + b, 0);
 
     return (

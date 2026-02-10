@@ -1,4 +1,4 @@
-import type {IExercise} from "../types/Exercise.js";
+import type {IExercise} from "../types/Exercise.type.js";
 import prisma from "../lib/prisma.js";
 
 export class ExerciseService {

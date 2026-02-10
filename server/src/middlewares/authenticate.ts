@@ -1,5 +1,5 @@
 import type {NextFunction, Request, Response} from "express";
-import type {IJwtPayload} from "../types/JwtPayload.js";
+import type {IJwtPayload} from "../types/JwtPayload.type.js";
 import jwt from "jsonwebtoken";
 
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {

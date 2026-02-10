@@ -40,4 +40,24 @@ export class UserService {
 
         return user;
     }
+
+    async getUserWithWorkouts(userId: string): Promise<User | null> {
+        return prisma.user.findUnique({
+            where: {id: userId},
+            include: {
+                profile: true,
+                workouts: {
+                    orderBy: {date: "asc"},
+                    include: {
+                        workoutExercises: {
+                            include: {
+                                exercise: true,
+                                sets: true,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+    }
 }

@@ -1,0 +1,12 @@
+model UserProfile {
+  id     String  @id @default(uuid())
+  weight Float?
+  height Float?
+  age    Int?
+  goal   String?
+
+  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}

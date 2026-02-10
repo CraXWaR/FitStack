@@ -74,4 +74,26 @@ export class UserController {
             });
         }
     }
+
+    public getUserInfo = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+        try {
+            if (!req.user) {
+                return res.status(401).json({errors: [{field: "general", message: "Unauthorized"}]});
+            }
+
+            const userId = req.user.id;
+            const user = await this.userService.getUserWithWorkouts(userId);
+
+            if (!user) {
+                return res.status(404).json({errors: [{field: "general", message: "User not found"}]});
+            }
+
+            const {password, ...safeUser} = user;
+            return res.status(200).json(safeUser);
+        } catch (error: any) {
+            return res.status(500).json({
+                errors: [{field: "general", message: error.message}]
+            });
+        }
+    }
 }

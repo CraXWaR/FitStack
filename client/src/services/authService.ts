@@ -1,4 +1,5 @@
 import type {IAuthResponse, ILoginUser, IRegisterUser} from "../types/auth.ts";
+import type {IUserResponse} from "../types/user.ts";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -35,5 +36,22 @@ export const authService = {
         }
 
         return res.json();
+    },
+
+    async getUser(token: string): Promise<IUserResponse> {
+        const res = await fetch(`${BASE_URL}/auth/me`, {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            throw err.errors?.map((e: any) => e.message) || ["Failed to fetch user"];
+        }
+
+        return await res.json() as Promise<IUserResponse>;
     }
 }

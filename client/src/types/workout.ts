@@ -1,4 +1,4 @@
-import type { IExercise } from "./exercise.ts";
+import type {IExercise} from "./exercise.ts";
 
 export interface IWorkoutSet {
     reps: number;
