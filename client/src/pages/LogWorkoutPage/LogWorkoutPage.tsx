@@ -58,7 +58,7 @@ const LogWorkoutPage: React.FC = () => {
         <div className={styles.pageWrapper}>
             <Form title="Log Your Workout" submitText={submitting ? "Saving..." : "Save Workout"}
                   onSubmit={onFormSubmit} error={submitError} success={success}>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col">
                     <InputField label="Workout Name" value={form.name} onChange={form.setName} required/>
 
                     <DateInputField form={form}/>
@@ -78,7 +78,7 @@ const LogWorkoutPage: React.FC = () => {
                             )}
                         </div>
 
-                        <div className="flex gap-2 my-4">
+                        <div className="flex gap-2">
                             <SelectField
                                 label="Category"
                                 value={exercise.category}
@@ -98,7 +98,7 @@ const LogWorkoutPage: React.FC = () => {
                                 disabled={!exercise.category}/>
                         </div>
 
-                        <div className="flex flex-col gap-2 my-4">
+                        <div className="flex flex-col gap-2">
                             {exercise.sets.map((set) => (
                                 <div key={set.id} className="flex gap-2">
                                     <InputField label="Reps" type="number" value={set.reps ?? ""}
@@ -109,14 +109,16 @@ const LogWorkoutPage: React.FC = () => {
                                                 onChange={(value) => form.updateSet(exerciseIndex, set.id, "weight", value === "" ? null : Number(value))}
                                                 min={0} required disabled={!exercise.exerciseId}/>
 
-                                    <Button variant={"outline"} onClick={() => form.addSet(exerciseIndex)}>
-                                        <FaPlus size={18}/>
-                                    </Button>
+                                    <div className="flex gap-2 my-4">
+                                        <Button variant={"outline"} onClick={() => form.addSet(exerciseIndex)}>
+                                            <FaPlus size={18}/>
+                                        </Button>
 
-                                    <Button variant={"remove"} disabled={exercise.sets.length === 1}
-                                            onClick={() => form.removeSet(exerciseIndex, set.id)}>
-                                        <FaTrash size={18}/>
-                                    </Button>
+                                        <Button variant={"remove"} disabled={exercise.sets.length === 1}
+                                                onClick={() => form.removeSet(exerciseIndex, set.id)}>
+                                            <FaTrash size={18}/>
+                                        </Button>
+                                    </div>
                                 </div>
                             ))}
                         </div>
