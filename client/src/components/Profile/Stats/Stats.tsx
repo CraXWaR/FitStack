@@ -1,13 +1,9 @@
 import React from "react";
 import styles from "./Stats.module.css";
-import type {IWorkout} from "../../../types/exercise";
 import Button from "../../Layout/UI/Button/Button.tsx";
+import type {IStatsProps} from "../../../types/props.ts";
 
-interface StatsProps {
-    workouts: IWorkout[];
-}
-
-const Stats: React.FC<StatsProps> = ({workouts}) => {
+const Stats: React.FC<IStatsProps> = ({workouts}) => {
     const totalWorkouts = workouts.length;
     const totalSets = workouts.flatMap(workout => workout.workoutExercises.flatMap(workoutExercise => workoutExercise.sets)).length;
     const totalWeight = workouts

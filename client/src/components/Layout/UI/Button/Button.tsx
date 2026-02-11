@@ -1,18 +1,9 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import styles from "./Button.module.css";
+import type {IButtonProps} from "../../../../types/button.ts";
 
-interface ButtonProps {
-    children: React.ReactNode;
-    onClick?: () => void;
-    type?: "button" | "submit";
-    disabled?: boolean;
-    className?: string;
-    variant?: "primary" | "outline" | "remove";
-    to?: string;
-}
-
-const Button: React.FC<ButtonProps> = ({
+const Button: React.FC<IButtonProps> = ({
                                            children,
                                            onClick,
                                            type = "button",

@@ -1,15 +1,20 @@
-import { useState } from "react";
-import { useWorkoutApi } from "./useWorkoutApi";
-import type { IWorkoutFormSubmitArgs } from "../../types/workout.ts";
+import {useState} from "react";
+import {useWorkoutApi} from "./useWorkoutApi";
+import type {IExerciseFormItem} from "../../types/exercise.ts";
 
 export const useWorkoutSubmit = () => {
-    const { createWorkout } = useWorkoutApi();
+    const {createWorkout} = useWorkoutApi();
 
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
-    const submit = async ({ name, date, exercises, resetForm }: IWorkoutFormSubmitArgs) => {
+    const submit = async ({name, date, exercises, resetForm}: {
+        name: string;
+        date: string;
+        exercises: IExerciseFormItem[];
+        resetForm: () => void;
+    }) => {
         setSubmitting(true);
         setError("");
         setSuccess("");
@@ -30,6 +35,6 @@ export const useWorkoutSubmit = () => {
         submitting,
         error,
         success,
-        clearSuccess: () => setSuccess(""),
+        clearSuccess: () => setSuccess("")
     };
 };

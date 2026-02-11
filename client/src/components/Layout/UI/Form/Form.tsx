@@ -1,19 +1,8 @@
-import React from "react";
 import styles from "./Form.module.css"
 import Button from "../Button/Button.tsx";
+import type {IFormProps} from "../../../../types/form.ts";
 
-interface FormProps {
-    title: string;
-    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-    submitText: string;
-    error?: React.ReactNode;
-    success?: React.ReactNode;
-    footer?: React.ReactNode;
-    children: React.ReactNode;
-    submitting?: boolean;
-}
-
-const Form = ({title, onSubmit, submitText, error, success, footer, children, submitting,}: FormProps) => {
+const Form = ({title, onSubmit, submitText, error, success, footer, children, submitting,}: IFormProps) => {
     return (
         <div className={styles.formCard}>
             <h1 className={styles.title}>{title}</h1>

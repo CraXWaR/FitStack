@@ -12,6 +12,7 @@ import Register from "./pages/Auth/Register.tsx";
 import DumbPlaceholderComponent from "./components/DumbPlaceholderComponent.tsx";
 import LogWorkoutPage from "./pages/LogWorkoutPage/LogWorkoutPage.tsx";
 import ProfilePage from "./pages/Profile/ProfilePage.tsx";
+import ProfileEditPage from "./pages/Profile/ProfileEditPage.tsx";
 
 const RootLayout: React.FC = () => {
     return (
@@ -27,6 +28,7 @@ const RootLayout: React.FC = () => {
                     <Route path="/log-workout" element={<LogWorkoutPage/>}/>
 
                     <Route path="/profile" element={<ProfilePage/>}/>
+                    <Route path="/profile/edit" element={<ProfileEditPage/>}/>
 
                     {/*test route*/}
                     <Route path="/testDumb" element={<DumbPlaceholderComponent/>}/>

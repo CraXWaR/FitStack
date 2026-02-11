@@ -1,14 +1,8 @@
 import React, {useRef, useEffect, useState} from "react";
 import styles from "./WorkoutExercise.module.css";
-import type {IWorkoutExercise} from "../../../types/exercise";
+import type {IWorkoutExerciseProps} from "../../../types/props.ts";
 
-interface WorkoutExerciseProps {
-    exerciseData: IWorkoutExercise;
-    isOpen: boolean;
-    onToggle: () => void;
-}
-
-const WorkoutExercise: React.FC<WorkoutExerciseProps> = ({exerciseData, isOpen, onToggle}) => {
+const WorkoutExercise: React.FC<IWorkoutExerciseProps> = ({exerciseData, isOpen, onToggle}) => {
     const contentRef = useRef<HTMLDivElement | null>(null);
     const [height, setHeight] = useState(0);
 

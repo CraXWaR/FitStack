@@ -1,11 +1,11 @@
 import {useState} from "react";
-import type {IExercise, IWorkoutExerciseForm, ISets} from "../../types/exercise.ts";
+import type {IExercise, IExerciseFormItem, ISet} from "../../types/exercise.ts";
 
 export const useWorkoutForm = (availableExercises: IExercise[]) => {
     const [name, setName] = useState("");
     const [date, setDate] = useState("");
 
-    const [exercises, setExercises] = useState<IWorkoutExerciseForm[]>([
+    const [exercises, setExercises] = useState<IExerciseFormItem[]>([
         {id: generateId(), exerciseId: "", category: "", sets: [createEmptySet()]},
     ]);
 
@@ -13,11 +13,11 @@ export const useWorkoutForm = (availableExercises: IExercise[]) => {
         return `${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
     }
 
-    function createEmptySet(): ISets {
+    function createEmptySet(): ISet {
         return {id: generateId(), reps: null, weight: null};
     }
 
-    function createEmptyExercise(): IWorkoutExerciseForm {
+    function createEmptyExercise(): IExerciseFormItem {
         return {id: generateId(), exerciseId: "", category: "", sets: [createEmptySet()]};
     }
 

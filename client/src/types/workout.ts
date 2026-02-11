@@ -1,11 +1,11 @@
-import type {IExercise} from "./exercise.ts";
+import type { IExercise, IWorkoutExerciseDisplay } from "./exercise";
 
 export interface IWorkoutSet {
     reps: number;
     weight: number;
 }
 
-export interface IWorkoutExercise {
+export interface IWorkoutExerciseForm {
     exerciseId: string;
     sets: IWorkoutSet[];
 }
@@ -13,7 +13,7 @@ export interface IWorkoutExercise {
 export interface ICreateWorkout {
     name: string;
     date: string;
-    exercises: IWorkoutExercise[];
+    exercises: IWorkoutExerciseForm[];
 }
 
 export interface IWorkoutFormSubmitArgs {
@@ -21,4 +21,11 @@ export interface IWorkoutFormSubmitArgs {
     date: string;
     exercises: IExercise[];
     resetForm: () => void;
+}
+
+export interface IWorkout {
+    id: string;
+    name: string;
+    date: string;
+    workoutExercises: IWorkoutExerciseDisplay[];
 }

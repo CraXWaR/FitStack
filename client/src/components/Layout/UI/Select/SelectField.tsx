@@ -1,23 +1,9 @@
 import React, {useState, useRef, useEffect} from "react";
 import styles from "./SelectField.module.css";
 import {FaChevronDown} from "react-icons/fa";
+import type {ISelectFieldProps} from "../../../../types/selectField.ts";
 
-interface Option {
-    value: string;
-    label: string;
-}
-
-interface SelectFieldProps {
-    label: string;
-    value: string;
-    onChange: (value: string) => void;
-    options: Option[];
-    placeholder?: string;
-    required?: boolean;
-    disabled?: boolean;
-}
-
-const SelectField: React.FC<SelectFieldProps> = ({label, value, onChange, options, placeholder, disabled = false,}) => {
+const SelectField: React.FC<ISelectFieldProps> = ({label, value, onChange, options, placeholder, disabled = false,}) => {
     const [isOpen, setIsOpen] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
 

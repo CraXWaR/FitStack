@@ -1,4 +1,4 @@
-export interface ISets {
+export interface ISet {
     id: string;
     reps: number | null;
     weight: number | null;
@@ -10,22 +10,15 @@ export interface IExercise {
     category: string;
 }
 
-export interface IWorkoutExercise {
+export interface IWorkoutExerciseDisplay {
     id: string;
     exercise: IExercise;
-    sets: ISets[];
+    sets: ISet[];
 }
 
-export interface IWorkoutExerciseForm {
+export interface IExerciseFormItem {
     id: string;
     exerciseId: string;
     category: string;
-    sets: ISets[];
-}
-
-export interface IWorkout {
-    id: string;
-    name: string;
-    date: string;
-    workoutExercises: IWorkoutExercise[];
+    sets: ISet[];
 }
