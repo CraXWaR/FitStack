@@ -53,7 +53,7 @@ const LogWorkoutPage: React.FC = () => {
             date: form.date,
             exercises: mappedExercises,
             resetForm: form.resetForm,
-        });
+        }).then(r => console.log(r));
     };
 
     if (loading) return <Loading text="Loading exercises..."/>;
