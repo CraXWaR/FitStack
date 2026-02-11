@@ -103,7 +103,7 @@ const LogWorkoutPage: React.FC = () => {
 
                         <div className="flex flex-col gap-2 mt-2">
                             {exercise.sets.map((set) => (
-                                <div key={set.id} className="flex gap-2 items-end">
+                                <div key={set.id} className="flex gap-2 items-center">
                                     <InputField
                                         label="Reps"
                                         type="number"
