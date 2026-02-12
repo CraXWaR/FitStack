@@ -1,6 +1,9 @@
 import React from "react";
-import type {IError} from "../../../../types/common.ts";
 import styles from "./Error.module.css";
+
+interface IError {
+    messages?: string[];
+}
 
 const Error: React.FC<IError> = ({messages = []}) => {
     if (!messages.length) return null;

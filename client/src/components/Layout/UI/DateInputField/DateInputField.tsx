@@ -4,7 +4,13 @@ import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/lara-dark-indigo/theme.css';
 import 'primeicons/primeicons.css';
 import styles from './DateInputField.module.css'
-import type {IDateInputFieldProps} from "../../../../types/input.ts";
+
+interface IDateInputFieldProps {
+    form: {
+        date: string;
+        setDate: (value: string) => void;
+    };
+}
 
 const DateInputField: React.FC<IDateInputFieldProps> = ({form}) => {
     const [floating, setFloating] = useState(false);

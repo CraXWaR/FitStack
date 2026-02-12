@@ -1,17 +1,26 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import styles from "./Button.module.css";
-import type {IButtonProps} from "../../../../types/button.ts";
+
+interface IButtonProps {
+    children: React.ReactNode;
+    onClick?: () => void;
+    type?: "button" | "submit";
+    disabled?: boolean;
+    className?: string;
+    variant?: "primary" | "outline" | "remove";
+    to?: string;
+}
 
 const Button: React.FC<IButtonProps> = ({
-                                           children,
-                                           onClick,
-                                           type = "button",
-                                           disabled = false,
-                                           className,
-                                           variant = "primary",
-                                           to,
-                                       }) => {
+                                            children,
+                                            onClick,
+                                            type = "button",
+                                            disabled = false,
+                                            className,
+                                            variant = "primary",
+                                            to,
+                                        }) => {
     const commonClasses = `${styles.button} ${styles[variant]} ${className} ${disabled ? styles.disabled : ""}`;
 
     // Link

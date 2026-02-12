@@ -1,7 +1,20 @@
 import {useState, type FocusEvent} from "react";
 import styles from "./InputField.module.css";
 import {FaEye, FaEyeSlash} from "react-icons/fa";
-import type {InputFieldProps} from "../../../../types/input.ts";
+
+interface InputFieldProps<Type extends string | number = string> {
+    label: string;
+    value: Type;
+    onChange: (value: Type) => void;
+    type?: "text" | "email" | "password" | "number" | "datetime-local";
+    placeholder?: string;
+    name?: string;
+    id?: string;
+    required?: boolean;
+    disabled?: boolean;
+    min?: number;
+    max?: number;
+}
 
 const InputField = <Type extends string | number>({
                                                       label,
