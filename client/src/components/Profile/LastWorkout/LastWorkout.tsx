@@ -12,14 +12,15 @@ const LastWorkout: React.FC<ILastWorkoutProps> = ({workout}) => {
             <h2 className="text-2xl md:text-3xl font-semibold mb-2 text-accent-main">{workout.name}</h2>
             <p className="text-text-secondary mb-5">{new Date(workout.date).toLocaleString()}</p>
 
-            {workout.workoutExercises.map((exercise: IWorkoutExerciseDisplay) => (
+            {workout.workoutExercises?.map((exercise: IWorkoutExerciseDisplay) => (
                 <WorkoutExercise
                     key={exercise.id}
                     exerciseData={exercise}
                     isOpen={expandedId === exercise.id}
                     onToggle={() => setExpandedId(expandedId === exercise.id ? null : exercise.id)}
                 />
-            ))}
+            )) ?? null}
+
         </section>
     );
 };

@@ -1,3 +1,6 @@
+import type {IUserResponse} from "./user.ts";
+import React from "react";
+
 export interface IRegisterUser {
     firstName: string;
     email: string;
@@ -17,8 +20,10 @@ export interface IAuthResponse {
 
 export interface IAuthContext {
     isLoggedIn: boolean;
-    firstName: string | null;
     token: string | null;
-    setAuthUser: (payload: { token: string; firstName: string }) => void;
+    user: IUserResponse | null;
+    loading: boolean;
+    setUser: React.Dispatch<React.SetStateAction<IUserResponse | null>>;
+    setAuthUser: (payload: { token: string }) => void;
     logout: () => void;
 }

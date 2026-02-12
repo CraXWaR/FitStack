@@ -1,6 +1,6 @@
 export interface IProfile {
-    weight?: number;
-    height?: number;
-    age?: number;
-    goal?: string;
+    weight?: number | null;
+    height?: number | null;
+    age?: number | null;
+    goal?: string | null;
 }

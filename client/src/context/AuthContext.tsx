@@ -1,32 +1,42 @@
 import React, {createContext, useContext, useEffect, useState} from "react";
 import type {IAuthContext} from "../types/auth.ts";
+import type {IUserResponse} from "../types/user.ts";
+import {authService} from "../services/authService.ts";
 
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const [token, setToken] = useState<string | null>(null);
-    const [firstName, setFirstName] = useState<string | null>(null);
+    const [user, setUser] = useState<IUserResponse | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const savedToken = sessionStorage.getItem("token");
-        const savedFirstName = sessionStorage.getItem("firstName");
 
-        if (savedToken && savedFirstName) {
+        if (savedToken) {
             setToken(savedToken);
-            setFirstName(savedFirstName);
         }
+
+        setLoading(false);
     }, []);
 
-    const setAuthUser = (payload: { token: string; firstName: string }) => {
+    useEffect(() => {
+        if (!token) {
+            setUser(null);
+            return;
+        }
+
+        authService.getUser(token).then(setUser).catch(() => logout());
+    }, [token]);
+
+
+    const setAuthUser = (payload: { token: string }) => {
         setToken(payload.token);
-        setFirstName(payload.firstName);
         sessionStorage.setItem("token", payload.token);
-        sessionStorage.setItem("firstName", payload.firstName);
     };
 
     const logout = () => {
         setToken(null);
-        setFirstName(null);
         sessionStorage.removeItem("token");
         sessionStorage.removeItem("firstName");
     }
@@ -35,8 +45,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
         <AuthContext.Provider
             value={{
                 isLoggedIn: !!token,
-                firstName,
                 token,
+                user,
+                loading,
+                setUser,
                 setAuthUser,
                 logout
             }}>

@@ -15,7 +15,7 @@ const WorkoutExercise: React.FC<IWorkoutExerciseProps> = ({exerciseData, isOpen,
     return (
         <div className="mb-5 border-b border-border-subtle pb-3">
             <button className={styles.workoutExerciseButton} onClick={onToggle}>
-                <span>{exerciseData.exercise.name} ({exerciseData.exercise.category})</span>
+                <span className="text-start">{exerciseData.exercise.name} ({exerciseData.exercise.category})</span>
                 <span className="text-accent-main text-2xl">{isOpen ? "−" : "+"}</span>
             </button>
 

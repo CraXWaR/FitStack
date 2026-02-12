@@ -1,5 +1,5 @@
-import type { IWorkout } from "./workout.ts";
-import type { IProfile } from "./profile.ts";
+import type {IWorkout} from "./workout.ts";
+import type {IProfile} from "./profile.ts";
 
 export interface IUserResponse {
     id: string;
@@ -8,4 +8,9 @@ export interface IUserResponse {
     email: string;
     profile?: IProfile;
     workouts: IWorkout[];
+}
+
+export interface IUpdateUserResponse {
+    message: string;
+    user: IUserResponse;
 }

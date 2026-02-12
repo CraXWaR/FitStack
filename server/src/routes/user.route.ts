@@ -8,5 +8,6 @@ const userController = new UserController();
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.get('/me', authenticate, userController.getUserInfo);
+router.put('/me/update', authenticate, userController.updateUser);
 
 export default router;

@@ -8,7 +8,7 @@ const Header: React.FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isClosing, setIsClosing] = useState<boolean>(false);
     const [isVisible, setIsVisible] = useState<boolean>(false);
-    const {isLoggedIn, firstName, logout} = useAuthContext();
+    const {isLoggedIn, user, logout} = useAuthContext();
 
     const openMenu = () => {
         setIsOpen(true);
@@ -65,7 +65,7 @@ const Header: React.FC = () => {
                             <div className={styles.divider}/>
 
                             <div className={styles.userSection}>
-                                <span className={styles.greeting}>Hello, {firstName}</span>
+                                <span className={styles.greeting}>Hello, {user?.firstName}</span>
                                 <button onClick={logout} className={styles.primary}>
                                     Logout
                                 </button>
