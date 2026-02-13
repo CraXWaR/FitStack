@@ -10,7 +10,8 @@ export const authService = {
             headers: {
                 "content-type": "application/json",
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            credentials: "include"
         });
 
         if (!res.ok) {
@@ -27,7 +28,8 @@ export const authService = {
             headers: {
                 "content-type": "application/json",
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            credentials: "include"
         });
 
         if (!res.ok) {
@@ -38,21 +40,55 @@ export const authService = {
         return res.json();
     },
 
-    async getUser(token: string): Promise<IUserResponse> {
+    async getUser(): Promise<IUserResponse> {
+        let token = sessionStorage.getItem("token");
+
         const res = await fetch(`${BASE_URL}/auth/me`, {
-            method: 'GET',
+            method: "GET",
             headers: {
                 "content-type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
+            credentials: "include"
         });
 
-        if (!res.ok) {
+        if (res.ok) {
+            return res.json();
+        }
+
+        if (res.status !== 401) {
             const err = await res.json();
             throw err.errors?.map((e: any) => e.message) || ["Failed to fetch user"];
         }
 
-        return await res.json() as Promise<IUserResponse>;
+        const refreshRes = await fetch(`${BASE_URL}/auth/refresh`, {
+            method: "POST",
+            credentials: "include"
+        });
+
+        if (!refreshRes.ok) {
+            throw new Error("Session expired");
+        }
+
+        const refreshData = await refreshRes.json();
+        const newToken = refreshData.token;
+
+        sessionStorage.setItem("token", newToken);
+
+        const retryRes = await fetch(`${BASE_URL}/auth/me`, {
+            method: "GET",
+            headers: {
+                "content-type": "application/json",
+                "Authorization": `Bearer ${newToken}`
+            },
+            credentials: "include"
+        });
+
+        if (!retryRes.ok) {
+            throw new Error("Failed after refresh");
+        }
+
+        return retryRes.json();
     },
 
     async updateUser(token: string, data: any): Promise<IUpdateUserResponse> {

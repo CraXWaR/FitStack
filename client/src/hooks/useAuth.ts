@@ -15,7 +15,7 @@ export const useAuth = () => {
             await new Promise(timeout => setTimeout(timeout, 1500));
             const result = await authCall(data);
 
-            setAuthUser({token: result.token, firstName: result.firstName});
+            setAuthUser({token: result.token});
 
             return result;
         } catch (err: any) {

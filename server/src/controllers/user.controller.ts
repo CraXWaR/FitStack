@@ -61,13 +61,15 @@ export class UserController {
                 throw new Error("JWT secret key not set in environment");
             }
 
-            const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: '1h'});
+            const accessToken = jwt.sign(payload, process.env.SECRET_KEY!, {
+                expiresIn: '1h'
+            });
+
             const {password, ...safeUser} = user;
 
             return res.status(201).json({
-                message: "User logged in successfully",
                 firstName: safeUser.firstName,
-                token
+                token: accessToken
             });
 
         } catch (error: any) {

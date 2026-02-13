@@ -12,23 +12,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
 
     useEffect(() => {
         const savedToken = sessionStorage.getItem("token");
-
         if (savedToken) {
             setToken(savedToken);
+            authService.getUser().then(setUser).catch(() => logout());
         }
-
         setLoading(false);
     }, []);
-
-    useEffect(() => {
-        if (!token) {
-            setUser(null);
-            return;
-        }
-
-        authService.getUser(token).then(setUser).catch(() => logout());
-    }, [token]);
-
 
     const setAuthUser = (payload: { token: string }) => {
         setToken(payload.token);

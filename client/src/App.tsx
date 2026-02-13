@@ -13,6 +13,7 @@ import DumbPlaceholderComponent from "./components/DumbPlaceholderComponent.tsx"
 import LogWorkoutPage from "./pages/LogWorkoutPage/LogWorkoutPage.tsx";
 import ProfilePage from "./pages/Profile/ProfilePage.tsx";
 import ProfileEditPage from "./pages/Profile/ProfileEditPage.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 const RootLayout: React.FC = () => {
     return (
@@ -25,10 +26,10 @@ const RootLayout: React.FC = () => {
 
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
-                    <Route path="/log-workout" element={<LogWorkoutPage/>}/>
 
-                    <Route path="/profile" element={<ProfilePage/>}/>
-                    <Route path="/profile/edit" element={<ProfileEditPage/>}/>
+                    <Route path="/log-workout" element={<ProtectedRoute><LogWorkoutPage/></ProtectedRoute>}/>
+                    <Route path="/profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
+                    <Route path="/profile/edit" element={<ProtectedRoute><ProfileEditPage/></ProtectedRoute>}/>
 
                     {/*test route*/}
                     <Route path="/testDumb" element={<DumbPlaceholderComponent/>}/>
