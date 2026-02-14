@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import type {ILoginUser} from "../../types/auth";
-import {useAuth} from "../../hooks/useAuth";
+import {useAuth} from "../../hooks/auth/useAuth.ts";
 import {useNavigate} from "react-router";
 import Loading from "../../components/Layout/General/Loading/Loading";
 import styles from "./AuthPages.module.css";
@@ -43,14 +43,12 @@ const LoginPage: React.FC = () => {
                 <InputField label="Email"
                             type="email"
                             value={email}
-                            onChange={setEmail}
-                            required/>
+                            onChange={setEmail}/>
 
                 <InputField label="Password"
                             type="password"
                             value={password}
-                            onChange={setPassword}
-                            required/>
+                            onChange={setPassword}/>
             </Form>
 
             <p className={styles.switchPage}>

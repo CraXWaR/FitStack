@@ -1,7 +1,7 @@
 import React, {type FormEvent} from "react";
 import styles from "./LogWorkoutPage.module.css";
 import InputField from "../../components/Layout/UI/InputField/InputField.tsx";
-import {useExercises} from "../../hooks/useExercises";
+import {useExercises} from "../../hooks/exercises/useExercises.ts";
 import Loading from "../../components/Layout/General/Loading/Loading";
 import {useWorkoutSubmit} from "../../hooks/workout/useWorkoutSubmit";
 import {useWorkoutForm} from "../../hooks/workout/useWorkoutForm";
@@ -11,49 +11,39 @@ import SelectField from "../../components/Layout/UI/Select/SelectField.tsx";
 import Button from "../../components/Layout/UI/Button/Button.tsx";
 import {FaPlus, FaTrash} from "react-icons/fa6";
 import DateInputField from "../../components/Layout/UI/DateInputField/DateInputField.tsx";
-import type {IExerciseFormItem, ISet} from "../../types/exercise.ts";
+import type {IExerciseFormItem} from "../../types/exercise.ts";
 
 const LogWorkoutPage: React.FC = () => {
     const {exercises: availableExercises, loading, error: fetchError} = useExercises();
     const {submit, submitting, error: submitError, success} = useWorkoutSubmit();
     const form = useWorkoutForm(availableExercises);
 
-    const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const mapExercises = (exercisesForm: typeof form.exercises, available: typeof availableExercises) => exercisesForm
+        .map((exercise) => {
+            if (!exercise.exerciseId) return null;
+
+            const fullExercise = available.find((ex) => ex.id === exercise.exerciseId);
+            if (!fullExercise) return null;
+
+            return {
+                id: exercise.id,
+                exerciseId: fullExercise.id,
+                name: fullExercise.name,
+                category: fullExercise.category,
+                sets: exercise.sets,
+            };
+        }).filter((ex): ex is IExerciseFormItem => ex !== null);
+
+    const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const mappedExercises: IExerciseFormItem[] = form.exercises
-            .map((exercise) => {
-                if (!exercise.exerciseId) return null;
+        const mappedExercises = mapExercises(form.exercises, availableExercises);
 
-                const fullExercise = availableExercises.find((ex) => ex.id === exercise.exerciseId);
-                if (!fullExercise) return null;
-
-                const validSets: ISet[] = exercise.sets.filter(
-                    (set) => set.reps !== null && set.weight !== null && set.reps > 0 && set.weight > 0
-                );
-
-                if (validSets.length === 0) return null;
-
-                return {
-                    id: exercise.id,
-                    exerciseId: fullExercise.id,
-                    category: fullExercise.category,
-                    sets: validSets,
-                };
-            })
-            .filter((ex): ex is IExerciseFormItem => ex !== null);
-
-        if (mappedExercises.length === 0) {
-            alert("Add at least one exercise with valid sets");
-            return;
+        try {
+            await submit({name: form.name, date: form.date, exercises: mappedExercises, resetForm: form.resetForm,});
+        } catch (err) {
+            console.error("Failed to submit workout:", err);
         }
-
-        submit({
-            name: form.name,
-            date: form.date,
-            exercises: mappedExercises,
-            resetForm: form.resetForm,
-        }).then(r => console.log(r));
     };
 
     if (loading) return <Loading text="Loading exercises..."/>;
@@ -65,7 +55,7 @@ const LogWorkoutPage: React.FC = () => {
             <Form title="Log Your Workout" submitText={submitting ? "Saving..." : "Save Workout"}
                   onSubmit={onFormSubmit} error={submitError} success={success}>
                 <div className="flex flex-col gap-2">
-                    <InputField label="Workout Name" value={form.name} onChange={form.setName} required/>
+                    <InputField label="Workout Name" value={form.name} onChange={form.setName}/>
                     <DateInputField form={form}/>
                 </div>
 
@@ -88,8 +78,7 @@ const LogWorkoutPage: React.FC = () => {
                                 label="Category"
                                 value={exercise.category}
                                 onChange={(value) => form.updateCategory(exerciseIndex, value)}
-                                options={form.categories.map((cat) => ({value: cat, label: cat}))}
-                                required/>
+                                options={form.categories.map((cat) => ({value: cat, label: cat}))}/>
 
                             <SelectField
                                 label="Exercise"
@@ -98,7 +87,7 @@ const LogWorkoutPage: React.FC = () => {
                                 options={form.filterExercisesByCategory(exercise.category).map((ex) => ({
                                     value: ex.id,
                                     label: ex.name,
-                                }))} required disabled={!exercise.category}/>
+                                }))} disabled={!exercise.category}/>
                         </div>
 
                         <div className="flex flex-col gap-2 mt-2">
@@ -115,7 +104,6 @@ const LogWorkoutPage: React.FC = () => {
                                                 "reps",
                                                 value === "" ? null : Number(value))}
                                         min={0}
-                                        required
                                         disabled={!exercise.exerciseId}/>
 
                                     <InputField
@@ -129,7 +117,6 @@ const LogWorkoutPage: React.FC = () => {
                                                 "weight",
                                                 value === "" ? null : Number(value))}
                                         min={0}
-                                        required
                                         disabled={!exercise.exerciseId}/>
 
                                     <div className="flex gap-2 my-2">

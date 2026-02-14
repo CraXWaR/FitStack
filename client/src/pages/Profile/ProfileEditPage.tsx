@@ -1,7 +1,7 @@
 import React from "react";
 import Form from "../../components/Layout/UI/Form/Form.tsx";
 import InputField from "../../components/Layout/UI/InputField/InputField.tsx";
-import {useProfileEdit} from "../../hooks/useProfileEdit";
+import {useProfileEdit} from "../../hooks/auth/useProfileEdit.ts";
 
 const ProfileEditPage: React.FC = () => {
     const {

@@ -1,6 +1,6 @@
 import {UserService} from "../services/user.service.js";
 import type {Request, Response, NextFunction} from 'express';
-import {LoginValidateSchema, RegisterValidateSchema} from "../validators/user.validator.js";
+import {RegisterValidateSchema} from "../validators/user.validator.js";
 import jwt from 'jsonwebtoken';
 import "dotenv/config";
 import {UpdateUserValidateSchema} from "../validators/updateUser.validator.js";
@@ -44,14 +44,12 @@ export class UserController {
 
     public login = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
         try {
-            const validateUserInput = LoginValidateSchema.safeParse(req.body);
-            if (!validateUserInput.success) {
-                const formattedErrors = validateUserInput.error.issues.map(issue => ({
-                    field: issue.path[0],
-                    message: issue.message
-                }));
+            const {email, password} = req.body;
 
-                return res.status(400).json({errors: formattedErrors});
+            if (!email || !password) {
+                return res.status(400).json({
+                    errors: [{field: "general", message: "Invalid credentials"}]
+                });
             }
 
             const user = await this.userService.login(req.body);
@@ -65,12 +63,7 @@ export class UserController {
                 expiresIn: '1h'
             });
 
-            const {password, ...safeUser} = user;
-
-            return res.status(201).json({
-                firstName: safeUser.firstName,
-                token: accessToken
-            });
+            return res.status(200).json({token: accessToken, firstName: user.firstName});
 
         } catch (error: any) {
             return res.status(400).json({

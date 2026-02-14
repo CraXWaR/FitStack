@@ -19,6 +19,7 @@ export interface IWorkoutExerciseDisplay {
 export interface IExerciseFormItem {
     id: string;
     exerciseId: string;
+    name: string;
     category: string;
     sets: ISet[];
 }

@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router";
-import type {IProfile} from "../types/profile.ts";
-import {authService} from "../services/authService.ts";
-import {useAuthContext} from "../context/AuthContext.tsx";
+import type {IProfile} from "../../types/profile.ts";
+import {authService} from "../../services/authService.ts";
+import {useAuthContext} from "../../context/AuthContext.tsx";
 
 export const useProfileEdit = () => {
     const {user, setUser, token} = useAuthContext();

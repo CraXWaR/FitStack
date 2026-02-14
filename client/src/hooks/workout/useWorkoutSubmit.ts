@@ -2,6 +2,14 @@ import {useState} from "react";
 import {useWorkoutApi} from "./useWorkoutApi";
 import type {IExerciseFormItem} from "../../types/exercise.ts";
 
+const formatError = (err: any) => {
+    if (Array.isArray(err)) return err.map((e) => (typeof e === "string" ? e : e.message)).join("\n");
+    if (err?.errors) return err.errors.map((e: any) => e.message).join("\n");
+    if (typeof err === "string") return err;
+    if (err?.message) return err.message;
+    return "Failed to submit workout";
+};
+
 export const useWorkoutSubmit = () => {
     const {createWorkout} = useWorkoutApi();
 
@@ -9,7 +17,7 @@ export const useWorkoutSubmit = () => {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
-    const submit = async ({name, date, exercises, resetForm}: {
+    const submit = async ({name, date, exercises, resetForm,}: {
         name: string;
         date: string;
         exercises: IExerciseFormItem[];
@@ -23,8 +31,8 @@ export const useWorkoutSubmit = () => {
             await createWorkout(name, date, exercises);
             setSuccess("Workout logged successfully");
             resetForm();
-        } catch (err: any) {
-            setError(err.message || "Failed to save workout");
+        } catch (err) {
+            setError(formatError(err));
         } finally {
             setSubmitting(false);
         }
@@ -35,6 +43,6 @@ export const useWorkoutSubmit = () => {
         submitting,
         error,
         success,
-        clearSuccess: () => setSuccess("")
+        clearSuccess: () => setSuccess(""),
     };
 };

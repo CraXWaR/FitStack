@@ -6,7 +6,7 @@ export const useWorkoutForm = (availableExercises: IExercise[]) => {
     const [date, setDate] = useState("");
 
     const [exercises, setExercises] = useState<IExerciseFormItem[]>([
-        {id: generateId(), exerciseId: "", category: "", sets: [createEmptySet()]},
+        {id: generateId(), exerciseId: "", name: "", category: "", sets: [createEmptySet()]},
     ]);
 
     function generateId() {
@@ -18,7 +18,7 @@ export const useWorkoutForm = (availableExercises: IExercise[]) => {
     }
 
     function createEmptyExercise(): IExerciseFormItem {
-        return {id: generateId(), exerciseId: "", category: "", sets: [createEmptySet()]};
+        return {id: generateId(), exerciseId: "", name: "", category: "", sets: [createEmptySet()]};
     }
 
     const categories = Array.from(new Set(availableExercises.map((ex) => ex.category)));

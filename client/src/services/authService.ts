@@ -4,23 +4,23 @@ import type {IUserResponse, IUpdateUserResponse} from "../types/user.ts";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const authService = {
-    async login(data: ILoginUser): Promise<IAuthResponse> {
-        const res = await fetch(`${BASE_URL}/auth/login`, {
-            method: 'POST',
-            headers: {
-                "content-type": "application/json",
-            },
-            body: JSON.stringify(data),
-            credentials: "include"
-        });
+        async login(data: ILoginUser): Promise<IAuthResponse> {
+            const res = await fetch(`${BASE_URL}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(data),
+                credentials: "include"
+            });
 
-        if (!res.ok) {
-            const err = await res.json();
-            throw err.errors?.map((e: any) => e.message) || ["Login failed"];
-        }
+            if (!res.ok) {
+                const err = await res.json();
+                throw err.errors?.map((e: any) => e.message) || ["Login failed"];
+            }
 
-        return res.json();
-    },
+            return res.json();
+        },
 
     async register(data: IRegisterUser): Promise<IAuthResponse> {
         const res = await fetch(`${BASE_URL}/auth/register`, {
@@ -52,43 +52,12 @@ export const authService = {
             credentials: "include"
         });
 
-        if (res.ok) {
-            return res.json();
-        }
-
-        if (res.status !== 401) {
+        if (!res.ok) {
             const err = await res.json();
             throw err.errors?.map((e: any) => e.message) || ["Failed to fetch user"];
         }
 
-        const refreshRes = await fetch(`${BASE_URL}/auth/refresh`, {
-            method: "POST",
-            credentials: "include"
-        });
-
-        if (!refreshRes.ok) {
-            throw new Error("Session expired");
-        }
-
-        const refreshData = await refreshRes.json();
-        const newToken = refreshData.token;
-
-        sessionStorage.setItem("token", newToken);
-
-        const retryRes = await fetch(`${BASE_URL}/auth/me`, {
-            method: "GET",
-            headers: {
-                "content-type": "application/json",
-                "Authorization": `Bearer ${newToken}`
-            },
-            credentials: "include"
-        });
-
-        if (!retryRes.ok) {
-            throw new Error("Failed after refresh");
-        }
-
-        return retryRes.json();
+        return res.json();
     },
 
     async updateUser(token: string, data: any): Promise<IUpdateUserResponse> {

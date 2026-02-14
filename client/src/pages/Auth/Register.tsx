@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import type {IRegisterUser} from "../../types/auth";
-import {useAuth} from "../../hooks/useAuth";
+import {useAuth} from "../../hooks/auth/useAuth.ts";
 import {useNavigate} from "react-router";
 import Loading from "../../components/Layout/General/Loading/Loading";
 import styles from "./AuthPages.module.css";
@@ -39,7 +39,7 @@ const RegisterPage: React.FC = () => {
             password,
             confirmPassword,
         };
-        handleRegister(formData);
+        handleRegister(formData).then(r => console.log(r));
     };
 
     if (loading) return <Loading/>;
@@ -47,14 +47,14 @@ const RegisterPage: React.FC = () => {
     return (
         <div className={styles.pageWrapper}>
             <Form title="Create Account" submitText="Register" onSubmit={handleSubmit} error={formError}>
-                <InputField label="First Name" type="text" value={firstName} onChange={setFirstName} required/>
+                <InputField label="First Name" type="text" value={firstName} onChange={setFirstName}/>
 
-                <InputField label="Email" type="email" value={email} onChange={setEmail} required/>
+                <InputField label="Email" type="email" value={email} onChange={setEmail}/>
 
-                <InputField label="Password" type="password" value={password} onChange={setPassword} required/>
+                <InputField label="Password" type="password" value={password} onChange={setPassword}/>
 
                 <InputField label="Confirm Password" type="password" value={confirmPassword}
-                            onChange={setConfirmPassword} required/>
+                            onChange={setConfirmPassword}/>
             </Form>
 
             <p className={styles.switchPage}>

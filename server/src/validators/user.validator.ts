@@ -3,7 +3,7 @@ import {z} from "zod";
 //TODO USE THE REGEX WHEN FINISHING APP
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
-const BaseUserSchema = z.object({
+export const RegisterValidateSchema = z.object({
     firstName: z
         .string()
         .min(4, "First name must be at least 4 characters long"),
@@ -23,10 +23,4 @@ const BaseUserSchema = z.object({
     confirmPassword: z
         .string()
         .min(1, "Please confirm your password"),
-});
-
-export const RegisterValidateSchema = BaseUserSchema;
-export const LoginValidateSchema = BaseUserSchema.pick({
-    email:  true,
-    password:  true,
 });

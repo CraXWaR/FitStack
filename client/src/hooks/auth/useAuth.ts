@@ -1,11 +1,11 @@
 import {useState} from "react";
-import type {IAuthResponse, ILoginUser, IRegisterUser} from "../types/auth.ts";
-import {authService} from "../services/authService.ts";
-import {useAuthContext} from "../context/AuthContext.tsx";
+import type {IAuthResponse, ILoginUser, IRegisterUser} from "../../types/auth.ts";
+import {authService} from "../../services/authService.ts";
+import {useAuthContext} from "../../context/AuthContext.tsx";
 
 export const useAuth = () => {
     const [loading, setLoading] = useState(false);
-    const {setAuthUser} = useAuthContext();
+    const {setAuthUser, setUser} = useAuthContext();
 
     const authenticate = async <Payload>(authCall: (data: Payload) => Promise<IAuthResponse>, data: Payload) => {
         try {
@@ -16,6 +16,8 @@ export const useAuth = () => {
             const result = await authCall(data);
 
             setAuthUser({token: result.token});
+            const fullUser = await authService.getUser();
+            setUser(fullUser);
 
             return result;
         } catch (err: any) {
