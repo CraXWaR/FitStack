@@ -47,7 +47,6 @@ const LogWorkoutPage: React.FC = () => {
     };
 
     if (loading) return <Loading text="Loading exercises..."/>;
-
     if (fetchError) return <Error messages={fetchError}/>;
 
     return (

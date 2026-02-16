@@ -11,7 +11,7 @@ const RegisterPage: React.FC = () => {
     const {register, loading} = useAuth();
     const navigate = useNavigate();
 
-    const [formError, setFormError] = useState<string | null>(null);
+    const [formError, setFormError] = useState<string[]>([]);
     const [firstName, setFirstName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -19,14 +19,14 @@ const RegisterPage: React.FC = () => {
 
     const handleRegister = async (data: IRegisterUser) => {
         try {
-            setFormError(null);
+            setFormError([]);
             await register(data);
             navigate("/");
         } catch (err: any) {
             if (Array.isArray(err)) {
-                setFormError(err.join("\n"));
+                setFormError(err);
             } else {
-                setFormError(err || "Registration failed");
+                setFormError([err || "Registration failed"]);
             }
         }
     };

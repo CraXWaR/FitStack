@@ -9,7 +9,6 @@ import Header from "./components/Layout/General/Header/Header.tsx";
 import Footer from "./components/Layout/General/Footer/Footer.tsx";
 import Login from "./pages/Auth/Login.tsx";
 import Register from "./pages/Auth/Register.tsx";
-import DumbPlaceholderComponent from "./components/DumbPlaceholderComponent.tsx";
 import LogWorkoutPage from "./pages/LogWorkoutPage/LogWorkoutPage.tsx";
 import ProfilePage from "./pages/Profile/ProfilePage.tsx";
 import ProfileEditPage from "./pages/Profile/ProfileEditPage.tsx";
@@ -30,9 +29,6 @@ const RootLayout: React.FC = () => {
                     <Route path="/log-workout" element={<ProtectedRoute><LogWorkoutPage/></ProtectedRoute>}/>
                     <Route path="/profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
                     <Route path="/profile/edit" element={<ProtectedRoute><ProfileEditPage/></ProtectedRoute>}/>
-
-                    {/*test route*/}
-                    <Route path="/testDumb" element={<DumbPlaceholderComponent/>}/>
                 </Routes>
             </main>
 

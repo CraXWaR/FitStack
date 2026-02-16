@@ -15,7 +15,7 @@ export const workoutService = {
 
         if (!res.ok) {
             const err = await res.json();
-            throw new Error(err.errors?.map((e: any) => e.message).join(", ") || "Failed to create workout");
+            throw err.errors?.map((e: any) => e.message) || ["Failed to create workout"];
         }
 
         return res.json();

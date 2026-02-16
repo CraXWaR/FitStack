@@ -15,7 +15,7 @@ export const useProfileEdit = () => {
         age: null,
         goal: null,
     });
-    const [error, setError] = useState<React.ReactNode>(null);
+    const [error, setError] = useState<string[]>([]);
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export const useProfileEdit = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setError(null);
+        setError([]);
         setSubmitting(true);
 
         try {
@@ -69,8 +69,7 @@ export const useProfileEdit = () => {
 
             navigate("/profile");
         } catch (err: any) {
-            console.error(err);
-            setError(Array.isArray(err) ? err.join(", ") : err.message || "Something went wrong");
+            setError(Array.isArray(err) ? err : [err.message || "Something went wrong"]);
         } finally {
             setSubmitting(false);
         }

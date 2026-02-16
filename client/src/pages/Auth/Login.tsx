@@ -9,7 +9,7 @@ import InputField from "../../components/Layout/UI/InputField/InputField.tsx";
 
 const LoginPage: React.FC = () => {
     const {login, loading} = useAuth();
-    const [formError, setFormError] = useState<string | null>(null);
+    const [formError, setFormError] = useState<string[]>([]);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
 
@@ -17,14 +17,14 @@ const LoginPage: React.FC = () => {
 
     const handleLogin = async (data: ILoginUser) => {
         try {
-            setFormError(null);
+            setFormError([]);
             await login(data);
             navigate("/");
         } catch (err: any) {
             if (Array.isArray(err)) {
-                setFormError(err.join("\n"));
+                setFormError(err);
             } else {
-                setFormError(err || "Login failed");
+                setFormError([err || "Login failed"]);
             }
         }
     };

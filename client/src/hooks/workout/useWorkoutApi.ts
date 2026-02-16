@@ -20,7 +20,6 @@ export const useWorkoutApi = () => {
             return {exerciseId: exercise.exerciseId, sets: validSets};
         });
 
-
         return workoutService.createWorkout(token, {name, date, exercises: payload});
     };
 

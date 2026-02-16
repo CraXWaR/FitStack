@@ -4,7 +4,7 @@ import type {IUserResponse, IUpdateUserResponse} from "../types/user.ts";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const authService = {
-        async login(data: ILoginUser): Promise<IAuthResponse> {
+    async login(data: ILoginUser): Promise<IAuthResponse> {
             const res = await fetch(`${BASE_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
