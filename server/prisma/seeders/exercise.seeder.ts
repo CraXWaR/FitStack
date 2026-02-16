@@ -93,6 +93,5 @@ export async function seedExercises(prisma: PrismaClient) {
         skipDuplicates: true,
     });
 
-
     console.log("Exercises seeded...");
 }

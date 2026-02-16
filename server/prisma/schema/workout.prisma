@@ -7,5 +7,9 @@ model Workout {
   user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   workoutExercises WorkoutExercise[]
 
+  programId    String?         @map("program_id")
+  program      WorkoutProgram? @relation(fields: [programId], references: [id])
+  programOrder Int?            @map("program_order")
+
   @@map("workouts")
 }
