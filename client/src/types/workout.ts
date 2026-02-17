@@ -1,4 +1,4 @@
-import type { IExercise, IWorkoutExerciseDisplay } from "./exercise";
+import type {IWorkoutExerciseDisplay} from "./exercise";
 
 export interface IWorkoutSet {
     reps: number;
@@ -13,14 +13,8 @@ export interface IWorkoutExerciseForm {
 export interface ICreateWorkout {
     name: string;
     date: string;
-    exercises: IWorkoutExerciseForm[];
-}
-
-export interface IWorkoutFormSubmitArgs {
-    name: string;
-    date: string;
-    exercises: IExercise[];
-    resetForm: () => void;
+    exercises: IWorkoutExerciseForm[]
+    programId?: string;
 }
 
 export interface IWorkout {

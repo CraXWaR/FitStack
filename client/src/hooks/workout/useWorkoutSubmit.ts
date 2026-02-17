@@ -9,10 +9,11 @@ export const useWorkoutSubmit = () => {
     const [error, setError] = useState<string[]>([]);
     const [success, setSuccess] = useState("");
 
-    const submit = async ({name, date, exercises, resetForm,}: {
+    const submit = async ({name, date, exercises, programId, resetForm}: {
         name: string;
         date: string;
         exercises: IExerciseFormItem[];
+        programId?: string;
         resetForm: () => void;
     }) => {
         setSubmitting(true);
@@ -20,7 +21,7 @@ export const useWorkoutSubmit = () => {
         setSuccess("");
 
         try {
-            await createWorkout(name, date, exercises);
+            await createWorkout(name, date, exercises, programId);
             setSuccess("Workout logged successfully");
             resetForm();
         } catch (err) {

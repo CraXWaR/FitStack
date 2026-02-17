@@ -5,4 +5,6 @@ export interface ICreateWorkout {
         exerciseId: string;
         sets: { reps: number; weight: number }[];
     }[];
+    programId?: string | undefined;
+    programOrder: number | null;
 }

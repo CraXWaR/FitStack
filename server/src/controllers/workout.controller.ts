@@ -21,15 +21,30 @@ export class WorkoutController {
                     message: issue.message
                 }));
 
-                return res.status(400).json({ errors });
+                return res.status(400).json({errors});
             }
 
-            const data: ICreateWorkout = parsed.data;
-            const workout = await this.workoutService.create(userId, data);
+            const data: ICreateWorkout = parsed.data as ICreateWorkout;
+            let programOrder: number | null = null;
+
+            if (data.programId) {
+                const lastWorkout = await this.workoutService.getLastWorkoutByProgram(data.programId);
+                programOrder = lastWorkout?.programOrder != null ? lastWorkout.programOrder + 1 : 1;
+            } else {
+                programOrder = null;
+            }
+            const workoutToCreate: ICreateWorkout = {...data, programOrder};
+            const workout = await this.workoutService.create(userId, workoutToCreate);
+
             return res.status(201).json(workout);
         } catch (error: any) {
             console.error(error);
-            return res.status(500).json({errors: [{ field: "general", message: error.message || "Failed to create workout" }]});
+            return res.status(500).json({
+                errors: [{
+                    field: "general",
+                    message: error.message || "Failed to create workout"
+                }]
+            });
         }
     }
 }

@@ -19,6 +19,7 @@ const ProgramPage: React.FC = () => {
         await submit(token, payload);
         setName("");
     };
+
     return (
         <div className={styles.pageWrapper}>
             <Form

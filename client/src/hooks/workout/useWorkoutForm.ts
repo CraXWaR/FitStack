@@ -8,6 +8,7 @@ export const useWorkoutForm = (availableExercises: IExercise[]) => {
     const [exercises, setExercises] = useState<IExerciseFormItem[]>([
         {id: generateId(), exerciseId: "", name: "", category: "", sets: [createEmptySet()]},
     ]);
+    const [programId, setProgramId] = useState<string | undefined>(undefined);
 
     function generateId() {
         return `${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
@@ -62,12 +63,7 @@ export const useWorkoutForm = (availableExercises: IExercise[]) => {
             )
         );
 
-    const updateSet = (
-        exerciseIndex: number,
-        setId: string,
-        field: "reps" | "weight",
-        value: number | null
-    ) =>
+    const updateSet = (exerciseIndex: number, setId: string, field: "reps" | "weight", value: number | null) =>
         setExercises((prev) =>
             prev.map((exercise, currentIndex) =>
                 currentIndex === exerciseIndex
@@ -106,5 +102,7 @@ export const useWorkoutForm = (availableExercises: IExercise[]) => {
         filterExercisesByCategory,
         categories,
         resetForm,
+        programId,
+        setProgramId,
     };
 };

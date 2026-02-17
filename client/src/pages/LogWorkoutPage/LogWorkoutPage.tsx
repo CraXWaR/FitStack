@@ -12,11 +12,13 @@ import Button from "../../components/Layout/UI/Button/Button.tsx";
 import {FaPlus, FaTrash} from "react-icons/fa6";
 import DateInputField from "../../components/Layout/UI/DateInputField/DateInputField.tsx";
 import type {IExerciseFormItem} from "../../types/exercise.ts";
+import {usePrograms} from "../../hooks/program/usePrograms.ts";
 
 const LogWorkoutPage: React.FC = () => {
-    const {exercises: availableExercises, loading, error: fetchError} = useExercises();
+    const {exercises: availableExercises, loading: exercisesLoading, error: fetchError} = useExercises();
     const {submit, submitting, error: submitError, success} = useWorkoutSubmit();
     const form = useWorkoutForm(availableExercises);
+    const {programs, loading: programsLoading} = usePrograms();
 
     const mapExercises = (exercisesForm: typeof form.exercises, available: typeof availableExercises) => exercisesForm
         .map((exercise) => {
@@ -40,13 +42,21 @@ const LogWorkoutPage: React.FC = () => {
         const mappedExercises = mapExercises(form.exercises, availableExercises);
 
         try {
-            await submit({name: form.name, date: form.date, exercises: mappedExercises, resetForm: form.resetForm,});
+            console.log(form)
+            await submit({
+                name: form.name,
+                date: form.date,
+                exercises: mappedExercises,
+                programId: form.programId,
+                resetForm: form.resetForm,
+            });
         } catch (err) {
             console.error("Failed to submit workout:", err);
         }
     };
 
-    if (loading) return <Loading text="Loading exercises..."/>;
+    if (exercisesLoading) return <Loading text="Loading exercises..."/>;
+    if (programsLoading) return <Loading text="Loading Programs..."/>;
     if (fetchError) return <Error messages={fetchError}/>;
 
     return (
@@ -57,6 +67,17 @@ const LogWorkoutPage: React.FC = () => {
                     <InputField label="Workout Name" value={form.name} onChange={form.setName}/>
                     <DateInputField form={form}/>
                 </div>
+
+                <SelectField
+                    label="Program"
+                    value={form.programId ?? ""}
+                    onChange={(value) => form.setProgramId(value || undefined)}
+                    options={[
+                        {value: "", label: "No program"},
+                        ...programs.map((program) => ({value: program.id, label: program.name})),
+                    ]}
+                    disabled={programsLoading}
+                />
 
                 {form.exercises.map((exercise, exerciseIndex) => (
                     <div key={exercise.id} className="border-b border-gray-700 py-4">

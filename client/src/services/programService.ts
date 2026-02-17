@@ -20,4 +20,20 @@ export const programService = {
 
         return res.json();
     },
+
+    async getPrograms(token: string) {
+        const res = await fetch(`${BASE_URL}/program/`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+
+        if (!res.ok) {
+            const err = await res.json();
+            throw err.errors?.map((e: any) => e.message) || ["Failed to create program"];
+        }
+
+        return res.json();
+    },
 };

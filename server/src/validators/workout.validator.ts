@@ -1,4 +1,4 @@
-import { z } from "zod";
+import {z} from "zod";
 
 export const CreateWorkoutSchema = z.object({
     name: z
@@ -27,4 +27,6 @@ export const CreateWorkoutSchema = z.object({
             })
         )
         .min(1, "At least one exercise is required"),
+
+    programId: z.string().uuid().optional()
 });

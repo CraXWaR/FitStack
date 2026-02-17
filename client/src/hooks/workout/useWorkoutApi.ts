@@ -5,7 +5,7 @@ import type {IExerciseFormItem} from "../../types/exercise.ts";
 export const useWorkoutApi = () => {
     const {token} = useAuthContext();
 
-    const createWorkout = async (name: string, date: string, exercises: IExerciseFormItem []) => {
+    const createWorkout = async (name: string, date: string, exercises: IExerciseFormItem [], programId?: string) => {
         if (!token) throw new Error("You must be logged in");
         if (exercises.length === 0) throw new Error("Add at least one exercise");
 
@@ -20,7 +20,11 @@ export const useWorkoutApi = () => {
             return {exerciseId: exercise.exerciseId, sets: validSets};
         });
 
-        return workoutService.createWorkout(token, {name, date, exercises: payload});
+        return workoutService.createWorkout(token, {
+            name,
+            date,
+            exercises: payload, ...(programId ? {programId} : {}),
+        });
     };
 
     return {createWorkout};

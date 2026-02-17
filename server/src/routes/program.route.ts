@@ -6,5 +6,6 @@ const router = express.Router();
 const programController = new ProgramController();
 
 router.post("/create", authenticate, programController.create);
+router.get("/", authenticate, programController.getAll);
 
 export default router;

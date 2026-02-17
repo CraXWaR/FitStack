@@ -13,7 +13,9 @@ export class WorkoutService {
                         exerciseId: exercise.exerciseId,
                         sets: {create: exercise.sets}
                     }))
-                }
+                },
+                ...(data.programId && {program: {connect: {id: data.programId}}}),
+                programOrder: data.programOrder,
             },
             include: {
                 workoutExercises: {
@@ -21,8 +23,19 @@ export class WorkoutService {
                         sets: true,
                         exercise: true,
                     }
-                }
+                },
+                program: true
             }
+        });
+    }
+
+    async getLastWorkoutByProgram(programId: string) {
+        return prisma.workout.findFirst({
+            where: {
+                programId,
+                programOrder: {not: null},
+            },
+            orderBy: {programOrder: 'desc'},
         });
     }
 }
