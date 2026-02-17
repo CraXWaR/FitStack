@@ -18,7 +18,7 @@ const Form = ({title, onSubmit, submitText, error, success, footer, children, su
     return (
         <div className={styles.formCard}>
             <h1 className={styles.title}>{title}</h1>
-            {/*TODO USE ERROR COMPONENT*/}
+            {/*TODO CREATE SUCCESS COMPONENT*/}
             {error && <Error messages={error} />}
             {success && <div className={styles.formSuccess}>{success}</div>}
 

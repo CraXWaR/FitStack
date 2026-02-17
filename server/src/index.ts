@@ -7,6 +7,7 @@ import healthRoute from "./routes/health.route.js";
 import userRoute from "./routes/user.route.js";
 import workoutRoute from "./routes/workout.route.js";
 import exerciseRoute from "./routes/exercise.route.js";
+import programRoute from "./routes/program.route.js";
 
 dotenv.config();
 const app = express();
@@ -24,3 +25,4 @@ app.use('/health', healthRoute);
 app.use('/auth', userRoute);
 app.use('/workout', workoutRoute);
 app.use('/exercises', exerciseRoute);
+app.use('/program', programRoute);
