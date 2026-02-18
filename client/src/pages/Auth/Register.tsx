@@ -21,7 +21,6 @@ const RegisterPage: React.FC = () => {
         try {
             setFormError([]);
             await register(data);
-            navigate("/");
         } catch (err: any) {
             if (Array.isArray(err)) {
                 setFormError(err);
@@ -39,7 +38,7 @@ const RegisterPage: React.FC = () => {
             password,
             confirmPassword,
         };
-        handleRegister(formData).then(r => console.log(r));
+        handleRegister(formData);
     };
 
     if (loading) return <Loading/>;

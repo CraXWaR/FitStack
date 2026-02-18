@@ -36,15 +36,19 @@ export class ProgramController {
 
     getAll = async (req: Request, res: Response) => {
         try {
-            const programs = await this.programService.getAllPrograms();
+            const userId = req.user?.id;
+            if (!userId) {
+                return res.status(401).json({errors: [{field: "general", message: "Unauthorized"}]});
+            }
+
+            const programs = await this.programService.getAllPrograms(userId);
             res.status(202).json(programs);
         } catch (error: any) {
             console.error(error);
             return res.status(500).json({
-                errors: [{
-                    field: "general", message: error.message || "Failed to get training programs"
-                }]
+                errors: [{field: "general", message: error.message || "Failed to get training programs"}]
             });
         }
-    }
+    };
+
 }

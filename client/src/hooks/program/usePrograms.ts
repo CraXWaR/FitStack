@@ -15,8 +15,8 @@ export const usePrograms = () => {
 
     const fetchPrograms = async () => {
         if (!token) return;
-
         setLoading(true);
+
         try {
             const data = await programService.getPrograms(token);
             setPrograms(data);
