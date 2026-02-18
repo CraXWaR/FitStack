@@ -15,7 +15,7 @@ export const useProfileEdit = () => {
         age: null,
         goal: null,
     });
-    const [error, setError] = useState<string[]>([]);
+    const [error, setError] = useState<string[] | null>(null);
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export const useProfileEdit = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setError([]);
+        setError(null);
         setSubmitting(true);
 
         try {

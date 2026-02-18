@@ -13,7 +13,6 @@ import LogWorkoutPage from "./pages/LogWorkoutPage/LogWorkoutPage.tsx";
 import ProfilePage from "./pages/Profile/ProfilePage.tsx";
 import ProfileEditPage from "./pages/Profile/ProfileEditPage.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
-import ProgramPage from "./pages/Program/ProgramPage.tsx";
 
 const RootLayout: React.FC = () => {
     return (
@@ -27,7 +26,6 @@ const RootLayout: React.FC = () => {
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
 
-                    <Route path="/program" element={<ProtectedRoute><ProgramPage/></ProtectedRoute>}/>
                     <Route path="/log-workout" element={<ProtectedRoute><LogWorkoutPage/></ProtectedRoute>}/>
                     <Route path="/profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
                     <Route path="/profile/edit" element={<ProtectedRoute><ProfileEditPage/></ProtectedRoute>}/>

@@ -1,24 +1,33 @@
 import React, {type FormEvent} from "react";
-import styles from "./LogWorkoutPage.module.css";
-import InputField from "../../components/Layout/UI/InputField/InputField.tsx";
+
+import type {IExerciseFormItem} from "../../types/exercise.ts";
+
 import {useExercises} from "../../hooks/exercises/useExercises.ts";
-import Loading from "../../components/Layout/General/Loading/Loading";
 import {useWorkoutSubmit} from "../../hooks/workout/useWorkoutSubmit";
 import {useWorkoutForm} from "../../hooks/workout/useWorkoutForm";
+import {usePrograms} from "../../hooks/program/usePrograms.ts";
+import {useProgramSubmit} from "../../hooks/program/useProgramSubmit.ts";
+import {useAuthContext} from "../../context/AuthContext.tsx";
+
+import InputField from "../../components/Layout/UI/InputField/InputField.tsx";
+import Loading from "../../components/Layout/General/Loading/Loading";
 import Form from "../../components/Layout/UI/Form/Form";
 import Error from "../../components/Layout/General/Error/Error.tsx";
-import SelectField from "../../components/Layout/UI/Select/SelectField.tsx";
 import Button from "../../components/Layout/UI/Button/Button.tsx";
-import {FaPlus, FaTrash} from "react-icons/fa6";
 import DateInputField from "../../components/Layout/UI/DateInputField/DateInputField.tsx";
-import type {IExerciseFormItem} from "../../types/exercise.ts";
-import {usePrograms} from "../../hooks/program/usePrograms.ts";
+import ExerciseItem from "../../components/LogWorkout/ExerciseItem.tsx";
+import ProgramSelector from "../../components/LogWorkout/ProgramSelector.tsx";
+
+import styles from "./LogWorkoutPage.module.css";
 
 const LogWorkoutPage: React.FC = () => {
+    const {token} = useAuthContext();
     const {exercises: availableExercises, loading: exercisesLoading, error: fetchError} = useExercises();
-    const {submit, submitting, error: submitError, success} = useWorkoutSubmit();
+    const {submit, submitting, error: submitError, success} = useWorkoutSubmit(token);
     const form = useWorkoutForm(availableExercises);
-    const {programs, loading: programsLoading} = usePrograms();
+    const {programs, loading: programsLoading, refetch} = usePrograms();
+
+    const {submit: createProgram, submitting: creatingProgram, error: createProgramError} = useProgramSubmit();
 
     const mapExercises = (exercisesForm: typeof form.exercises, available: typeof availableExercises) => exercisesForm
         .map((exercise) => {
@@ -42,7 +51,6 @@ const LogWorkoutPage: React.FC = () => {
         const mappedExercises = mapExercises(form.exercises, availableExercises);
 
         try {
-            console.log(form)
             await submit({
                 name: form.name,
                 date: form.date,
@@ -60,110 +68,38 @@ const LogWorkoutPage: React.FC = () => {
     if (fetchError) return <Error messages={fetchError}/>;
 
     return (
-        <div className={styles.pageWrapper}>
-            <Form title="Log Your Workout" submitText={submitting ? "Saving..." : "Save Workout"}
-                  onSubmit={onFormSubmit} error={submitError} success={success}>
-                <div className="flex flex-col gap-2">
-                    <InputField label="Workout Name" value={form.name} onChange={form.setName}/>
-                    <DateInputField form={form}/>
-                </div>
-
-                <SelectField
-                    label="Program"
-                    value={form.programId ?? ""}
-                    onChange={(value) => form.setProgramId(value || undefined)}
-                    options={[
-                        {value: "", label: "No program"},
-                        ...programs.map((program) => ({value: program.id, label: program.name})),
-                    ]}
-                    disabled={programsLoading}
-                />
-
-                {form.exercises.map((exercise, exerciseIndex) => (
-                    <div key={exercise.id} className="border-b border-gray-700 py-4">
-                        <div className="flex justify-between items-center">
-                            <h4 className="font-semibold">Exercise {exerciseIndex + 1}</h4>
-                            {form.exercises.length > 1 && (
-                                <button
-                                    type="button"
-                                    className="text-red-500 hover:cursor-pointer hover:underline"
-                                    onClick={() => form.removeExercise(exerciseIndex)}>
-                                    Remove
-                                </button>
-                            )}
-                        </div>
-
-                        <div className="flex gap-2">
-                            <SelectField
-                                label="Category"
-                                value={exercise.category}
-                                onChange={(value) => form.updateCategory(exerciseIndex, value)}
-                                options={form.categories.map((cat) => ({value: cat, label: cat}))}/>
-
-                            <SelectField
-                                label="Exercise"
-                                value={exercise.exerciseId}
-                                onChange={(value) => form.updateExercise(exerciseIndex, value)}
-                                options={form.filterExercisesByCategory(exercise.category).map((ex) => ({
-                                    value: ex.id,
-                                    label: ex.name,
-                                }))} disabled={!exercise.category}/>
-                        </div>
-
-                        <div className="flex flex-col gap-2 mt-2">
-                            {exercise.sets.map((set) => (
-                                <div key={set.id} className="flex gap-2 items-center">
-                                    <InputField
-                                        label="Reps"
-                                        type="number"
-                                        value={set.reps ?? ""}
-                                        onChange={(value) =>
-                                            form.updateSet(
-                                                exerciseIndex,
-                                                set.id,
-                                                "reps",
-                                                value === "" ? null : Number(value))}
-                                        min={0}
-                                        disabled={!exercise.exerciseId}/>
-
-                                    <InputField
-                                        label="Weight (kg)"
-                                        type="number"
-                                        value={set.weight ?? ""}
-                                        onChange={(value) =>
-                                            form.updateSet(
-                                                exerciseIndex,
-                                                set.id,
-                                                "weight",
-                                                value === "" ? null : Number(value))}
-                                        min={0}
-                                        disabled={!exercise.exerciseId}/>
-
-                                    <div className="flex gap-2 my-2">
-                                        <Button variant="outline" onClick={() => form.addSet(exerciseIndex)}>
-                                            <FaPlus size={18}/>
-                                        </Button>
-
-                                        <Button
-                                            variant="remove"
-                                            disabled={exercise.sets.length === 1}
-                                            onClick={() => form.removeSet(exerciseIndex, set.id)}>
-                                            <FaTrash size={18}/>
-                                        </Button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+        <>
+            <div className={styles.pageWrapper}>
+                <Form title="Log Your Workout" submitText={submitting ? "Saving..." : "Save Workout"}
+                      onSubmit={onFormSubmit} error={submitError} success={success}>
+                    <div className="flex flex-col gap-2">
+                        <InputField label="Workout Name" value={form.name} onChange={form.setName}/>
+                        <DateInputField form={form}/>
                     </div>
-                ))}
 
-                <div className="my-4">
-                    <Button variant="primary" onClick={form.addExercise}>
-                        Add Exercise
-                    </Button>
-                </div>
-            </Form>
-        </div>
+                    <ProgramSelector
+                        form={form}
+                        programs={programs}
+                        loading={programsLoading}
+                        token={token}
+                        refetch={refetch}
+                        createProgram={createProgram}
+                        creatingProgram={creatingProgram}
+                        createProgramError={createProgramError}
+                    />
+
+                    {form.exercises.map((exercise, exerciseIndex) => (
+                        <ExerciseItem key={exercise.id} exercise={exercise} index={exerciseIndex} form={form}/>
+                    ))}
+
+                    <div className="my-4">
+                        <Button variant="primary" onClick={form.addExercise}>
+                            Add Exercise
+                        </Button>
+                    </div>
+                </Form>
+            </div>
+        </>
     );
 };
 

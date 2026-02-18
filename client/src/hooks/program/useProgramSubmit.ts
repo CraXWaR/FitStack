@@ -4,12 +4,12 @@ import {programService} from "../../services/programService.ts";
 
 export const useProgramSubmit = () => {
     const [submitting, setSubmitting] = useState(false);
-    const [error, setError] = useState<string[]>([]);
+    const [error, setError] = useState<string[] | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
 
     const submit = async (token: string, payload: ICreateProgram): Promise<IProgramResponse> => {
         setSubmitting(true);
-        setError([]);
+        setError(null);
         setSuccess(null);
 
         try {
