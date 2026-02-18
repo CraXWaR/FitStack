@@ -67,7 +67,7 @@ export class UserService {
             where: {id: userId},
             data: {
                 firstName: data.firstName,
-                ...(data.lastName !== undefined ? {lastName: data.lastName} : {}),
+                ...(data.lastName !== undefined && {lastName: data.lastName}),
 
                 ...(data.profile ? {
                         profile: {

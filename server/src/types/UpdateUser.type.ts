@@ -1,6 +1,6 @@
 export interface IUpdateUser {
     firstName: string;
-    lastName?: string;
+    lastName?: string | null;
     profile?: {
         weight?: number | null;
         height?: number | null;

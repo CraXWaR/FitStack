@@ -50,7 +50,7 @@ export const useProfileEdit = () => {
 
             const updatedData = {
                 firstName: userData.firstName,
-                lastName: userData.lastName?.trim() || undefined,
+                lastName: userData.lastName?.trim() || null,
                 profile: payload,
             };
 

@@ -24,8 +24,7 @@ const ProfileEditPage: React.FC = () => {
                   submitting={submitting}>
                 <div className="space-y-6">
                     <InputField label="First Name" value={userData.firstName}
-                                onChange={(value: string) => setUserData(prev => ({...prev, firstName: value}))}
-                                required/>
+                                onChange={(value: string) => setUserData(prev => ({...prev, firstName: value}))}/>
 
                     <InputField label="Last Name" value={userData.lastName}
                                 onChange={(value: string) => setUserData(prev => ({...prev, lastName: value}))}/>

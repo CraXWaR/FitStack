@@ -1,26 +1,28 @@
-import styles from "./Form.module.css"
-import Button from "../Button/Button.tsx";
 import React from "react";
+
+import Button from "../Button/Button.tsx";
 import Error from "../../General/Error/Error.tsx";
+import Success from "../../General/Success/Success.tsx";
+
+import styles from "./Form.module.css"
 
 interface IFormProps {
     title: string;
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     submitText: string;
     error?: string[] | null;
-    success?: React.ReactNode;
-    footer?: React.ReactNode;
+    success?: string | null;
     children: React.ReactNode;
     submitting?: boolean;
 }
 
-const Form = ({title, onSubmit, submitText, error, success, footer, children, submitting,}: IFormProps) => {
+const Form = ({title, onSubmit, submitText, error, success, children, submitting,}: IFormProps) => {
     return (
         <div className={styles.formCard}>
             <h1 className={styles.title}>{title}</h1>
-            {/*TODO CREATE SUCCESS COMPONENT*/}
-            {error && <Error messages={error} />}
-            {success && <div className={styles.formSuccess}>{success}</div>}
+
+            {error && <Error messages={error}/>}
+            {success && <Success message={success}/>}
 
             <form onSubmit={onSubmit}>
                 {children}
@@ -35,8 +37,6 @@ const Form = ({title, onSubmit, submitText, error, success, footer, children, su
                     </Button>
                 </div>
             </form>
-
-            {footer && <div className={styles.footer}>{footer}</div>}
         </div>
     );
 }
