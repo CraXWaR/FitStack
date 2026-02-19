@@ -11,7 +11,8 @@ export class ProgramService {
             orderBy: {name: "asc"},
             select: {
                 id: true,
-                name: true
+                name: true,
+                _count: {select: {workouts: true}}
             }
         })
     }

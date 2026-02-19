@@ -1,7 +1,9 @@
 import React from "react";
+
+import {useProfileEdit} from "../../hooks/auth/useProfileEdit.ts";
+
 import Form from "../../components/Layout/UI/Form/Form.tsx";
 import InputField from "../../components/Layout/UI/InputField/InputField.tsx";
-import {useProfileEdit} from "../../hooks/auth/useProfileEdit.ts";
 
 const ProfileEditPage: React.FC = () => {
     const {
@@ -15,8 +17,8 @@ const ProfileEditPage: React.FC = () => {
         formatNumberInput,
     } = useProfileEdit();
 
-    //TODO ADD LOADING COMPONENT
-    if (!userData.firstName && !userData.lastName && !profileData) return <div>Loading...</div>;
+    //TODO ADD NO FOUND COMPONENT
+    if (!userData.firstName && !userData.lastName && !profileData) return <div>no found bro</div>;
 
     return (
         <div className="max-w-xl mx-auto px-4 py-8">

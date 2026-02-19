@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 
 import type {useProgramSubmit} from "../../hooks/program/useProgramSubmit.ts";
-import type {IProgram} from "../../hooks/program/usePrograms.ts";
 import type {useWorkoutForm} from "../../hooks/workout/useWorkoutForm.ts";
+import type {IProgram} from "../../types/program.ts";
 
 import CreateProgramModal from "./CreateProgramModal.tsx";
 import SelectField from "../Layout/UI/Select/SelectField.tsx";

@@ -1,11 +1,7 @@
 import {useState, useEffect} from "react";
 import {useAuthContext} from "../../context/AuthContext.tsx";
 import {programService} from "../../services/programService.ts";
-
-export interface IProgram {
-    id: string;
-    name: string;
-}
+import type {IProgram} from "../../types/program.ts";
 
 export const usePrograms = () => {
     const { token } = useAuthContext();

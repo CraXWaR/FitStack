@@ -8,6 +8,7 @@ export interface IUserResponse {
     email: string;
     profile?: IProfile;
     workouts: IWorkout[];
+    createdAt?: string;
 }
 
 export interface IUpdateUserResponse {

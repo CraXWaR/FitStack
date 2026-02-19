@@ -2,7 +2,7 @@ export interface ICreateProgram {
     name: string;
 }
 
-export interface IProgramResponse {
+export interface IProgram {
     id: string;
     name: string;
 }

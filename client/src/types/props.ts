@@ -18,7 +18,7 @@ export interface IWorkoutExerciseProps {
 
 export interface IUserInfoProps {
     firstName: string;
-    lastName?: string;
+    lastName?: string | null;
     email: string;
     profile?: IProfile;
 }

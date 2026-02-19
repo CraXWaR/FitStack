@@ -1,5 +1,5 @@
 import {useState} from "react";
-import type {ICreateProgram, IProgramResponse} from "../../types/program.ts";
+import type {ICreateProgram, IProgram} from "../../types/program.ts";
 import {programService} from "../../services/programService.ts";
 
 export const useProgramSubmit = () => {
@@ -7,7 +7,7 @@ export const useProgramSubmit = () => {
     const [error, setError] = useState<string[] | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
 
-    const submit = async (token: string, payload: ICreateProgram): Promise<IProgramResponse> => {
+    const submit = async (token: string, payload: ICreateProgram): Promise<IProgram> => {
         setSubmitting(true);
         setError(null);
         setSuccess(null);

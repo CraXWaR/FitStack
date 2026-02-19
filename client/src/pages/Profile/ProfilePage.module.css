@@ -1,0 +1,84 @@
+.hero {
+    position: relative;
+    width: 100%;
+    height: 130px;
+    background: linear-gradient(135deg, #0E0F12 0%, #1a2a20 50%, #0E0F12 100%);
+}
+
+.heroBgClip {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.heroGrid {
+    position: absolute;
+    inset: 0;
+    background-image:
+            linear-gradient(rgba(61, 220, 151, 0.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(61, 220, 151, 0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+.heroGlow {
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 320px;
+    background: radial-gradient(ellipse, rgba(61, 220, 151, 0.11) 0%, transparent 70%);
+}
+
+.heroAccentLine {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, #3DDC97 50%, transparent 100%);
+}
+
+.heroInner {
+    position: relative;
+    height: 100%;
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+@media (min-width: 1024px) {
+    .heroInner {
+        padding: 0 32px;
+    }
+}
+
+.avatarWrap {
+    position: absolute;
+    bottom: -40px;
+    left: 24px;
+    z-index: 10;
+}
+
+@media (min-width: 1024px) {
+    .avatarWrap {
+        left: 32px;
+    }
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3DDC97 0%, #1a7a52 100%);
+    border: 3px solid #0E0F12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: #0E0F12;
+    letter-spacing: 1px;
+    box-shadow: 0 0 32px rgba(61, 220, 151, 0.28);
+}

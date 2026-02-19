@@ -1,0 +1,45 @@
+.programCard {
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.programCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    background: linear-gradient(90deg, #3DDC97, transparent);
+    transition: height 0.2s;
+}
+
+.programCard:hover::before {
+    height: 1px;
+}
+
+.programsScroll {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 330px;
+    overflow-y: auto;
+    padding-right: 4px;
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+
+.programsScroll::-webkit-scrollbar {
+    width: 4px;
+}
+.programsScroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+.programsScroll::-webkit-scrollbar-thumb {
+    background: #242830;
+    border-radius: 4px;
+}
+.programsScroll::-webkit-scrollbar-thumb:hover {
+    background: #3DDC97;
+}
