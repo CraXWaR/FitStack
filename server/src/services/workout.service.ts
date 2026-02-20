@@ -38,4 +38,19 @@ export class WorkoutService {
             orderBy: {programOrder: 'desc'},
         });
     }
+
+    async getWorkoutsByProgramId(programId: string) {
+        return prisma.workout.findMany({
+            where: { programId },
+            orderBy: { date: "asc" },
+            include: {
+                workoutExercises: {
+                    include: {
+                        exercise: true,
+                        sets: true,
+                    },
+                },
+            },
+        });
+    }
 }

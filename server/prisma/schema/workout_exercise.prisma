@@ -1,12 +1,10 @@
 model WorkoutExercise {
-  id String @id @default(uuid())
-
-  workoutId String
-  workout   Workout @relation(fields: [workoutId], references: [id])
-
+  id         String   @id @default(uuid())
+  workoutId  String
   exerciseId String
-  exercise   Exercise @relation(fields: [exerciseId], references: [id])
   sets       Set[]
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  workout    Workout  @relation(fields: [workoutId], references: [id])
 
   @@map("workout_exercises")
 }

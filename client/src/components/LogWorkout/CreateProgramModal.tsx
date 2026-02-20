@@ -26,10 +26,10 @@ const CreateProgramModal: React.FC<ICreateProgramModalProps> = ({
     };
 
     return (
-        <Modal title="Create Program" onClose={onClose}>
+        <Modal title="Create ProgramPage" onClose={onClose}>
             <div className="flex flex-col gap-4">
                 <InputField
-                    label="Program Name"
+                    label="ProgramPage Name"
                     value={name}
                     onChange={setName}/>
 

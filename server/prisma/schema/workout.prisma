@@ -1,15 +1,13 @@
 model Workout {
-  id   String   @id @default(uuid())
-  name String
-  date DateTime @default(now())
-
+  id               String            @id @default(uuid())
+  name             String
+  date             DateTime          @default(now())
   userId           String            @map("user_id")
-  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  programId        String?           @map("program_id")
+  programOrder     Int?              @map("program_order")
   workoutExercises WorkoutExercise[]
-
-  programId    String?         @map("program_id")
-  program      WorkoutProgram? @relation(fields: [programId], references: [id])
-  programOrder Int?            @map("program_order")
+  program          WorkoutProgram?   @relation(fields: [programId], references: [id])
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("workouts")
 }

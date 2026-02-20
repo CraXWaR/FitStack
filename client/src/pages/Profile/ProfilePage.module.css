@@ -63,7 +63,7 @@
 
 @media (min-width: 1024px) {
     .avatarWrap {
-        left: 32px;
+        left: -32px;
     }
 }
 

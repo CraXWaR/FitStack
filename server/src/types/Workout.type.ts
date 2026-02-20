@@ -8,3 +8,7 @@ export interface ICreateWorkout {
     programId?: string | undefined;
     programOrder: number | null;
 }
+
+export interface IProgramWorkoutParams {
+    programId?: string;
+}

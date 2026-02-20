@@ -6,15 +6,13 @@ import {GoGoal} from "react-icons/go";
 import {usePrograms} from "../../hooks/program/usePrograms.ts";
 import {useAuthContext} from "../../context/AuthContext.tsx";
 
-import type {IUserResponse} from "../../types/user.ts";
-
 import UserProfileInfo from "../../components/Profile/UserProfileInfo/UserProfileInfo.tsx";
 import UserPrograms from "../../components/Profile/UserPrograms/UserPrograms.tsx";
 import ProfileStats from "../../components/Profile/ProfileStats/ProfileStats.tsx";
 
 import styles from "./ProfilePage.module.css";
 
-const ProfilePage: React.FC<IUserResponse> = () => {
+const ProfilePage: React.FC = () => {
     const {user} = useAuthContext();
     const {programs} = usePrograms();
 
@@ -44,7 +42,7 @@ const ProfilePage: React.FC<IUserResponse> = () => {
                 </div>
             </div>
 
-            <div className="max-w-3xl mx-auto px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto px-6 lg:px-8">
                 <div className="mt-16 flex items-start justify-between gap-4 flex-wrap">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight leading-none text-[#E6E8EB]">
@@ -72,7 +70,7 @@ const ProfilePage: React.FC<IUserResponse> = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-px bg-[#242830] rounded-2xl overflow-hidden mt-5">
-                    <ProfileStats workouts={totalWorkouts} programs={totalPrograms}/>
+                    <ProfileStats workouts={totalWorkouts} counter={totalPrograms} counterText={"Programs"}/>
                 </div>
 
                 <div className="mt-7 grid grid-cols-1 lg:grid-cols-2 gap-7">

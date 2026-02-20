@@ -1,7 +1,7 @@
 import {WorkoutService} from "../services/workout.service.js";
 import type {Request, Response} from "express";
 import {CreateWorkoutSchema} from "../validators/workout.validator.js";
-import type {ICreateWorkout} from "../types/Workout.type.js";
+import type {ICreateWorkout, IProgramWorkoutParams} from "../types/Workout.type.js";
 
 export class WorkoutController {
     private workoutService: WorkoutService;
@@ -37,6 +37,28 @@ export class WorkoutController {
             const workout = await this.workoutService.create(userId, workoutToCreate);
 
             return res.status(201).json(workout);
+        } catch (error: any) {
+            console.error(error);
+            return res.status(500).json({
+                errors: [{
+                    field: "general",
+                    message: error.message || "Failed to create workout"
+                }]
+            });
+        }
+    }
+
+    getProgramWorkouts = async (req: Request<IProgramWorkoutParams>, res: Response) => {
+        try {
+            const {programId} = req.params;
+
+            if (!programId) {
+                return res.status(400).json({message: "programId is required"});
+            }
+
+            const workouts = await this.workoutService.getWorkoutsByProgramId(programId);
+            return res.status(200).json(workouts);
+
         } catch (error: any) {
             console.error(error);
             return res.status(500).json({

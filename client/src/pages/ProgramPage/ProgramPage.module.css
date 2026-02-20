@@ -1,0 +1,36 @@
+.page {
+    min-height: 100vh;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: "DM Sans", "Segoe UI", sans-serif;
+    position: relative;
+    overflow-x: hidden;
+    width: 100%;
+    margin: auto;
+}
+
+.bgGrid {
+    position: fixed;
+    inset: 0;
+    background-image:
+            linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 24px 16px 60px;
+    }
+}
