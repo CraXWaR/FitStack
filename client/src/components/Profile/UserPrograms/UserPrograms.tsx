@@ -1,5 +1,7 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
+import {slugify} from "../../../helpers/slugify.ts";
 import type {IProgram} from "../../../types/program.ts";
 
 import {IoChevronForward} from "react-icons/io5";
@@ -15,7 +17,6 @@ import {
 } from "react-icons/gi";
 
 import styles from "./UserPrograms.module.css"
-import {Link} from "react-router-dom";
 
 const PROGRAM_ICONS = [
     GiMuscleUp,
@@ -32,9 +33,6 @@ interface IUserProgramsProps {
     programs: IProgram[];
 }
 
-function slugify(name: string) {
-    return name.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "");
-}
 
 const UserPrograms: React.FC<IUserProgramsProps> = ({programs}) => {
     return (

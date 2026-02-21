@@ -11,16 +11,13 @@ import Loading from "../../components/Layout/General/Loading/Loading.tsx";
 import styles from "./ProgramPage.module.css";
 import ProgramHeader from "../../components/Program/ProgramHeader/ProgramHeader.tsx";
 import ProgramBreadcrumb from "../../components/Program/ProgramBreadcrumb/ProgramBreadcrumb.tsx";
-
-function slugify(name: string) {
-    return name.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "");
-}
+import {slugify} from "../../helpers/slugify.ts";
 
 const ProgramPage: React.FC = () => {
     const {slug} = useParams<{ slug: string }>();
     const {programs} = usePrograms();
 
-    const program = programs?.find((p) => slugify(p.name) === slug);
+    const program = programs?.find((program) => slugify(program.name) === slug);
     const programId = program?.id;
 
     const {workouts, loading, error, getExerciseCount, getWorkoutExercise} = useProgramWorkouts(programId);

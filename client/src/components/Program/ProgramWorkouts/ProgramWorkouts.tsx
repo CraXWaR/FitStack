@@ -25,6 +25,7 @@ interface ProgramWorkoutsProps {
 const ProgramWorkouts: React.FC<ProgramWorkoutsProps> = ({
                                                              counter, workouts, getExercises, getExerciseCount
                                                          }) => {
+    console.log(workouts);
     return (
         <>
             <div className={styles.sectionHeader}>
