@@ -59,7 +59,6 @@ const AddSetModal: React.FC<AddSetModalProps> = ({exerciseName, onClose, onAdd})
                         setWeight(String(v));
                     }}
                 />
-
                 {reps && weight && !isNaN(Number(reps)) && !isNaN(Number(weight)) && (
                     <div className={styles.preview}>
                         Volume: <strong>{(Number(reps) * Number(weight)).toLocaleString()} kg</strong>
