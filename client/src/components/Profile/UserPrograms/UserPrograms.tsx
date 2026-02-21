@@ -49,8 +49,8 @@ const UserPrograms: React.FC<IUserProgramsProps> = ({programs}) => {
             </div>
 
             <div className={styles.programsScroll}>
-                {programs.map((program: any, icon: any) => {
-                    const Icon = PROGRAM_ICONS[icon % PROGRAM_ICONS.length];
+                {programs.map((program: any, index: number) => {
+                    const Icon = PROGRAM_ICONS[index % PROGRAM_ICONS.length];
                     return (
                         <Link to={`/program/${slugify(program.name)}`}
                               key={program.id}

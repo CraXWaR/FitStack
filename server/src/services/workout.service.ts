@@ -40,6 +40,11 @@ export class WorkoutService {
     }
 
     async getWorkoutsByProgramId(programId: string) {
+        await prisma.workoutProgram.update({
+            where: { id: programId },
+            data: { lastVisited: new Date() }
+        });
+
         return prisma.workout.findMany({
             where: { programId },
             orderBy: { date: "asc" },

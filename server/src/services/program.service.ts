@@ -8,7 +8,7 @@ export class ProgramService {
     async getAllPrograms(userId: string) {
         return prisma.workoutProgram.findMany({
             where: {userId},
-            orderBy: {name: "asc"},
+            orderBy: {lastVisited: "desc"},
             select: {
                 id: true,
                 name: true,

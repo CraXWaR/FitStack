@@ -1,9 +1,10 @@
 model WorkoutProgram {
-  id       String    @id @default(uuid())
-  name     String
-  userId   String
-  users    User      @relation(fields: [userId], references: [id])
-  workouts Workout[]
+  id          String    @id @default(uuid())
+  name        String
+  userId      String
+  lastVisited DateTime? @map("last_visited")
+  users       User      @relation(fields: [userId], references: [id])
+  workouts    Workout[]
 
   @@map("workout_programs")
 }

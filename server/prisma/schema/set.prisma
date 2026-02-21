@@ -3,9 +3,8 @@ model Set {
   reps              Int
   weight            Float
   workoutExerciseId String          @map("workout_exercise_id")
+  createdAt         DateTime        @default(now()) @map("created_at")
   workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now()) @map("created_at")
 
   @@map("sets")
 }
