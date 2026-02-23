@@ -39,8 +39,8 @@ const ProgramPage: React.FC = () => {
 
             <div className={styles.container}>
                 <ProgramBreadcrumb programName={program.name}/>
-                <ProgramHeader program={program} workouts={workouts} counter={totalExercises}/>
-                <ProgramWorkouts counter={workouts.length} workouts={workouts} getExercises={getWorkoutExercise}
+                <ProgramHeader program={program} workouts={workouts} exerciseCounter={totalExercises}/>
+                <ProgramWorkouts workoutsCounter={workouts.length} workouts={workouts} getExercises={getWorkoutExercise}
                                  getExerciseCount={getExerciseCount}/>
             </div>
         </div>

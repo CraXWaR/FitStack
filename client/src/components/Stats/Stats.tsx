@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "./ProfileStats.module.css";
+import styles from "./Stats.module.css";
 
 interface StatsProps {
     leftText: string;
@@ -9,7 +9,7 @@ interface StatsProps {
     rightCounter?: number | string;
 
 }
-const ProfileStats: React.FC<StatsProps> = ({leftText, rightText, leftCounter, rightCounter}) => {
+const Stats: React.FC<StatsProps> = ({leftText, rightText, leftCounter, rightCounter}) => {
     return (
         <>
             <div className={`bg-[#181B20] py-6 px-4 text-center ${styles.statCell}`}>
@@ -32,4 +32,4 @@ const ProfileStats: React.FC<StatsProps> = ({leftText, rightText, leftCounter, r
     );
 };
 
-export default ProfileStats;
+export default Stats;

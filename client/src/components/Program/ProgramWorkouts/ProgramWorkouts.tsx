@@ -1,14 +1,14 @@
 import React from "react";
+import {Link} from "react-router-dom";
+import {useParams} from "react-router";
 
 import type {IWorkout} from "../../../types/workout.ts";
 
+import {formatFullDate} from "../../../helpers/dateFormat.ts";
+import {slugify} from "../../../helpers/slugify.ts";
+
 import styles from "./ProgramWorkouts.module.css"
 
-// Helper functions
-const formatFullDate = (date: string | Date | undefined) => {
-    if (!date) return "—";
-    return new Date(date).toLocaleDateString("en-GB", {day: "numeric", month: "long", year: "numeric",});
-};
 const getDayInitial = (dateStr: string): string => {
     const date = new Date(dateStr);
     const options: Intl.DateTimeFormatOptions = {weekday: "short",};
@@ -16,27 +16,30 @@ const getDayInitial = (dateStr: string): string => {
 };
 
 interface ProgramWorkoutsProps {
-    counter: number;
+    workoutsCounter: number;
     workouts: IWorkout[];
     getExercises: (workout: IWorkout) => string[];
     getExerciseCount: (workout: IWorkout) => number;
 }
 
 const ProgramWorkouts: React.FC<ProgramWorkoutsProps> = ({
-                                                             counter, workouts, getExercises, getExerciseCount
+                                                             workoutsCounter, workouts, getExercises, getExerciseCount
                                                          }) => {
-    console.log(workouts);
+    const {slug: programSlug} = useParams<{ slug: string }>();
+
     return (
         <>
             <div className={styles.sectionHeader}>
                 <h2 className={styles.sectionTitle}>Workouts</h2>
-                <span className={styles.sectionCount}>{counter} sessions</span>
+                <span className={styles.sectionCount}>{workoutsCounter} sessions</span>
             </div>
 
             <div className={styles.workoutsGrid}>
                 {workouts.map((workout, index) => (
-                    <button key={workout.id} className={styles.workoutCard} style={{animationDelay: `${index * 60}ms`}}
-                            type="button">
+                    <Link to={`/program/${programSlug}/${slugify(workout.name)}`} key={workout.id}
+                          className={styles.workoutCard}
+                          style={{animationDelay: `${index * 60}ms`}}
+                          type="button">
                         <div className={styles.cardTopRow}>
                             <div className={styles.dayPill}>
                                 <span className={styles.dayInitial}>{getDayInitial(workout.date)}</span>
@@ -81,7 +84,7 @@ const ProgramWorkouts: React.FC<ProgramWorkoutsProps> = ({
                         </div>
 
                         <div className={styles.accentBar}/>
-                    </button>
+                    </Link>
                 ))}
             </div>
         </>

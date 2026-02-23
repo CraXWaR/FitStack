@@ -11,7 +11,7 @@
     left: 0;
     right: 0;
     height: 0;
-    background: linear-gradient(90deg, #3DDC97, transparent);
+    background: linear-gradient(90deg, var(--accent-main), transparent);
     transition: height 0.2s;
 }
 
@@ -41,5 +41,5 @@
     border-radius: 4px;
 }
 .programsScroll::-webkit-scrollbar-thumb:hover {
-    background: #3DDC97;
+    background: var(--accent-main);
 }

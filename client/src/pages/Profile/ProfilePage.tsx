@@ -8,7 +8,7 @@ import {useAuthContext} from "../../context/AuthContext.tsx";
 
 import UserProfileInfo from "../../components/Profile/UserProfileInfo/UserProfileInfo.tsx";
 import UserPrograms from "../../components/Profile/UserPrograms/UserPrograms.tsx";
-import ProfileStats from "../../components/Profile/ProfileStats/ProfileStats.tsx";
+import Stats from "../../components/Stats/Stats.tsx";
 
 import styles from "./ProfilePage.module.css";
 
@@ -70,7 +70,8 @@ const ProfilePage: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-px bg-[#242830] rounded-2xl overflow-hidden mt-5">
-                    <ProfileStats workouts={totalWorkouts} counter={totalPrograms} counterText={"Programs"}/>
+                    <Stats leftCounter={totalWorkouts} leftText="Workouts" rightCounter={totalPrograms}
+                           rightText="Programs"/>
                 </div>
 
                 <div className="mt-7 grid grid-cols-1 lg:grid-cols-2 gap-7">
