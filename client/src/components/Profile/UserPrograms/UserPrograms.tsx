@@ -1,7 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-import {slugify} from "../../../helpers/slugify.ts";
 import type {IProgram} from "../../../types/program.ts";
 
 import {IoChevronForward} from "react-icons/io5";
@@ -33,7 +32,6 @@ interface IUserProgramsProps {
     programs: IProgram[];
 }
 
-
 const UserPrograms: React.FC<IUserProgramsProps> = ({programs}) => {
     return (
         <section>
@@ -50,7 +48,7 @@ const UserPrograms: React.FC<IUserProgramsProps> = ({programs}) => {
                 {programs.map((program: any, index: number) => {
                     const Icon = PROGRAM_ICONS[index % PROGRAM_ICONS.length];
                     return (
-                        <Link to={`/program/${slugify(program.name)}`}
+                        <Link to={`/program/${program.slug}`} state={program}
                               key={program.id}
                               className={`bg-[#181B20] border border-[#242830] rounded-2xl px-4 py-3.5 flex items-center gap-4 cursor-pointer hover:border-[#3DDC97]/25 hover:bg-[#1E2228] transition-all shrink-0 ${styles.programCard}`}>
                             <div

@@ -21,22 +21,19 @@ export const workoutService = {
         return res.json();
     },
 
-    async getWorkoutsByProgramId(token: string, programId: string): Promise<IWorkout[]> {
-        if (!programId) throw new Error("programId is required");
-
-        const res = await fetch(`${BASE_URL}/workout/getProgramWorkouts/${programId}`, {
+    async getWorkoutBySlug(token: string, slug: string): Promise<IWorkout> {
+        const res = await fetch(`${BASE_URL}/workout/${slug}`, {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
             },
         });
 
         if (!res.ok) {
-            const err = await res.json();
-            const messages = err.errors?.map((e: any) => e.message).join(", ") || "Failed to get workouts for this program";
-            throw new Error(messages);
+            const err = await res.json().catch(() => ({errors: []}));
+            throw err.errors?.map((e: any) => e.message) || ["Failed to fetch workout"];
         }
 
         return res.json();
-    }
+    },
 };

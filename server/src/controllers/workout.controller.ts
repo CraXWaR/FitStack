@@ -1,7 +1,7 @@
 import {WorkoutService} from "../services/workout.service.js";
 import type {Request, Response} from "express";
 import {CreateWorkoutSchema} from "../validators/workout.validator.js";
-import type {ICreateWorkout, IProgramWorkoutParams} from "../types/Workout.type.js";
+import type {ICreateWorkout} from "../types/Workout.type.js";
 
 export class WorkoutController {
     private workoutService: WorkoutService;
@@ -28,7 +28,7 @@ export class WorkoutController {
             let programOrder: number | null = null;
 
             if (data.programId) {
-                const lastWorkout = await this.workoutService.getLastWorkoutByProgram(data.programId);
+                const lastWorkout = await this.workoutService.getLastWorkoutByProgramId(data.programId);
                 programOrder = lastWorkout?.programOrder != null ? lastWorkout.programOrder + 1 : 1;
             } else {
                 programOrder = null;
@@ -48,25 +48,36 @@ export class WorkoutController {
         }
     }
 
-    getProgramWorkouts = async (req: Request<IProgramWorkoutParams>, res: Response) => {
+    getWorkoutBySlug = async (req: Request, res: Response) => {
         try {
-            const {programId} = req.params;
+            let {workoutSlug} = req.params;
 
-            if (!programId) {
-                return res.status(400).json({message: "programId is required"});
+            if (!workoutSlug || (Array.isArray(workoutSlug) && (workoutSlug = workoutSlug[0]) === undefined)) {
+                return res.status(400).json({
+                    errors: [{ field: "general", message: "Missing workout slug" }],
+                });
             }
 
-            const workouts = await this.workoutService.getWorkoutsByProgramId(programId);
-            return res.status(200).json(workouts);
+            const workout = await this.workoutService.findWorkoutBySlug(workoutSlug);
+            console.log(workoutSlug);
+            if (!workout) {
+                return res.status(404).json({
+                    errors: [{field: "general", message: "Workout not found"}],
+                });
+            }
 
-        } catch (error: any) {
-            console.error(error);
+            if (!workout) {
+                return res.status(404).json({
+                    errors: [{field: "general", message: "Workout not found"}]
+                });
+            }
+
+            return res.json(workout);
+        } catch (err: any) {
+            console.error("Error fetching workout:", err);
             return res.status(500).json({
-                errors: [{
-                    field: "general",
-                    message: error.message || "Failed to create workout"
-                }]
+                errors: [{field: "general", message: err.message || "Internal server error"}]
             });
         }
-    }
+    };
 }

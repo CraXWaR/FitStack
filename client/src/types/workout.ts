@@ -3,6 +3,7 @@ import type {IWorkoutExercise, ISet} from "./exercise";
 export interface IWorkout {
     id: string;
     name: string;
+    slug: string;
     date: string;
     workoutExercises: IWorkoutExercise[];
     programId?: string;

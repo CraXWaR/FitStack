@@ -1,4 +1,5 @@
 import type {ICreateWorkout} from "../types/Workout.type.js";
+import {slugify} from "../../utils/slugify.js";
 import prisma from "../lib/prisma.js";
 
 export class WorkoutService {
@@ -6,6 +7,7 @@ export class WorkoutService {
         return prisma.workout.create({
             data: {
                 name: data.name,
+                slug: slugify(data.name),
                 date: new Date(data.date),
                 user: {connect: {id: userId}},
                 workoutExercises: {
@@ -29,7 +31,7 @@ export class WorkoutService {
         });
     }
 
-    async getLastWorkoutByProgram(programId: string) {
+    async getLastWorkoutByProgramId(programId: string) {
         return prisma.workout.findFirst({
             where: {
                 programId,
@@ -39,15 +41,11 @@ export class WorkoutService {
         });
     }
 
-    async getWorkoutsByProgramId(programId: string) {
-        await prisma.workoutProgram.update({
-            where: { id: programId },
-            data: { lastVisited: new Date() }
-        });
-
-        return prisma.workout.findMany({
-            where: { programId },
-            orderBy: { date: "asc" },
+    async findWorkoutBySlug(slug: string) {
+        return prisma.workout.findFirst({
+            where: {
+                slug,
+            },
             include: {
                 workoutExercises: {
                     include: {

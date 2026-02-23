@@ -1,6 +1,7 @@
 model WorkoutProgram {
   id          String    @id @default(uuid())
   name        String
+  slug        String    @unique
   userId      String
   lastVisited DateTime? @map("last_visited")
   users       User      @relation(fields: [userId], references: [id])

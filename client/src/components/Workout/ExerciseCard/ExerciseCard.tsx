@@ -10,32 +10,28 @@ import styles from "./ExerciseCard.module.css";
 interface ExerciseCardProps {
     workoutExercise: IWorkoutExercise;
     index: number;
-    newSetsFrom: number;
+    newSetIds: Record<string, string[]>;
     onAddSet: (weId: string, reps: number, weight: number) => void;
 }
 
 const bestWeight = (sets: ISet[]): number =>
-    sets.reduce((max, s) => (s.weight > max ? s.weight : max), 0);
+    sets.reduce((max, set) => (set.weight > max ? set.weight : max), 0);
 
-const ExerciseCard: React.FC<ExerciseCardProps> = ({ workoutExercise, index, newSetsFrom, onAddSet }) => {
+const ExerciseCard: React.FC<ExerciseCardProps> = ({workoutExercise, index, onAddSet, newSetIds}) => {
     const [showModal, setShowModal] = useState(false);
-    const { exercise, sets } = workoutExercise;
+    const {exercise, sets} = workoutExercise;
     const vol = calcVolume(sets);
     const best = bestWeight(sets);
 
-    const originalSets = sets.slice(0, newSetsFrom);
-    const addedSets = sets.slice(newSetsFrom);
+    const originalSets = workoutExercise.sets.filter(set => !newSetIds[workoutExercise.id]?.includes(set.id));
+    const addedSets = workoutExercise.sets.filter(set => newSetIds[workoutExercise.id]?.includes(set.id));
     const hasNewSets = addedSets.length > 0;
 
     return (
         <>
-            <article
-                className={styles.card}
-                style={{ animationDelay: `${index * 65}ms` }}>
-                {/* Accent bar */}
-                <div className={styles.cardAccent} />
+            <article className={styles.card} style={{animationDelay: `${index * 65}ms`}}>
+                <div className={styles.cardAccent}/>
 
-                {/* Card header */}
                 <header className={styles.cardHeader}>
                     <div className={styles.cardIndex}>{String(index + 1).padStart(2, "0")}</div>
                     <div className={styles.cardMeta}>
@@ -50,13 +46,13 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ workoutExercise, index, new
                             </div>
                         )}
                         <div className={styles.kpi}>
-                            <span className={styles.kpiVal}>{vol > 0 ? (vol / 1000).toFixed(1) : "—"}<span className={styles.kpiUnit}>{vol > 0 ? "t" : ""}</span></span>
+                            <span className={styles.kpiVal}>{vol > 0 ? (vol / 1000).toFixed(1) : "—"}<span
+                                className={styles.kpiUnit}>{vol > 0 ? "t" : ""}</span></span>
                             <span className={styles.kpiLbl}>vol</span>
                         </div>
                     </div>
                 </header>
 
-                {/* Sets */}
                 <div className={styles.setsBody}>
                     {sets.length === 0 ? (
                         <p className={styles.emptySets}>No sets logged yet</p>
@@ -66,45 +62,47 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({ workoutExercise, index, new
                                 <span>#</span><span>Reps</span><span>Weight</span><span>Vol</span>
                             </div>
 
-                            {/* Original / previous sets */}
-                            {originalSets.map((set, i) => (
-                                <div key={set.id} className={styles.setsGridRow} style={{ animationDelay: `${index * 65 + i * 35}ms` }}>
-                                    <span className={styles.rowIdx}>{i + 1}</span>
+                            {originalSets.map((set, index) => (
+                                <div key={set.id} className={styles.setsGridRow}
+                                     style={{animationDelay: `${index * 65 + index * 35}ms`}}>
+                                    <span className={styles.rowIdx}>{index + 1}</span>
                                     <span className={styles.rowNum}>{set.reps}</span>
-                                    <span className={styles.rowNum}>{set.weight > 0 ? `${set.weight} kg` : <span className={styles.bw}>BW</span>}</span>
-                                    <span className={styles.rowVol}>{set.weight > 0 ? (set.reps * set.weight).toLocaleString() : "—"}</span>
+                                    <span className={styles.rowNum}>{set.weight > 0 ? `${set.weight} kg` :
+                                        <span className={styles.bw}>BW</span>}</span>
+                                    <span
+                                        className={styles.rowVol}>{set.weight > 0 ? (set.reps * set.weight).toLocaleString() : "—"}</span>
                                 </div>
                             ))}
 
-                            {/* Divider + "Today" label when new sets exist */}
                             {hasNewSets && (
                                 <div className={styles.sessionDivider}>
-                                    <span className={styles.sessionDividerLine} />
+                                    <span className={styles.sessionDividerLine}/>
                                     <span className={styles.sessionDividerLabel}>Today</span>
-                                    <span className={styles.sessionDividerLine} />
+                                    <span className={styles.sessionDividerLine}/>
                                 </div>
                             )}
 
-                            {/* Newly added sets — counter restarts from 1 */}
-                            {addedSets.map((set, i) => (
-                                <div key={set.id} className={`${styles.setsGridRow} ${styles.setsGridRowNew}`} style={{ animationDelay: `${i * 40}ms` }}>
-                                    <span className={styles.rowIdxNew}>{i + 1}</span>
+                            {addedSets.map((set, index) => (
+                                <div key={set.id} className={`${styles.setsGridRow} ${styles.setsGridRowNew}`}
+                                     style={{animationDelay: `${index * 40}ms`}}>
+                                    <span className={styles.rowIdxNew}>{index + 1}</span>
                                     <span className={styles.rowNum}>{set.reps}</span>
-                                    <span className={styles.rowNum}>{set.weight > 0 ? `${set.weight} kg` : <span className={styles.bw}>BW</span>}</span>
-                                    <span className={styles.rowVol}>{set.weight > 0 ? (set.reps * set.weight).toLocaleString() : "—"}</span>
+                                    <span className={styles.rowNum}>{set.weight > 0 ? `${set.weight} kg` :
+                                        <span className={styles.bw}>BW</span>}</span>
+                                    <span
+                                        className={styles.rowVol}>{set.weight > 0 ? (set.reps * set.weight).toLocaleString() : "—"}</span>
                                 </div>
                             ))}
                         </div>
                     )}
                 </div>
 
-                {/* Footer */}
                 <button
                     type="button"
                     className={styles.logBtn}
                     onClick={() => setShowModal(true)}>
                     <svg viewBox="0 0 14 14" fill="none" width="12" height="12">
-                        <path d="M7 1v12M1 7h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        <path d="M7 1v12M1 7h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
                     Log Set
                 </button>

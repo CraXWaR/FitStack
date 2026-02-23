@@ -1,6 +1,7 @@
 model Workout {
   id               String            @id @default(uuid())
   name             String
+  slug             String            @unique
   date             DateTime          @default(now())
   userId           String            @map("user_id")
   programId        String?           @map("program_id")

@@ -6,6 +6,6 @@ const router = express.Router();
 const workoutController = new WorkoutController();
 
 router.post('/create', authenticate, workoutController.create);
-router.get('/getProgramWorkouts/:programId', authenticate, workoutController.getProgramWorkouts)
+router.get('/:workoutSlug', authenticate, workoutController.getWorkoutBySlug)
 
 export default router;

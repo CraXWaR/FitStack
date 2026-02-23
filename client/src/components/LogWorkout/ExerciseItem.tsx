@@ -52,7 +52,7 @@ const ExerciseItem: React.FC<{
                             label="Reps"
                             type="number"
                             value={set.reps ?? ""}
-                            onChange={(value) => form.updateSet(index, set.id, "reps", value === "" ? null : Number(value))}
+                            onChange={(value) => form.updateSet(index, set.id, "reps", value ?? null)}
                             min={0}
                             disabled={!exercise.exerciseId}/>
 
@@ -60,7 +60,7 @@ const ExerciseItem: React.FC<{
                             label="Weight (kg)"
                             type="number"
                             value={set.weight ?? ""}
-                            onChange={(value) => form.updateSet(index, set.id, "weight", value === "" ? null : Number(value))}
+                            onChange={(value) => form.updateSet(index, set.id, "weight", value ?? null)}
                             min={0}
                             disabled={!exercise.exerciseId}/>
 

@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import type {IWorkout} from "../../types/workout.ts";
-import {workoutService} from "../../services/workoutService.ts";
+import {programService} from "../../services/programService.ts";
 import {useAuthContext} from "../../context/AuthContext.tsx";
 
 export function useProgramWorkouts(programId?: string) {
@@ -18,7 +18,7 @@ export function useProgramWorkouts(programId?: string) {
 
                 await new Promise((resolve) => setTimeout(resolve, 1500));
 
-                const data = await workoutService.getWorkoutsByProgramId(token, programId);
+                const data = await programService.getWorkoutsByProgramId(token, programId);
                 setWorkouts(data);
             } catch (err: any) {
                 setError(err.message || "Error fetching workouts");

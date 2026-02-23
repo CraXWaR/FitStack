@@ -5,4 +5,5 @@ export interface ICreateProgram {
 export interface IProgram {
     id: string;
     name: string;
+    slug: string;
 }

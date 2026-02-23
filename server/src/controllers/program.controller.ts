@@ -1,5 +1,6 @@
 import {ProgramService} from "../services/program.service.js";
 import type {Request, Response} from "express";
+import type {IGetProgramWorkoutsParams} from "../types/Program.type.js";
 
 export class ProgramController {
     private programService: ProgramService;
@@ -51,4 +52,51 @@ export class ProgramController {
         }
     };
 
+    getProgramBySlug = async (req: Request, res: Response) => {
+        try {
+            const {slug} = req.params;
+            if (!slug || Array.isArray(slug)) {
+                return res.status(400).json({
+                    errors: [{field: "general", message: "Invalid program slug"}]
+                });
+            }
+
+            const program = await this.programService.findBySlug(slug);
+
+            if (!program) {
+                return res.status(404).json({
+                    errors: [{field: "general", message: "Program not found"}]
+                });
+            }
+
+            res.status(202).json(program);
+        } catch (error: any) {
+            console.error("Error fetching program by slug:", error);
+            return res.status(500).json({
+                errors: [{field: "general", message: error.message || "Internal server error"}]
+            });
+        }
+    }
+
+    getProgramWorkouts = async (req: Request<IGetProgramWorkoutsParams>, res: Response) => {
+        try {
+            const {programId} = req.params;
+
+            if (!programId) {
+                return res.status(400).json({message: "programId is required"});
+            }
+
+            const workouts = await this.programService.getWorkoutsByProgramId(programId);
+            return res.status(200).json(workouts);
+
+        } catch (error: any) {
+            console.error(error);
+            return res.status(500).json({
+                errors: [{
+                    field: "general",
+                    message: error.message || "Failed to create workout"
+                }]
+            });
+        }
+    }
 }

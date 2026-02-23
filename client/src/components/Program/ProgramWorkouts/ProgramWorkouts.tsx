@@ -4,29 +4,32 @@ import {useParams} from "react-router";
 
 import type {IWorkout} from "../../../types/workout.ts";
 
-import {formatFullDate} from "../../../helpers/dateFormat.ts";
-import {slugify} from "../../../helpers/slugify.ts";
+import {formatFullDate, getDayInitial} from "../../../helpers/dateFormat.ts";
 
 import styles from "./ProgramWorkouts.module.css"
-
-const getDayInitial = (dateStr: string): string => {
-    const date = new Date(dateStr);
-    const options: Intl.DateTimeFormatOptions = {weekday: "short",};
-    return date.toLocaleDateString("en-US", options).slice(0, 2).toUpperCase();
-};
+import Loading from "../../Layout/General/Loading/Loading.tsx";
 
 interface ProgramWorkoutsProps {
     workoutsCounter: number;
     workouts: IWorkout[];
     getExercises: (workout: IWorkout) => string[];
     getExerciseCount: (workout: IWorkout) => number;
+    loading: boolean;
 }
 
 const ProgramWorkouts: React.FC<ProgramWorkoutsProps> = ({
-                                                             workoutsCounter, workouts, getExercises, getExerciseCount
+                                                             workoutsCounter,
+                                                             workouts,
+                                                             getExercises,
+                                                             getExerciseCount,
+                                                             loading
                                                          }) => {
-    const {slug: programSlug} = useParams<{ slug: string }>();
 
+    if (loading) {
+        return <Loading text="Loading program exercises..."/>
+    }
+
+    const {slug: programSlug} = useParams<{ slug: string }>();
     return (
         <>
             <div className={styles.sectionHeader}>
@@ -36,7 +39,7 @@ const ProgramWorkouts: React.FC<ProgramWorkoutsProps> = ({
 
             <div className={styles.workoutsGrid}>
                 {workouts.map((workout, index) => (
-                    <Link to={`/program/${programSlug}/${slugify(workout.name)}`} key={workout.id}
+                    <Link to={`/program/${programSlug}/${workout.slug}`} key={workout.id} state={workout}
                           className={styles.workoutCard}
                           style={{animationDelay: `${index * 60}ms`}}
                           type="button">

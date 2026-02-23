@@ -32,7 +32,7 @@ const RootLayout: React.FC = () => {
                     <Route path="/profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
                     <Route path="/profile/edit" element={<ProtectedRoute><ProfileEditPage/></ProtectedRoute>}/>
                     <Route path="/program/:slug" element={<ProtectedRoute><ProgramWorkoutPage/></ProtectedRoute>}/>
-                    <Route path="/program/:slug/:workoutslug"
+                    <Route path="/program/:slug/:workoutSlug"
                            element={<ProtectedRoute><WorkoutDetailPage/></ProtectedRoute>}/>
                 </Routes>
             </main>
