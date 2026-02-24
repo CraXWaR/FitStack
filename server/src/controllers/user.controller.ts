@@ -13,7 +13,7 @@ export class UserController {
         this.userService = new UserService();
     }
 
-    public register = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    register = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
         try {
             const validateUserInput = RegisterValidateSchema.safeParse(req.body);
             if (!validateUserInput.success) {
@@ -42,7 +42,7 @@ export class UserController {
 
     }
 
-    public login = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    login = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
         try {
             const {email, password} = req.body;
 
@@ -72,7 +72,7 @@ export class UserController {
         }
     }
 
-    public getUserInfo = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    getUserInfo = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
         try {
             if (!req.user) {
                 return res.status(401).json({errors: [{field: "general", message: "Unauthorized"}]});
@@ -94,7 +94,7 @@ export class UserController {
         }
     }
 
-    public updateUser = async (req: Request, res: Response, next: NextFunction) => {
+    updateUser = async (req: Request, res: Response, next: NextFunction) => {
         try {
             if (!req.user) {
                 return res.status(401).json({errors: [{field: "general", message: "Unauthorized"}]});

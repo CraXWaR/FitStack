@@ -1,7 +1,7 @@
 model WorkoutExercise {
   id         String   @id @default(uuid())
-  workoutId  String
-  exerciseId String
+  workoutId  String   @map("workout_id")
+  exerciseId String   @map("exercise_id")
   sets       Set[]
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
   workout    Workout  @relation(fields: [workoutId], references: [id])

@@ -2,15 +2,18 @@ import React, {useState} from "react";
 
 import type {ISet, IWorkoutExercise} from "../../../types/exercise.ts";
 
-import AddSetModal from "../AddSetModal/AddSetModal.tsx";
 import {calcVolume} from "../../../helpers/calcVolume.ts";
+import {useLatestSets} from "../../../hooks/exercises/useLatestSets.ts";
+
+import SetsGrid from "./SetsGrid/SetsGrid.tsx";
+import AddSetModal from "../AddSetModal/AddSetModal.tsx";
 
 import styles from "./ExerciseCard.module.css";
 
 interface ExerciseCardProps {
     workoutExercise: IWorkoutExercise;
     index: number;
-    newSetIds: Record<string, string[]>;
+    newSetIds: Record<string, { id: string; date: string }[]>;
     onAddSet: (weId: string, reps: number, weight: number) => void;
 }
 
@@ -23,15 +26,12 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({workoutExercise, index, onAd
     const vol = calcVolume(sets);
     const best = bestWeight(sets);
 
-    const originalSets = workoutExercise.sets.filter(set => !newSetIds[workoutExercise.id]?.includes(set.id));
-    const addedSets = workoutExercise.sets.filter(set => newSetIds[workoutExercise.id]?.includes(set.id));
-    const hasNewSets = addedSets.length > 0;
+    const {latestAddedSets, latestOriginalSets} = useLatestSets(workoutExercise, newSetIds);
 
     return (
         <>
             <article className={styles.card} style={{animationDelay: `${index * 65}ms`}}>
                 <div className={styles.cardAccent}/>
-
                 <header className={styles.cardHeader}>
                     <div className={styles.cardIndex}>{String(index + 1).padStart(2, "0")}</div>
                     <div className={styles.cardMeta}>
@@ -46,61 +46,21 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({workoutExercise, index, onAd
                             </div>
                         )}
                         <div className={styles.kpi}>
-                            <span className={styles.kpiVal}>{vol > 0 ? (vol / 1000).toFixed(1) : "—"}<span
-                                className={styles.kpiUnit}>{vol > 0 ? "t" : ""}</span></span>
+                            <span className={styles.kpiVal}>{vol > 0 ? (vol / 1000).toFixed(1) : "—"}
+                                <span className={styles.kpiUnit}>{vol > 0 ? "t" : ""}</span>
+                            </span>
                             <span className={styles.kpiLbl}>vol</span>
                         </div>
                     </div>
                 </header>
 
                 <div className={styles.setsBody}>
-                    {sets.length === 0 ? (
-                        <p className={styles.emptySets}>No sets logged yet</p>
-                    ) : (
-                        <div className={styles.setsGrid}>
-                            <div className={styles.setsGridHead}>
-                                <span>#</span><span>Reps</span><span>Weight</span><span>Vol</span>
-                            </div>
-
-                            {originalSets.map((set, index) => (
-                                <div key={set.id} className={styles.setsGridRow}
-                                     style={{animationDelay: `${index * 65 + index * 35}ms`}}>
-                                    <span className={styles.rowIdx}>{index + 1}</span>
-                                    <span className={styles.rowNum}>{set.reps}</span>
-                                    <span className={styles.rowNum}>{set.weight > 0 ? `${set.weight} kg` :
-                                        <span className={styles.bw}>BW</span>}</span>
-                                    <span
-                                        className={styles.rowVol}>{set.weight > 0 ? (set.reps * set.weight).toLocaleString() : "—"}</span>
-                                </div>
-                            ))}
-
-                            {hasNewSets && (
-                                <div className={styles.sessionDivider}>
-                                    <span className={styles.sessionDividerLine}/>
-                                    <span className={styles.sessionDividerLabel}>Today</span>
-                                    <span className={styles.sessionDividerLine}/>
-                                </div>
-                            )}
-
-                            {addedSets.map((set, index) => (
-                                <div key={set.id} className={`${styles.setsGridRow} ${styles.setsGridRowNew}`}
-                                     style={{animationDelay: `${index * 40}ms`}}>
-                                    <span className={styles.rowIdxNew}>{index + 1}</span>
-                                    <span className={styles.rowNum}>{set.reps}</span>
-                                    <span className={styles.rowNum}>{set.weight > 0 ? `${set.weight} kg` :
-                                        <span className={styles.bw}>BW</span>}</span>
-                                    <span
-                                        className={styles.rowVol}>{set.weight > 0 ? (set.reps * set.weight).toLocaleString() : "—"}</span>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                    {latestOriginalSets.length + latestAddedSets.length === 0
+                        ? <p className={styles.emptySets}>No sets logged yet</p>
+                        : <SetsGrid originalSets={latestOriginalSets} addedSets={latestAddedSets}/>}
                 </div>
 
-                <button
-                    type="button"
-                    className={styles.logBtn}
-                    onClick={() => setShowModal(true)}>
+                <button type="button" className={styles.logBtn} onClick={() => setShowModal(true)}>
                     <svg viewBox="0 0 14 14" fill="none" width="12" height="12">
                         <path d="M7 1v12M1 7h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
@@ -111,7 +71,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({workoutExercise, index, onAd
             {showModal && (
                 <AddSetModal
                     exerciseName={exercise.name}
-                    currentSets={addedSets.length}
+                    currentSets={latestAddedSets.length}
                     onClose={() => setShowModal(false)}
                     onAdd={(reps, weight) => onAddSet(workoutExercise.id, reps, weight)}
                 />

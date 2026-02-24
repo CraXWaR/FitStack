@@ -54,12 +54,11 @@ export class WorkoutController {
 
             if (!workoutSlug || (Array.isArray(workoutSlug) && (workoutSlug = workoutSlug[0]) === undefined)) {
                 return res.status(400).json({
-                    errors: [{ field: "general", message: "Missing workout slug" }],
+                    errors: [{field: "general", message: "Missing workout slug"}],
                 });
             }
 
             const workout = await this.workoutService.findWorkoutBySlug(workoutSlug);
-            console.log(workoutSlug);
             if (!workout) {
                 return res.status(404).json({
                     errors: [{field: "general", message: "Workout not found"}],

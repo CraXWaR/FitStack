@@ -1,0 +1,9 @@
+model TodayAddedSet {
+  id                String   @id @default(uuid())
+  setId             String   @map("set_id")
+  userId            String   @map("user_id")
+  workoutExerciseId String   @map("workout_exercise_id")
+  date              DateTime @default(now())
+
+  @@map("today_added_sets")
+}

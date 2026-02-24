@@ -30,13 +30,13 @@
     align-items: flex-start;
     gap: 12px;
     padding: 16px 16px 14px 20px;
-    border-bottom: 1px solid var(--border-subtle);;
+    border-bottom: 1px solid var(--border-subtle);
 }
 
 .cardIndex {
     font-size: 11px;
     font-weight: 800;
-    color: var(--accent-main);;
+    color: var(--accent-main);
     letter-spacing: 0.08em;
     font-variant-numeric: tabular-nums;
     padding-top: 1px;
@@ -108,127 +108,6 @@
     color: var(--text-secondary);
 }
 
-/* Sets body */
-.setsBody {
-    flex: 1;
-}
-
-.emptySets {
-    padding: 18px 20px;
-    font-size: 12px;
-    color: var(--text-secondary);
-    font-style: italic;
-}
-
-.setsGrid {
-    width: 100%;
-}
-
-.setsGridHead {
-    display: grid;
-    grid-template-columns: 24px 1fr 1fr 1fr;
-    padding: 6px 16px 6px 20px;
-    color: var(--bg-elevated);
-    border-bottom: 1px solid var(--border-subtle);;
-    gap: 8px;
-}
-
-.setsGridHead span {
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-secondary);
-}
-
-.setsGridRow {
-    display: grid;
-    grid-template-columns: 24px 1fr 1fr 1fr;
-    padding: 9px 16px 9px 20px;
-    gap: 8px;
-    border-bottom: 1px solid var(--border-subtle);;
-    align-items: center;
-    animation: riseIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
-    transition: background 0.1s;
-}
-
-.setsGridRow:last-child {
-    border-bottom: none;
-}
-
-.setsGridRow:hover {
-    background: rgba(61, 220, 151, 0.025);
-}
-
-.rowIdx {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--accent-main);;
-    font-variant-numeric: tabular-nums;
-}
-
-.rowNum {
-    font-size: 13px;
-    font-weight: 600;
-    color: #E6E8EB;
-    font-variant-numeric: tabular-nums;
-}
-
-.rowVol {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    font-variant-numeric: tabular-nums;
-}
-
-.sessionDivider {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 16px 6px 20px;
-    background: rgba(61, 220, 151, 0.04);
-    border-top: 1px solid rgba(61, 220, 151, 0.12);
-    border-bottom: 1px solid rgba(61, 220, 151, 0.12);
-}
-
-.sessionDividerLine {
-    flex: 1;
-    height: 1px;
-    background: rgba(61, 220, 151, 0.2);
-}
-
-.sessionDividerLabel {
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--accent-main);;
-    flex-shrink: 0;
-}
-
-.setsGridRowNew {
-    background: rgba(61, 220, 151, 0.025);
-}
-
-.setsGridRowNew:hover {
-    background: rgba(61, 220, 151, 0.05) !important;
-}
-
-.rowIdxNew {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--accent-main);;
-    font-variant-numeric: tabular-nums;
-    opacity: 0.7;
-}
-
-.bw {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    color: var(--text-secondary);
-}
-
 .logBtn {
     display: flex;
     align-items: center;
@@ -237,8 +116,8 @@
     padding: 11px;
     background: transparent;
     border: none;
-    border-top: 1px solid var(--border-subtle);;
-    color: var(--accent-main);;
+    border-top: 1px solid var(--border-subtle);
+    color: var(--accent-main);
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.05em;

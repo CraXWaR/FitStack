@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useCallback} from "react";
 import {useParams, useLocation} from "react-router-dom";
 import {useAuthContext} from "../../context/AuthContext.tsx";
 
 import type {IWorkout} from "../../types/workout.ts";
-import type {ISet} from "../../types/exercise.ts";
 
 import {workoutService} from "../../services/workoutService.ts";
+import {setService, type NewSetRecord} from "../../services/setService.ts";
 
 export const useGetWorkoutExercises = () => {
     const {token} = useAuthContext();
@@ -16,56 +16,80 @@ export const useGetWorkoutExercises = () => {
     const [workout, setWorkout] = useState<IWorkout | null>(initialWorkout ?? null);
     const [loading, setLoading] = useState(!initialWorkout);
     const [error, setError] = useState<string | null>(null);
+    const [newSetIds, setNewSetIds] = useState<NewSetRecord>({});
 
-    const [newSetIds, setNewSetIds] = useState<Record<string, string[]>>({});
+    const getTodayStr = () => new Date().toISOString().split("T")[0];
 
     useEffect(() => {
-        if (workout || !workoutSlug || !token) return;
+        if (!workoutSlug || !token) return;
 
         const fetchWorkout = async () => {
-            setLoading(true);
-            setError(null);
             try {
                 const data = await workoutService.getWorkoutBySlug(token, workoutSlug);
                 setWorkout(data);
             } catch (err: any) {
                 setError(err[0] || "Failed to fetch workout");
             } finally {
-                setLoading(false);
+                if (!initialWorkout) setLoading(false);
             }
         };
 
         fetchWorkout();
-    }, [workoutSlug, token, workout]);
+    }, [workoutSlug, token]);
 
-    const addSet = (workoutExerciseId: string, reps: number, weight: number) => {
-        if (!workout) return;
+    useEffect(() => {
+        if (!workout || !token) return;
 
-        const newSet: ISet = {
-            id: crypto.randomUUID(),
-            reps,
-            weight,
-            createdAt: new Date().toISOString(),
+        const fetchSets = async () => {
+            const exerciseIds = workout.workoutExercises.map(workoutExercise => workoutExercise.id);
+            if (exerciseIds.length === 0) return;
+
+            try {
+                const todaySets = await setService.fetchTodayAddedSets(token, exerciseIds);
+                setNewSetIds(todaySets);
+            } catch (err) {
+                console.error(err);
+            }
         };
 
-        setWorkout(prev => {
-            if (!prev) return prev;
+        fetchSets();
+    }, [workout, token]);
 
-            return {
-                ...prev,
-                workoutExercises: prev.workoutExercises.map(workoutExercise =>
-                    workoutExercise.id === workoutExerciseId
-                        ? {...workoutExercise, sets: [...workoutExercise.sets, newSet]}
-                        : workoutExercise
-                ),
-            };
-        });
+    const addSet = useCallback(
+        async (workoutExerciseId: string, reps: number, weight: number) => {
+            if (!workout || !token) return;
 
-        setNewSetIds(prev => ({
-            ...prev,
-            [workoutExerciseId]: [...(prev[workoutExerciseId] || []), newSet.id],
-        }));
-    };
+            try {
+                const created = await setService.addSet(token, workoutExerciseId, reps, weight);
+
+                setWorkout(prev => {
+                    if (!prev) return prev;
+                    return {
+                        ...prev,
+                        workoutExercises: prev.workoutExercises.map(workoutExercise =>
+                            workoutExercise.id === workoutExerciseId
+                                ? {...workoutExercise, sets: [...workoutExercise.sets, created.set]}
+                                : workoutExercise
+                        ),
+                    };
+                });
+
+                if (created.todayAdded) {
+                    const todayStr = getTodayStr();
+                    setNewSetIds(prev => ({
+                        ...prev,
+                        [workoutExerciseId]: [
+                            ...(prev[workoutExerciseId] || []),
+                            {id: created.set.id, date: todayStr},
+                        ],
+                    }));
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        },
+        [workout, token]
+    );
 
     return {workout, loading, error, addSet, newSetIds};
 };
