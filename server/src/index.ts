@@ -24,7 +24,7 @@ app.use('/exercises', exerciseRoute);
 app.use('/program', programRoute);
 app.use('/set', setRoute);
 
-app.use("*", apiNotFound);
+app.use(apiNotFound);
 
 app.listen(process.env.PORT, () => {
     console.log('Server running on port 5000...')
