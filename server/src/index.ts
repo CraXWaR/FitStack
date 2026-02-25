@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from "cookie-parser";
 
-import healthRoute from "./routes/health.route.js";
 import userRoute from "./routes/user.route.js";
 import workoutRoute from "./routes/workout.route.js";
 import exerciseRoute from "./routes/exercise.route.js";
@@ -18,8 +17,6 @@ const app = express();
 app.use(cors({origin: true, credentials: true}));
 app.use(express.json());
 app.use(cookieParser());
-
-app.use('/health', healthRoute);
 
 app.use('/auth', userRoute);
 app.use('/workout', workoutRoute);
