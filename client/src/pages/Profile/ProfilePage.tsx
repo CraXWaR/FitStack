@@ -10,16 +10,15 @@ import UserProfileInfo from "../../components/Profile/UserProfileInfo/UserProfil
 import UserPrograms from "../../components/Profile/UserPrograms/UserPrograms.tsx";
 import Stats from "../../components/Stats/Stats.tsx";
 
+import NotFound from "../NotFound/NotFound.tsx";
+
 import styles from "./ProfilePage.module.css";
 
 const ProfilePage: React.FC = () => {
     const {user} = useAuthContext();
     const {programs} = usePrograms();
 
-    //TODO CREATE 404 PAGE
-    if (!user) {
-        return (<div>no user bro</div>)
-    }
+    if (!user) return <NotFound/>
 
     const totalWorkouts = user.workouts?.length ?? 0;
     const totalPrograms = programs?.length ?? 0;

@@ -15,7 +15,7 @@ export const useGetWorkoutExercises = () => {
 
     const [workout, setWorkout] = useState<IWorkout | null>(initialWorkout ?? null);
     const [loading, setLoading] = useState(!initialWorkout);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<{ messages?: string[] } | null>(null);
     const [newSetIds, setNewSetIds] = useState<NewSetRecord>({});
 
     const getTodayStr = () => new Date().toISOString().split("T")[0];
@@ -28,7 +28,7 @@ export const useGetWorkoutExercises = () => {
                 const data = await workoutService.getWorkoutBySlug(token, workoutSlug);
                 setWorkout(data);
             } catch (err: any) {
-                setError(err[0] || "Failed to fetch workout");
+                setError({messages: err.response?.data?.errors?.map((e: any) => e.message) || ["Failed to fetch workout"],});
             } finally {
                 if (!initialWorkout) setLoading(false);
             }
@@ -55,8 +55,7 @@ export const useGetWorkoutExercises = () => {
         fetchSets();
     }, [workout, token]);
 
-    const addSet = useCallback(
-        async (workoutExerciseId: string, reps: number, weight: number) => {
+    const addSet = useCallback(async (workoutExerciseId: string, reps: number, weight: number) => {
             if (!workout || !token) return;
 
             try {
@@ -84,8 +83,9 @@ export const useGetWorkoutExercises = () => {
                         ],
                     }));
                 }
-            } catch (err) {
+            } catch (err: any) {
                 console.error(err);
+                setError(err)
             }
         },
         [workout, token]

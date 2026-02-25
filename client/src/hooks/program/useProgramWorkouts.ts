@@ -7,7 +7,7 @@ export function useProgramWorkouts(programId?: string) {
     const {token} = useAuthContext();
     const [workouts, setWorkouts] = useState<IWorkout[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<{ messages: string[] } | null>(null);
 
     useEffect(() => {
         if (!programId || !token) return;
@@ -15,13 +15,12 @@ export function useProgramWorkouts(programId?: string) {
         const loadWorkouts = async () => {
             try {
                 setLoading(true);
-
                 await new Promise((resolve) => setTimeout(resolve, 1500));
-
                 const data = await programService.getWorkoutsByProgramId(token, programId);
+
                 setWorkouts(data);
             } catch (err: any) {
-                setError(err.message || "Error fetching workouts");
+                setError({messages: err.response?.data?.errors?.map((e: any) => e.message) || ["Failed to fetch workouts"],});
             } finally {
                 setLoading(false);
             }

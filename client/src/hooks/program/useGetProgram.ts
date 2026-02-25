@@ -13,7 +13,7 @@ export const useGetProgram = () => {
 
     const [program, setProgram] = useState<IProgram | null>(initialProgram ?? null);
     const [loading, setLoading] = useState(!initialProgram);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<{ messages: string[] } | null>(null);
 
     useEffect(() => {
         if (program || !slug || !token) return;
@@ -24,7 +24,7 @@ export const useGetProgram = () => {
                 const data = await programService.getProgramBySlug(token, slug);
                 setProgram(data);
             } catch (err: any) {
-                setError(err[0] || "Failed to load program");
+                setError({messages: err.response?.data?.errors?.map((e: any) => e.message) || ["Failed to load program"],});
             } finally {
                 setLoading(false);
             }

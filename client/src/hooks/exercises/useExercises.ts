@@ -14,8 +14,8 @@ export const useExercises = () => {
 
                 // fake delay to show loading state
                 await new Promise((resolve) => setTimeout(resolve, 1500));
-
                 const data = await exerciseService.getAll();
+
                 setExercises(data);
                 setError(null);
             } catch (err: any) {

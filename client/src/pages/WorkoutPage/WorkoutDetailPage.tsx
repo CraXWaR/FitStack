@@ -6,6 +6,8 @@ import {useGetWorkoutExercises} from "../../hooks/workout/useGetWorkoutExercises
 import Loading from "../../components/Layout/General/Loading/Loading.tsx";
 import Hero from "../../components/Workout/Hero/Hero.tsx";
 import ExerciseCard from "../../components/Workout/ExerciseCard/ExerciseCard.tsx";
+import NotFound from "../NotFound/NotFound.tsx";
+import Error from "../../components/Layout/General/Error/Error.tsx";
 
 import styles from "./WorkoutDetailPage.module.css";
 
@@ -14,8 +16,8 @@ const WorkoutDetailPage: React.FC = () => {
     const {workout, loading, error, addSet, newSetIds} = useGetWorkoutExercises()
 
     if (loading) return <Loading text="Loading workout..."/>;
-    if (error) return <div>{error}</div>;
-    if (!workout) return <div>Workout not found</div>;
+    if (error) return <Error messages={error.messages}/>;
+    if (!workout) return <NotFound/>;
 
     return (
         <div className={styles.page}>

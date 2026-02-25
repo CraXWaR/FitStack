@@ -31,7 +31,8 @@ export const workoutService = {
 
         if (!res.ok) {
             const err = await res.json().catch(() => ({errors: []}));
-            throw err.errors?.map((e: any) => e.message) || ["Failed to fetch workout"];
+            console.log(err)
+            throw err.errors?.map((e: any) => e.message) || ["Failed to fetch workosut"];
         }
 
         return res.json();

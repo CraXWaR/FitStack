@@ -15,6 +15,7 @@ import ProfileEditPage from "./pages/Profile/ProfileEditPage.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import ProgramWorkoutPage from "./pages/ProgramPage/ProgramPage.tsx";
 import WorkoutDetailPage from "./pages/WorkoutPage/WorkoutDetailPage.tsx";
+import NotFound from "./pages/NotFound/NotFound.tsx";
 
 const RootLayout: React.FC = () => {
     return (
@@ -28,12 +29,15 @@ const RootLayout: React.FC = () => {
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
 
-                    <Route path="/log-workout" element={<ProtectedRoute><LogWorkoutPage/></ProtectedRoute>}/>
-                    <Route path="/profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
-                    <Route path="/profile/edit" element={<ProtectedRoute><ProfileEditPage/></ProtectedRoute>}/>
-                    <Route path="/program/:slug" element={<ProtectedRoute><ProgramWorkoutPage/></ProtectedRoute>}/>
-                    <Route path="/program/:slug/:workoutSlug"
-                           element={<ProtectedRoute><WorkoutDetailPage/></ProtectedRoute>}/>
+                    <Route element={<ProtectedRoute/>}>
+                        <Route path="/log-workout" element={<LogWorkoutPage/>}/>
+                        <Route path="/profile" element={<ProfilePage/>}/>
+                        <Route path="/profile/edit" element={<ProfileEditPage/>}/>
+                        <Route path="/program/:slug" element={<ProgramWorkoutPage/>}/>
+                        <Route path="/program/:slug/:workoutSlug" element={<WorkoutDetailPage/>}/>
+                    </Route>
+
+                    <Route path="*" element={<NotFound/>}/>
                 </Routes>
             </main>
 

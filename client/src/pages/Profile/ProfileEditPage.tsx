@@ -5,6 +5,8 @@ import {useProfileEdit} from "../../hooks/auth/useProfileEdit.ts";
 import Form from "../../components/Layout/UI/Form/Form.tsx";
 import InputField from "../../components/Layout/UI/InputField/InputField.tsx";
 
+import NotFound from "../NotFound/NotFound.tsx";
+
 const ProfileEditPage: React.FC = () => {
     const {
         userData,
@@ -17,8 +19,7 @@ const ProfileEditPage: React.FC = () => {
         formatNumberInput,
     } = useProfileEdit();
 
-    //TODO ADD NO FOUND COMPONENT
-    if (!userData.firstName && !userData.lastName && !profileData) return <div>no found bro</div>;
+    if (!userData.firstName && !userData.lastName && !profileData) return <NotFound/>;
 
     return (
         <div className="max-w-xl mx-auto px-4 py-8">

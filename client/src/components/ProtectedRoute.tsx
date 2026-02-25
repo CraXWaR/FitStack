@@ -1,18 +1,19 @@
-import React, {type ReactNode} from "react";
-import {Navigate} from "react-router";
+import React from "react";
+import {Navigate, Outlet} from "react-router";
+
 import {useAuthContext} from "../context/AuthContext.tsx";
+
 import Loading from "./Layout/General/Loading/Loading.tsx";
 
-interface IProtectedRoute {
-    children: ReactNode;
-}
-
-export const ProtectedRoute: React.FC<IProtectedRoute> = ({children}) => {
+export const ProtectedRoute: React.FC = () => {
     const {isLoggedIn, loading} = useAuthContext();
-    if (loading) return <Loading />;
-    if (!isLoggedIn) return <Navigate to="/login" replace/>;
+    if (loading) return <Loading/>;
 
-    return <>{children}</>;
+    if (!isLoggedIn) {
+        return <Navigate to="/login" replace/>;
+    }
+
+    return <Outlet/>;
 };
 
 export default ProtectedRoute;

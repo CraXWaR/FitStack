@@ -10,16 +10,14 @@ import exerciseRoute from "./routes/exercise.route.js";
 import programRoute from "./routes/program.route.js";
 import setRoute from "./routes/set.route.js";
 
+import {apiNotFound} from "./middlewares/notFound.js";
+
 dotenv.config();
 const app = express();
 
 app.use(cors({origin: true, credentials: true}));
 app.use(express.json());
 app.use(cookieParser());
-
-app.listen(process.env.PORT, () => {
-    console.log('Server running on port 5000...')
-});
 
 app.use('/health', healthRoute);
 
@@ -28,3 +26,9 @@ app.use('/workout', workoutRoute);
 app.use('/exercises', exerciseRoute);
 app.use('/program', programRoute);
 app.use('/set', setRoute);
+
+app.use("*", apiNotFound);
+
+app.listen(process.env.PORT, () => {
+    console.log('Server running on port 5000...')
+});

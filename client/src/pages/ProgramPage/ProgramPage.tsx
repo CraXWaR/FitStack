@@ -7,17 +7,19 @@ import ProgramWorkouts from "../../components/Program/ProgramWorkouts/ProgramWor
 import ProgramHeader from "../../components/Program/ProgramHeader/ProgramHeader.tsx";
 import ProgramBreadcrumb from "../../components/Program/ProgramBreadcrumb/ProgramBreadcrumb.tsx";
 
+import Error from "../../components/Layout/General/Error/Error.tsx";
+import NotFound from "../NotFound/NotFound.tsx";
+
 import styles from "./ProgramPage.module.css";
 
-
 const ProgramPage: React.FC = () => {
-    const { program, error } = useGetProgram();
+    const {program, error} = useGetProgram();
     const programId = program?.id
 
-    const { workouts, loading: workoutsLoading, getExerciseCount, getWorkoutExercise } = useProgramWorkouts(programId);
+    const {workouts, loading: workoutsLoading, getExerciseCount, getWorkoutExercise} = useProgramWorkouts(programId);
 
-    if (error) return <div>{error}</div>;
-    if (!program) return <div>No program found</div>;
+    if (error) return <Error messages={error.messages}/>;
+    if (!program) return <NotFound/>;
 
     const totalExercises = workouts.reduce((totalExercisesSoFar, currentWorkout) => {
         const exercisesInWorkout = getExerciseCount(currentWorkout);
