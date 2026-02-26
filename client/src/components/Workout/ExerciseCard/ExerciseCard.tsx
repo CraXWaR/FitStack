@@ -27,7 +27,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({workoutExercise, index, onAd
     const best = bestWeight(sets);
 
     const {latestAddedSets, latestOriginalSets} = useLatestSets(workoutExercise, newSetIds);
-//TODO FIX WHEN ADD SET TO NOT REMOVE THE LAST SETS
+
     return (
         <>
             <article className={styles.card} style={{animationDelay: `${index * 65}ms`}}>

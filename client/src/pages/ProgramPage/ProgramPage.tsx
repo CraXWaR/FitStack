@@ -16,7 +16,6 @@ const ProgramPage: React.FC = () => {
     const {program, error} = useGetProgram();
     const programId = program?.id
     const {workouts, loading: workoutsLoading, getExerciseCount, getWorkoutExercise} = useProgramWorkouts(programId);
-    console.log(workouts)
 
     if (error) return <Error messages={error.messages}/>;
     if (!program) return <NotFound/>;

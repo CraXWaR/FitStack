@@ -5,22 +5,21 @@ export const useLatestSets = (workoutExercise: IWorkoutExercise, newSetIds: Reco
     date: string
 }[]>) => {
     const allSets = workoutExercise.sets;
+    const todayStr = new Date().toDateString();
 
-    const latestDate = allSets.reduce((latest, set) => {
+    const addedSetRecords = newSetIds[workoutExercise.id] || [];
+
+    const latestAddedSets = allSets.filter(set => addedSetRecords.some(newSet =>
+        newSet.id === set.id && new Date(newSet.date).toDateString() === todayStr));
+    const nonAddedSets = allSets.filter(set => !latestAddedSets.some(addedSet => addedSet.id === set.id));
+
+    const latestDate = nonAddedSets.reduce((latest, set) => {
         const setDate = new Date(set.createdAt);
         return setDate > latest ? setDate : latest;
     }, new Date(0));
 
-    const latestSets = allSets.filter(
-        (set) => new Date(set.createdAt).toDateString() === latestDate.toDateString()
-    );
+    const latestOriginalSets = nonAddedSets.filter(set =>
+        new Date(set.createdAt).toDateString() === latestDate.toDateString());
 
-    const todayStr = new Date().toDateString();
-
-    const latestAddedSets = latestSets.filter((set) => newSetIds[workoutExercise.id]?.some(
-        (newSet) => newSet.id === set.id && new Date(newSet.date).toDateString() === todayStr));
-
-    const latestOriginalSets = latestSets.filter((set) => !latestAddedSets.includes(set));
-
-    return {latestSets, latestAddedSets, latestOriginalSets};
+    return {latestAddedSets, latestOriginalSets};
 };
