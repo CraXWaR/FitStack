@@ -52,8 +52,14 @@ npx prisma db seed
 ```
 
 This will create:
-- A default user account for testing
-- A predefined list of exercises (Push, Pull, Legs, and accessory movements)
+- A default test user
+- 70+ predefined exercises across 8 categories (Chest, Back, Shoulders, Legs, Biceps, Triceps, Core, Full Body)
+
+**Default test credentials:**
+```
+Email:    test@gmail.com
+Password: 123
+```
 
 > Seed data is defined in `prisma/seeders/seed.ts`.
 
