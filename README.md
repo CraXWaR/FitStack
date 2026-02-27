@@ -1,6 +1,6 @@
 # 🏋️ FitStack
 
-> Your personal digital gym journal . Fast, minimalist, and built for people who train seriously.
+> Your personal digital gym journal. Fast, minimalist, and built for people who train seriously.
 
 ---
 
