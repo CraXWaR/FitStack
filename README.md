@@ -30,13 +30,13 @@
 git clone https://github.com/CraXWaR/FitStack.git
 
 # Backend
-cd backend && npm install
+cd server && npm install
 cp .env.example .env   # fill in DATABASE_URL and JWT_SECRET
 npx prisma migrate dev
 npm run dev
 
 # Frontend
-cd ../frontend && npm install
+cd ../client && npm install
 npm run dev
 ```
 
