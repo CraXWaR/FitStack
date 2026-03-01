@@ -6,6 +6,20 @@ import Form from "../../components/Layout/UI/Form/Form.tsx";
 import InputField from "../../components/Layout/UI/InputField/InputField.tsx";
 
 import NotFound from "../NotFound/NotFound.tsx";
+import SelectField from "../../components/Layout/UI/Select/SelectField.tsx";
+
+const fitnessGoalOptions = [
+    {value: "Lose Weight", label: "Lose Weight"},
+    {value: "Build Muscle", label: "Build Muscle"},
+    {value: "Improve Endurance", label: "Improve Endurance"},
+    {value: "Increase Strength", label: "Increase Strength"},
+    {value: "Tone Body", label: "Tone Body"},
+    {value: "Improve Flexibility", label: "Improve Flexibility"},
+    {value: "General Fitness", label: "General Fitness"},
+    {value: "Rehabilitation / Recovery", label: "Rehabilitation / Recovery"},
+    {value: "Sports Performance", label: "Sports Performance"},
+    {value: "Maintain Weight", label: "Maintain Weight"},
+];
 
 const ProfileEditPage: React.FC = () => {
     const {
@@ -52,11 +66,14 @@ const ProfileEditPage: React.FC = () => {
                                     age: value === "" ? null : Number(value)
                                 }))} min={0}/>
 
-                    <InputField label="Goal" value={profileData.goal ?? ""}
-                                onChange={(value: string) => setProfileData(prev => ({
-                                    ...prev,
-                                    goal: value === "" ? null : value
-                                }))}/>
+                    <SelectField
+                        label="Goal"
+                        value={profileData.goal ?? ""}
+                        onChange={(value: string) => setProfileData(prev => ({
+                            ...prev,
+                            goal: value === "" ? null : value
+                        }))}
+                        options={fitnessGoalOptions}/>
                 </div>
             </Form>
         </div>
