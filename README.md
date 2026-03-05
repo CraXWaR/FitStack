@@ -79,4 +79,4 @@ PORT=5000
 
 - [x] Auth & workout logging
 - [x] Program management
-- [ ] Progressive overload suggestions
+- [x] Progressive overload suggestions
