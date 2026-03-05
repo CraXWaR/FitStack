@@ -71,6 +71,7 @@ Password: 123
 DATABASE_URL=postgresql://user:password@localhost:5432/fitstack
 JWT_SECRET=your_secret_here
 PORT=5000
+GROQ_API_KEY=your_groq_api_key_here
 ```
 
 ---
