@@ -8,6 +8,7 @@ import workoutRoute from "./routes/workout.route.js";
 import exerciseRoute from "./routes/exercise.route.js";
 import programRoute from "./routes/program.route.js";
 import setRoute from "./routes/set.route.js";
+import aiRoute from "./routes/ai.route.js";
 
 import {apiNotFound} from "./middlewares/notFound.js";
 
@@ -23,6 +24,8 @@ app.use('/workout', workoutRoute);
 app.use('/exercises', exerciseRoute);
 app.use('/program', programRoute);
 app.use('/set', setRoute);
+
+app.use('/ai', aiRoute);
 
 app.use(apiNotFound);
 

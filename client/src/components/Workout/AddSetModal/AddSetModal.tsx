@@ -10,13 +10,15 @@ import styles from "./AddSetModal.module.css";
 interface AddSetModalProps {
     exerciseName: string;
     currentSets: number;
+    defaultReps?: number;
+    defaultWeight?: number;
     onClose: () => void;
     onAdd: (reps: number, weight: number) => void;
 }
 
-const AddSetModal: React.FC<AddSetModalProps> = ({exerciseName, onClose, onAdd}) => {
-    const [reps, setReps] = useState("");
-    const [weight, setWeight] = useState("");
+const AddSetModal: React.FC<AddSetModalProps> = ({exerciseName, onClose, onAdd, defaultReps, defaultWeight}) => {
+    const [reps, setReps] = useState(defaultReps ? String(defaultReps) : "");
+    const [weight, setWeight] = useState(defaultWeight ? String(defaultWeight) : "");
 
     const validate = () => {
         const e: { reps?: string; weight?: string } = {};

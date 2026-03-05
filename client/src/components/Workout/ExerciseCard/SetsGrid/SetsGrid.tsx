@@ -58,6 +58,6 @@ const SetsGrid: React.FC<SetsGridProps> = ({originalSets, addedSets}) => (
             </>
         )}
     </div>
-);
+)
 
 export default SetsGrid;

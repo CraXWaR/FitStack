@@ -1,12 +1,18 @@
 import React, {useState} from "react";
 
+import {FiPlus, FiZap} from "react-icons/fi";
+
 import type {ISet, IWorkoutExercise} from "../../../types/exercise.ts";
 
 import {calcVolume} from "../../../helpers/calcVolume.ts";
 import {useLatestSets} from "../../../hooks/exercises/useLatestSets.ts";
+import {useAuthContext} from "../../../context/AuthContext.tsx";
+import {useAISuggest} from "../../../hooks/ai/useAISuggest.ts";
 
 import SetsGrid from "./SetsGrid/SetsGrid.tsx";
 import AddSetModal from "../AddSetModal/AddSetModal.tsx";
+import Error from "../../Layout/General/Error/Error.tsx";
+import Button from "../../Layout/UI/Button/Button.tsx";
 
 import styles from "./ExerciseCard.module.css";
 
@@ -17,16 +23,37 @@ interface ExerciseCardProps {
     onAddSet: (weId: string, reps: number, weight: number) => void;
 }
 
-const bestWeight = (sets: ISet[]): number =>
-    sets.reduce((max, set) => (set.weight > max ? set.weight : max), 0);
+const bestWeight = (sets: ISet[]): number => sets.reduce((max, set) => (set.weight > max ? set.weight : max), 0);
 
 const ExerciseCard: React.FC<ExerciseCardProps> = ({workoutExercise, index, onAddSet, newSetIds}) => {
     const [showModal, setShowModal] = useState(false);
+    const [modalDefaults, setModalDefaults] = useState<{ reps: number; weight: number } | undefined>();
+
     const {exercise, sets} = workoutExercise;
     const vol = calcVolume(sets);
     const best = bestWeight(sets);
 
     const {latestAddedSets, latestOriginalSets} = useLatestSets(workoutExercise, newSetIds);
+    const validOriginalSets = latestOriginalSets.filter(s => s.reps > 0 || s.weight > 0);
+
+    const {user} = useAuthContext();
+    const {suggestion, loading, error, suggest, clear} = useAISuggest();
+
+    const handleSuggest = () => {
+        if (validOriginalSets.length === 0) return;
+        suggest(
+            exercise.name,
+            validOriginalSets.map(set => ({reps: set.reps, weight: set.weight})),
+            user?.profile?.goal ?? "General Fitness"
+        );
+    };
+
+    const handleApply = () => {
+        if (!suggestion) return;
+        setModalDefaults({reps: suggestion.reps, weight: suggestion.weight});
+        setShowModal(true);
+        clear();
+    };
 
     return (
         <>
@@ -55,23 +82,53 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({workoutExercise, index, onAd
                 </header>
 
                 <div className={styles.setsBody}>
-                    {latestOriginalSets.length + latestAddedSets.length === 0
+                    {latestOriginalSets.filter(s => s.reps > 0 || s.weight > 0).length + latestAddedSets.length === 0
                         ? <p className={styles.emptySets}>No sets logged yet</p>
-                        : <SetsGrid originalSets={latestOriginalSets} addedSets={latestAddedSets}/>}
+                        : <SetsGrid originalSets={latestOriginalSets.filter(set => set.reps > 0 || set.weight > 0)}
+                                    addedSets={latestAddedSets}/>}
                 </div>
 
-                <button type="button" className={styles.logBtn} onClick={() => setShowModal(true)}>
-                    <svg viewBox="0 0 14 14" fill="none" width="12" height="12">
-                        <path d="M7 1v12M1 7h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                    </svg>
-                    Log Set
-                </button>
+                {suggestion && (
+                    <div className={styles.aiSuggestion}>
+                        <FiZap size={14}/>
+                        <div className={styles.aiText}>
+                            <strong>{suggestion.reps} reps × {suggestion.weight}kg</strong>
+                            <span>{suggestion.reasoning}</span>
+                        </div>
+                        <Button variant={"outline"} className={styles.aiApply} onClick={handleApply}>
+                            Apply
+                        </Button>
+                    </div>
+                )}
+
+                {error && <Error messages={error}/>}
+
+                <div className={styles.cardActions}>
+                    <button
+                        type="button"
+                        className={styles.aiBtn}
+                        disabled={loading || validOriginalSets.length === 0}
+                        onClick={handleSuggest}>
+                        <FiZap size={14}/>
+                        {validOriginalSets.length === 0 ? "No history" : loading ? "..." : "AI Suggest"}
+                    </button>
+
+                    <button type="button" className={styles.logBtn} onClick={() => {
+                        setModalDefaults(undefined);
+                        setShowModal(true);
+                    }}>
+                        <FiPlus size={14}/>
+                        Log Set
+                    </button>
+                </div>
             </article>
 
             {showModal && (
                 <AddSetModal
                     exerciseName={exercise.name}
                     currentSets={latestAddedSets.length}
+                    defaultReps={modalDefaults?.reps}
+                    defaultWeight={modalDefaults?.weight}
                     onClose={() => setShowModal(false)}
                     onAdd={(reps, weight) => onAddSet(workoutExercise.id, reps, weight)}
                 />
