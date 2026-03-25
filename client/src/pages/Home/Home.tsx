@@ -1,17 +1,20 @@
 import React from "react";
 
-import Hero from "../../components/Home/Hero.tsx";
-import Features from "../../components/Home/Features.tsx";
-import Workflow from "../../components/Home/Workflow.tsx";
-import CTA from "../../components/Home/CTA.tsx";
+import Hero from "../../components/Home/Hero/Hero.tsx";
+import Stats from "../../components/Home/Stats/Stats.tsx";
+import Features from "../../components/Home/Features/Features.tsx";
+import HowItWorks from "../../components/Home/HowItWorks/HowItWorks.tsx";
+import CTA from "../../components/Home/CTA/CTA.tsx";
+
 
 const Home: React.FC = () => {
     return (
-        <div className="bg-background-main text-text-primary w-full">
-            <Hero />
-            <Features />
-            <Workflow />
-            <CTA />
+        <div className="bg-(--bg-main) text-(--text-primary) font-['Montserrat'] min-h-screen overflow-x-hidden w-full">
+            <Hero/>
+            <Stats/>
+            <Features/>
+            <HowItWorks/>
+            <CTA/>
         </div>
     );
 };
