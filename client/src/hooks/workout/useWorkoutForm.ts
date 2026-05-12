@@ -15,7 +15,7 @@ export const useWorkoutForm = (availableExercises: IExercise[]) => {
     }
 
     function createEmptySet(): ISet {
-        return {id: generateId(), reps: null, weight: null, createdAt: new Date().toISOString()};
+        return {id: generateId(), reps: 0, weight: 0};
     }
 
     function createEmptyExercise(): IExerciseFormItem {

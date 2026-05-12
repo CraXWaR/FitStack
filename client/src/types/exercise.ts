@@ -1,8 +1,8 @@
 export interface ISet {
     id: string;
-    reps: number | null;
-    weight: number | null;
-    createdAt: string;
+    reps: number;
+    weight: number;
+    createdAt?: string;
 }
 
 export interface IExercise {
