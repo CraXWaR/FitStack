@@ -6,9 +6,9 @@
     "outDir": "./dist",
 
     "baseUrl": ".",
-    "paths": {
-      "@prisma/*": ["prisma/generated/prisma/*"]
-    },
+//    "paths": {
+//      "@prisma/*": ["prisma/generated/prisma/*"]
+//    },
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
