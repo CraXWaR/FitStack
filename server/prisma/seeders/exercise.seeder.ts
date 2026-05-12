@@ -1,4 +1,4 @@
-import type {PrismaClient} from "@prisma/index.js";
+import type {PrismaClient} from "../../prisma/generated/prisma/index.js";
 
 export async function seedExercises(prisma: PrismaClient) {
     console.log("Seeding exercises...");

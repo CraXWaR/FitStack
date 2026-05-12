@@ -1,4 +1,4 @@
-import type {PrismaClient} from "@prisma/index.js";
+import type {PrismaClient} from "../../prisma/generated/prisma/index.js";
 import bcrypt from "bcrypt";
 
 export async function seedUser(prisma: PrismaClient) {

@@ -1,6 +1,6 @@
 import prisma from "../lib/prisma.js";
 import type {ILoginUser, IRegisterUser} from "../types/User.type.js";
-import type {User} from "@prisma/index.js";
+import type {User} from "../../prisma/generated/prisma/index.js";
 import bcrypt from "bcrypt";
 import type {IUpdateUser} from "../types/UpdateUser.type.js";
 
