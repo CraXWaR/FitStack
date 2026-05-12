@@ -14,12 +14,12 @@ export const useLatestSets = (workoutExercise: IWorkoutExercise, newSetIds: Reco
     const nonAddedSets = allSets.filter(set => !latestAddedSets.some(addedSet => addedSet.id === set.id));
 
     const latestDate = nonAddedSets.reduce((latest, set) => {
-        const setDate = new Date(set.createdAt);
+        const setDate = new Date(set.createdAt ?? 0);
         return setDate > latest ? setDate : latest;
     }, new Date(0));
 
     const latestOriginalSets = nonAddedSets.filter(set =>
-        new Date(set.createdAt).toDateString() === latestDate.toDateString());
+        new Date(set.createdAt ?? 0).toDateString() === latestDate.toDateString());
 
     return {latestAddedSets, latestOriginalSets};
 };
