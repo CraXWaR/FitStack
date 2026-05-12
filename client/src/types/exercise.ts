@@ -1,7 +1,7 @@
 export interface ISet {
     id: string;
-    reps: number;
-    weight: number;
+    reps: number | null;
+    weight: number | null;
     createdAt: string;
 }
 
