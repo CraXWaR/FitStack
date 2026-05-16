@@ -1,11 +1,11 @@
 import React from "react";
-import type {ISet} from "../../../../types/exercise.ts";
+import type {ISetResponse} from "../../../../types/exercise.ts";
 
 import styles from "./SetsGrid.module.css"
 
 interface SetsGridProps {
-    originalSets: ISet[];
-    addedSets: ISet[];
+    originalSets: ISetResponse[];
+    addedSets: ISetResponse[];
 }
 
 const SetsGrid: React.FC<SetsGridProps> = ({originalSets, addedSets}) => (
@@ -48,10 +48,10 @@ const SetsGrid: React.FC<SetsGridProps> = ({originalSets, addedSets}) => (
                         <span className={styles.rowIdxNew}>{index + 1}</span>
                         <span className={styles.rowNum}>{set.reps}</span>
                         <span className={styles.rowNum}>
-                          {set.weight > 0 ? `${set.weight} kg` : <span className={styles.bw}>BW</span>}
+                            {set.weight > 0 ? `${set.weight} kg` : <span className={styles.bw}>BW</span>}
                         </span>
                         <span className={styles.rowVol}>
-                          {set.weight > 0 ? (set.reps * set.weight).toLocaleString() : "—"}
+                            {set.weight > 0 ? (set.reps * set.weight).toLocaleString() : "—"}
                         </span>
                     </div>
                 ))}

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 
 import {FiPlus, FiZap} from "react-icons/fi";
 
-import type {ISet, IWorkoutExercise} from "../../../types/exercise.ts";
+import type {ISetResponse, IWorkoutExercise} from "../../../types/exercise.ts";
 
 import {calcVolume} from "../../../helpers/calcVolume.ts";
 import {useLatestSets} from "../../../hooks/exercises/useLatestSets.ts";
@@ -23,7 +23,9 @@ interface ExerciseCardProps {
     onAddSet: (weId: string, reps: number, weight: number) => void;
 }
 
-const bestWeight = (sets: ISet[]): number => sets.reduce((max, set) => (set.weight > max ? set.weight : max), 0);
+const bestWeight = (sets: ISetResponse[]): number => sets.reduce((max, set) => {
+    return set.weight > max ? set.weight : max;
+}, 0);
 
 const ExerciseCard: React.FC<ExerciseCardProps> = ({workoutExercise, index, onAddSet, newSetIds}) => {
     const [showModal, setShowModal] = useState(false);

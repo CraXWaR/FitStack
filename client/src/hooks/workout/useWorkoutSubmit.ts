@@ -23,6 +23,7 @@ export const useWorkoutSubmit = (token: string | null) => {
             setSuccess("Workout logged successfully");
             resetForm();
         } catch (err) {
+            console.log(err)
             setError(Array.isArray(err) ? err : ["Failed to submit workout"]);
         } finally {
             setSubmitting(false);

@@ -19,17 +19,19 @@ interface AddSetModalProps {
 const AddSetModal: React.FC<AddSetModalProps> = ({exerciseName, onClose, onAdd, defaultReps, defaultWeight}) => {
     const [reps, setReps] = useState(defaultReps ? String(defaultReps) : "");
     const [weight, setWeight] = useState(defaultWeight ? String(defaultWeight) : "");
+    const [errors, setErrors] = useState<{ reps?: string; weight?: string }>({});
 
     const validate = () => {
         const e: { reps?: string; weight?: string } = {};
-        if (!reps || isNaN(Number(reps)) || Number(reps) <= 0) e.reps = "Required";
-        if (weight === "" || isNaN(Number(weight)) || Number(weight) < 0) e.weight = "Required";
+        if (!reps || isNaN(Number(reps)) || Number(reps) <= 0) e.reps = "Reps must be at least 1";
+        if (isNaN(Number(weight)) || Number(weight) < 0) e.weight = "Weight cannot be negative";
+        setErrors(e);
         return Object.keys(e).length === 0;
     };
 
     const handleSubmit = () => {
         if (!validate()) return;
-        onAdd(Number(reps), Number(weight));
+        onAdd(Number(reps), weight === "" ? 0 : Number(weight));
         onClose();
     };
 
@@ -40,27 +42,36 @@ const AddSetModal: React.FC<AddSetModalProps> = ({exerciseName, onClose, onAdd, 
     return (
         <Modal title={`Log Set for ${exerciseName}`} onClose={onClose}>
             <div className={styles.inputs} onKeyDown={handleKey}>
-                <InputField
-                    label="Reps"
-                    type="number"
-                    value={reps}
-                    min={1}
-                    onChange={(v) => {
-                        setReps(String(v));
-                    }}
-                />
+                <div className={styles.inputGroup}>
+                    <InputField
+                        label="Reps"
+                        type="number"
+                        value={reps}
+                        min={1}
+                        onChange={(v) => {
+                            setReps(String(v));
+                            setErrors(prev => ({...prev, reps: undefined}));
+                        }}
+                    />
+                    {errors.reps && <span className={styles.error}>{errors.reps}</span>}
+                </div>
 
                 <div className={styles.inputSep}>×</div>
 
-                <InputField
-                    label="Weight"
-                    type="number"
-                    value={weight}
-                    min={0}
-                    onChange={(v) => {
-                        setWeight(String(v));
-                    }}
-                />
+                <div className={styles.inputGroup}>
+                    <InputField
+                        label="Weight"
+                        type="number"
+                        value={weight}
+                        min={0}
+                        onChange={(v) => {
+                            setWeight(String(v));
+                            setErrors(prev => ({...prev, weight: undefined}));
+                        }}
+                    />
+                    {errors.weight && <span className={styles.error}>{errors.weight}</span>}
+                </div>
+
                 {reps && weight && !isNaN(Number(reps)) && !isNaN(Number(weight)) && (
                     <div className={styles.preview}>
                         Volume: <strong>{(Number(reps) * Number(weight)).toLocaleString()} kg</strong>

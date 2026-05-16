@@ -8,10 +8,7 @@ export class SetController {
         this.setService = new SetService();
     }
 
-    addSet = async (req: Request<{ workoutExerciseId: string }, any, {
-        reps: number;
-        weight: number
-    }>, res: Response) => {
+    addSet = async (req: Request<{ workoutExerciseId: string }, any, { reps: number; weight: number }>, res: Response) => {
         const {workoutExerciseId} = req.params;
         const {reps, weight} = req.body;
         const userId = req.user?.id;

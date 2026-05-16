@@ -19,7 +19,7 @@ export const CreateWorkoutSchema = z.object({
                 sets: z
                     .array(
                         z.object({
-                            reps: z.number().min(0, "Reps cannot be negative"),
+                            reps: z.number().min(1, "You can't log 0 reps"),
                             weight: z.number().min(0, "Weight cannot be negative"),
                         })
                     )

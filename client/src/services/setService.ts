@@ -1,11 +1,11 @@
-import type {ISet} from "../types/exercise.ts";
+import type {ISetResponse} from "../types/exercise.ts";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export type NewSetRecord = Record<string, { id: string; date: string }[]>;
 
 export const setService = {
-    async addSet(token: string, workoutExerciseId: string, reps: number, weight: number): Promise<{ set: ISet; todayAdded: boolean }> {
+    async addSet(token: string, workoutExerciseId: string, reps: number, weight: number): Promise<{ set: ISetResponse; todayAdded: boolean }> {
         if (!token) throw new Error("Token is required");
         if (!workoutExerciseId) throw new Error("workoutExerciseId is required");
 

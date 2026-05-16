@@ -31,3 +31,17 @@
     color: #3DDC97;
     font-weight: 700;
 }
+
+.inputGroup {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.error {
+    position: absolute;
+    left: 4px;
+    font-size: 0.75rem;
+    color: #ef4444;
+    white-space: nowrap;
+}

@@ -38,7 +38,6 @@ export class WorkoutController {
 
             return res.status(201).json(workout);
         } catch (error: any) {
-            console.error(error);
             return res.status(500).json({
                 errors: [{
                     field: "general",

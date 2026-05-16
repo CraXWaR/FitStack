@@ -1,5 +1,12 @@
 export interface ISet {
     id: string;
+    reps: string;
+    weight: string;
+    createdAt?: string;
+}
+
+export interface ISetResponse {
+    id: string;
     reps: number;
     weight: number;
     createdAt?: string;
@@ -14,13 +21,7 @@ export interface IExercise {
 export interface IWorkoutExercise {
     id: string;
     exercise: IExercise;
-    sets: ISet[];
-}
-
-export interface IWorkoutExerciseDisplay {
-    id: string;
-    exercise: IExercise;
-    sets: ISet[];
+    sets: ISetResponse[];
 }
 
 export interface IExerciseFormItem {

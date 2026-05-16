@@ -1,4 +1,4 @@
-import type {IWorkoutExercise, ISet} from "./exercise";
+import type {IWorkoutExercise} from "./exercise";
 
 export interface IWorkout {
     id: string;
@@ -9,11 +9,9 @@ export interface IWorkout {
     programId?: string;
 }
 
-export type IWorkoutSet = Omit<ISet, "id">;
-
 export interface IWorkoutExerciseForm {
     exerciseId: string;
-    sets: IWorkoutSet[];
+    sets: { reps: number; weight: number }[];
 }
 
 export interface ICreateWorkout {

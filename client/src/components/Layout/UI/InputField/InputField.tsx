@@ -1,4 +1,4 @@
-import {useState, type FocusEvent} from "react";
+import {useState, useEffect, useRef, type FocusEvent} from "react";
 import styles from "./InputField.module.css";
 import {FaEye, FaEyeSlash} from "react-icons/fa";
 
@@ -30,27 +30,48 @@ const InputField = <Type extends string | number>({
                                                   }: InputFieldProps<Type>) => {
     const [showPassword, setShowPassword] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
+    const [localValue, setLocalValue] = useState(String(value ?? ""));
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const isPassword = type === "password";
-    const hasValue = value !== "" && value !== null && value !== undefined;
+    const hasValue = localValue !== "" && localValue !== null && localValue !== undefined;
+
+    // Sync external value changes only when the input is not focused
+    useEffect(() => {
+        if (document.activeElement !== inputRef.current) {
+            setLocalValue(String(value ?? ""));
+        }
+    }, [value]);
 
     const handleFocus = () => setIsFocused(true);
     const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
         if (!e.currentTarget.value) setIsFocused(false);
     };
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const raw = e.target.value;
+        setLocalValue(raw);
+
+        if (type === "number") {
+            const parsed = parseFloat(raw);
+            if (!isNaN(parsed)) {
+                onChange(parsed as Type);
+            }
+        } else {
+            onChange(raw as Type);
+        }
+    };
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.inputWrapper}>
                 <input
+                    ref={inputRef}
                     id={id || name}
                     name={name}
                     type={isPassword ? (showPassword ? "text" : "password") : type}
-                    value={value}
-                    onChange={(e) => {
-                        const value = type === "number" ? Number(e.target.value) : e.target.value;
-                        onChange(value as Type);
-                    }}
+                    value={localValue}
+                    onChange={handleChange}
                     placeholder=" "
                     className={styles.input}
                     onFocus={handleFocus}
@@ -59,6 +80,7 @@ const InputField = <Type extends string | number>({
                     disabled={disabled}
                     min={min}
                     max={max}
+                    step={type === "number" ? "any" : undefined}
                 />
                 <label
                     htmlFor={id || name}
