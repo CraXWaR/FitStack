@@ -16,6 +16,6 @@ export async function seedUser(prisma: PrismaClient) {
             lastName: "User"
         },
     });
-    
+
     console.log("User created");
 }
