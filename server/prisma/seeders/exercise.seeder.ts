@@ -14,8 +14,14 @@ export async function seedExercises(prisma: PrismaClient) {
             {name: "Chest Fly (Dumbbell)", category: "Chest"},
             {name: "Chest Fly (Machine)", category: "Chest"},
             {name: "Cable Fly", category: "Chest"},
+            {name: "Cable Crossover", category: "Chest"},
+            {name: "Incline Dumbbell Fly", category: "Chest"},
             {name: "Push Ups", category: "Chest"},
             {name: "Dips (Chest)", category: "Chest"},
+            {name: "Pec Deck", category: "Chest"},
+            {name: "Floor Press", category: "Chest"},
+            {name: "Dumbbell Pullover", category: "Chest"},
+            {name: "Smith Machine Bench Press", category: "Chest"},
 
             // BACK
             {name: "Deadlift", category: "Back"},
@@ -28,11 +34,15 @@ export async function seedExercises(prisma: PrismaClient) {
             {name: "T-Bar Row", category: "Back"},
             {name: "Straight Arm Pulldown", category: "Back"},
             {name: "Back Extension", category: "Back"},
+            {name: "Inverted Row", category: "Back"},
+            {name: "Weighted Pull Ups", category: "Back"},
+            {name: "Close Grip Lat Pulldown", category: "Back"},
+            {name: "Chest Supported Row", category: "Back"},
+            {name: "Rack Pull", category: "Back"},
+            {name: "Seated Machine Row", category: "Back"},
 
             // SHOULDERS
-            {name: "Military Press", category: "Shoulders"},
             {name: "Overhead Press", category: "Shoulders"},
-            {name: "Seated Barbell Press", category: "Shoulders"},
             {name: "Dumbbell Shoulder Press", category: "Shoulders"},
             {name: "Arnold Press", category: "Shoulders"},
             {name: "Lateral Raises", category: "Shoulders"},
@@ -41,6 +51,9 @@ export async function seedExercises(prisma: PrismaClient) {
             {name: "Face Pulls", category: "Shoulders"},
             {name: "Upright Row", category: "Shoulders"},
             {name: "Shrugs", category: "Shoulders"},
+            {name: "Cable Lateral Raise", category: "Shoulders"},
+            {name: "Machine Shoulder Press", category: "Shoulders"},
+            {name: "Push Press", category: "Shoulders"},
 
             // LEGS
             {name: "Squat", category: "Legs"},
@@ -52,18 +65,29 @@ export async function seedExercises(prisma: PrismaClient) {
             {name: "Leg Extension", category: "Legs"},
             {name: "Walking Lunges", category: "Legs"},
             {name: "Bulgarian Split Squat", category: "Legs"},
-            {name: "Step Ups", category: "Legs"},
+            {name: "Hip Thrust", category: "Legs"},
+            {name: "Sumo Deadlift", category: "Legs"},
+            {name: "Goblet Squat", category: "Legs"},
+            {name: "Single Leg Romanian Deadlift", category: "Legs"},
             {name: "Standing Calf Raise", category: "Legs"},
             {name: "Seated Calf Raise", category: "Legs"},
+            {name: "Leg Press Calf Raise", category: "Legs"},
+            {name: "Adductor Machine", category: "Legs"},
+            {name: "Abductor Machine", category: "Legs"},
+            {name: "Step Ups", category: "Legs"},
+            {name: "Reverse Lunge", category: "Legs"},
 
             // BICEPS
             {name: "Barbell Curl", category: "Biceps"},
             {name: "Dumbbell Curl", category: "Biceps"},
-            {name: "Incline Dumbbell Curl", category: "Biceps"},
             {name: "Hammer Curl", category: "Biceps"},
             {name: "Preacher Curl", category: "Biceps"},
             {name: "Cable Curl", category: "Biceps"},
             {name: "Concentration Curl", category: "Biceps"},
+            {name: "EZ Bar Curl", category: "Biceps"},
+            {name: "Incline Dumbbell Curl", category: "Biceps"},
+            {name: "Reverse Barbell Curl", category: "Biceps"},
+            {name: "Alternating Dumbbell Curl", category: "Biceps"},
 
             // TRICEPS
             {name: "Close Grip Bench Press", category: "Triceps"},
@@ -71,7 +95,11 @@ export async function seedExercises(prisma: PrismaClient) {
             {name: "Skull Crushers", category: "Triceps"},
             {name: "Overhead Tricep Extension", category: "Triceps"},
             {name: "Cable Pushdown", category: "Triceps"},
+            {name: "Rope Pushdown", category: "Triceps"},
             {name: "Kickbacks", category: "Triceps"},
+            {name: "EZ Bar Skull Crusher", category: "Triceps"},
+            {name: "Bench Dips", category: "Triceps"},
+            {name: "Weighted Dips", category: "Triceps"},
 
             // CORE
             {name: "Plank", category: "Core"},
@@ -81,14 +109,24 @@ export async function seedExercises(prisma: PrismaClient) {
             {name: "Russian Twist", category: "Core"},
             {name: "Ab Wheel Rollout", category: "Core"},
             {name: "Sit Ups", category: "Core"},
+            {name: "Bicycle Crunch", category: "Core"},
+            {name: "Leg Raise", category: "Core"},
+            {name: "Mountain Climbers", category: "Core"},
+            {name: "Toes to Bar", category: "Core"},
+            {name: "Side Plank", category: "Core"},
+            {name: "Dead Bug", category: "Core"},
 
-            // FULL BODY / CONDITIONING
+            // FULL BODY
             {name: "Clean", category: "Full Body"},
             {name: "Clean & Press", category: "Full Body"},
-            {name: "Snatch", category: "Full Body"},
             {name: "Farmer's Walk", category: "Full Body"},
             {name: "Kettlebell Swing", category: "Full Body"},
             {name: "Burpees", category: "Full Body"},
+            {name: "Box Jump", category: "Full Body"},
+            {name: "Battle Ropes", category: "Full Body"},
+            {name: "Turkish Get Up", category: "Full Body"},
+            {name: "Thruster", category: "Full Body"},
+            {name: "Medicine Ball Slam", category: "Full Body"},
         ],
         skipDuplicates: true,
     });
