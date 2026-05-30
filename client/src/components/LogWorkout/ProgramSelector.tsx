@@ -22,7 +22,7 @@ const ProgramSelector: React.FC<{
     return (
         <>
             <SelectField
-                label="ProgramPage"
+                label="Select Program"
                 value={form.programId ?? ""}
                 onChange={(value) => {
                     if (value === "__create__") setModalOpen(true); else form.setProgramId(value || undefined);

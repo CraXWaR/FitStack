@@ -42,7 +42,8 @@ const ExerciseItem: React.FC<{
                         value: ex.id,
                         label: ex.name,
                     }))}
-                    disabled={!exercise.category}/>
+                    disabled={!exercise.category}
+                    searchable={true}/>
             </div>
 
             <div className="flex flex-col gap-2 mt-2">
