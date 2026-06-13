@@ -1,7 +1,7 @@
 .card {
     position: relative;
-    background: #181B20;
-    border: 1px solid #242830;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-main);
     border-radius: 14px;
     overflow: hidden;
     display: flex;
@@ -11,7 +11,7 @@
 }
 
 .card:hover {
-    border-color: #2a2f38;
+    border-color: var(--border-hover);
     transform: translateY(-1px);
 }
 

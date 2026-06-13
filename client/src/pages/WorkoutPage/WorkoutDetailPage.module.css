@@ -3,7 +3,6 @@
     background: var(--bg-main);
     position: relative;
     overflow-x: hidden;
-    font-family: 'DM Sans', system-ui, sans-serif;
     width: 100%;
     margin: auto;
 }

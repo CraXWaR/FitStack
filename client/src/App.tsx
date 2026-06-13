@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import ProgramWorkoutPage from "./pages/ProgramPage/ProgramPage.tsx";
 import WorkoutDetailPage from "./pages/WorkoutPage/WorkoutDetailPage.tsx";
 import NotFound from "./pages/NotFound/NotFound.tsx";
+import ColdStartToast from "./components/Layout/UI/ColdStartToast/ColdStartToast.tsx";
 
 const RootLayout: React.FC = () => {
     return (
@@ -51,6 +52,7 @@ function App() {
         <AuthProvider>
             <BrowserRouter>
                 <RootLayout/>
+                <ColdStartToast/>
             </BrowserRouter>
         </AuthProvider>
     );

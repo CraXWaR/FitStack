@@ -13,7 +13,7 @@
 
 .primary {
     background-color: var(--accent-main);
-    color: #000;
+    color: var(--bg-main);
     border: none;
     transition: all 0.25s ease;
 }

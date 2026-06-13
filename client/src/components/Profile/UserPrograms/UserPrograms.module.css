@@ -37,7 +37,7 @@
     background: transparent;
 }
 .programsScroll::-webkit-scrollbar-thumb {
-    background: #242830;
+    background: var(--border-main);
     border-radius: 4px;
 }
 .programsScroll::-webkit-scrollbar-thumb:hover {

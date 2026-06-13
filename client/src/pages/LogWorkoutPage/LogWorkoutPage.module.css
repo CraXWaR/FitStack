@@ -6,5 +6,5 @@
     justify-content: center;
     align-items: center;
     padding: 2rem;
-    background-color: #0F1115;
+    background-color: var(--bg-main);
 }

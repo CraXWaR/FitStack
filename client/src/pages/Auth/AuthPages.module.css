@@ -8,18 +8,18 @@
 }
 
 .switchPage {
-    color: #9AA0A6;
+    color: var(--text-secondary);
     text-align: center;
 }
 
 .switchPage span {
-    color: #3DDC97;
+    color: var(--accent-primary);
     cursor: pointer;
     font-weight: 600;
     transition: all 0.2s ease;
 }
 
 .switchPage span:hover {
-    color: #2FC18A;
+    color: var(--accent-hover);
     text-decoration: underline;
 }

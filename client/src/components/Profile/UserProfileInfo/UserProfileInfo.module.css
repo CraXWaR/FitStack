@@ -4,6 +4,6 @@
     left: 0;
     width: 3px;
     height: 100%;
-    background: linear-gradient(180deg, #3DDC97, transparent);
+    background: linear-gradient(180deg, var(--accent-main), transparent);
     border-radius: 3px 0 0 3px;
 }

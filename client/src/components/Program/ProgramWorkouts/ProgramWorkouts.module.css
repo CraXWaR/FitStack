@@ -109,7 +109,7 @@
     width: 20px;
     height: 20px;
     background: var(--accent-main);
-    color: #0E0F12;
+    color: var(--bg-main);
     font-size: 9px;
     font-weight: 800;
     border-radius: 50%;

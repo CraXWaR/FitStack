@@ -1,5 +1,5 @@
 .modal {
-    background: #181B20;
+    background: var(--bg-surface);
     padding: 2rem;
     border-radius: 12px;
     width: 100%;
@@ -22,13 +22,13 @@
 
 .preview {
     font-size: 12px;
-    color: #9AA0A6;
+    color: var(--text-secondary);
     margin-bottom: 16px;
     text-align: center;
     letter-spacing: 0.02em;
 }
 .preview strong {
-    color: #3DDC97;
+    color: var(--accent-main);
     font-weight: 700;
 }
 

@@ -59,7 +59,7 @@
 .rowNum {
     font-size: 13px;
     font-weight: 600;
-    color: #E6E8EB;
+    color: var(--text-primary);
     font-variant-numeric: tabular-nums;
 }
 
