@@ -4,12 +4,7 @@
     // File Layout
     "rootDir": "./",
     "outDir": "./dist",
-
-    "baseUrl": ".",
-//    "paths": {
-//      "@prisma/*": ["prisma/generated/prisma/*"]
-//    },
-
+    // Silence deprecation notices (e.g., baseUrl deprecation for TS 7.0)
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
